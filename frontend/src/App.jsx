@@ -1,16 +1,18 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import Plans from './pages/Plans'
-import Store from './pages/Store'
-import Cart from './pages/Cart'
-import Admin from './pages/Admin'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Profile from './pages/Profile'
-import { CartProvider } from './context/CartContext'
-import { AuthProvider, useAuth } from './context/AuthContext'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Plans from './pages/Plans';
+import Store from './pages/Store';
+import Cart from './pages/Cart';
+import Admin from './pages/Admin';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import HikePlanner from './pages/HikePlanner';
+import { CartProvider } from './context/CartContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { HikeProvider } from './context/HikeContext';
 
 function Header() {
-  const { role } = useAuth()
+  const { role } = useAuth();
   return (
     <nav>
       <Link to="/">Plans</Link>
@@ -20,32 +22,34 @@ function Header() {
       <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
       <Link to="/profile">Profile</Link>
-      <div style={{ marginLeft: 'auto' }}>
-        Role: {role}
-      </div>
+      <Link to="/planner">Hiking Planner</Link>
+      <div style={{ marginLeft: 'auto' }}>Role: {role}</div>
     </nav>
-  )
+  );
 }
 
 export default function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter>
-          <Header />
-          <div className="container">
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/" element={<Plans />} />
-              <Route path="/store" element={<Store />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/admin" element={<Admin />} />
-            </Routes>
-          </div>
-        </BrowserRouter>
+        <HikeProvider>
+          <BrowserRouter>
+            <Header />
+            <div className="container">
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/" element={<Plans />} />
+                <Route path="/store" element={<Store />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/planner" element={<HikePlanner />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </HikeProvider>
       </CartProvider>
     </AuthProvider>
-  )
+  );
 }
