@@ -1,24 +1,23 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
 
-export default function Login() {
+export default function Register() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const { login } = useAuth()
   const navigate = useNavigate()
 
   async function handleSubmit(e) {
     e.preventDefault()
-
     setError('')
+    setSuccess('')
     setLoading(true)
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,18 +25,18 @@ export default function Login() {
         body: JSON.stringify({ username, password }),
       })
 
+      const data = await response.json().catch(() => ({}))
+
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}))
-        throw new Error(data.message || 'Login failed')
+        throw new Error(data.message || 'Registration failed')
       }
 
-      const data = await response.json()
+      setSuccess('Registration successful! You can now log in.')
 
-      // Save auth data in context (and localStorage via AuthContext)
-      login({ username: data.username, token: data.token })
-
-      // Redirect to profile page (we'll create it next)
-      navigate('/profile')
+      // Optionally redirect to login after a short delay
+      setTimeout(() => {
+        navigate('/login')
+      }, 1000)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -47,8 +46,9 @@ export default function Login() {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      {success && <p style={{ color: 'green' }}>{success}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username:</label>
@@ -70,13 +70,12 @@ export default function Login() {
         </div>
         <div>
           <button type="submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Log In'}
+            {loading ? 'Registering...' : 'Register'}
           </button>
         </div>
       </form>
-      <p>
-        Don&apos;t have an account? <a href="/register">Register</a>
-      </p>
     </div>
   )
 }
+
+
