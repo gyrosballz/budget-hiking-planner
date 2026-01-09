@@ -1,12 +1,56 @@
 [
   {
-    "id": 1,
-    "name": "Hiking Shoes",
-    "price": 120
+    "id": 1001,
+    "name": "Hiking Boots",
+    "price": 89.99,
+    "stock": 15,
+    "category": "Footwear",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-09T11:22:45.944Z"
   },
   {
-    "id": 2,
-    "name": "Backpack",
-    "price": 80
+    "id": 1002,
+    "name": "Backpack (40L)",
+    "price": 129.99,
+    "stock": 8,
+    "category": "Bags",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-09T11:22:45.944Z"
+  },
+  {
+    "id": 1003,
+    "name": "Water Bottle (1L)",
+    "price": 24.99,
+    "stock": 30,
+    "category": "Hydration",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-09T11:22:45.944Z"
+  },
+  {
+    "id": 1004,
+    "name": "Trekking Poles",
+    "price": 49.99,
+    "stock": 12,
+    "category": "Accessories",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-09T11:22:45.944Z"
+  },
+  {
+    "id": 1005,
+    "name": "First Aid Kit",
+    "price": 34.99,
+    "stock": 20,
+    "category": "Safety",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-09T11:22:45.944Z"
+  },
+  {
+    "id": 1006,
+    "name": "Energy Snack Pack",
+    "price": 12.99,
+    "stock": 50,
+    "category": "Food",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-09T11:22:45.944Z"
   }
 ]

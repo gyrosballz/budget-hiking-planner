@@ -11,8 +11,7 @@ export function AuthProvider({ children }) {
 
   const [token, setToken] = useState(() => localStorage.getItem('token') || null)
 
-  // Optional: keep role support if you still need it elsewhere
-  const [role, setRole] = useState(localStorage.getItem('role') || 'user')
+  const [role, setRole] = useState(() => localStorage.getItem('role') || 'user')
 
   function setRoleAndSave(r) {
     setRole(r)
@@ -27,6 +26,7 @@ export function AuthProvider({ children }) {
 
     localStorage.setItem('user', JSON.stringify(newUser))
     localStorage.setItem('token', newToken)
+    localStorage.setItem('role', newRole)
   }
 
   function logout() {
@@ -56,5 +56,9 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  return useContext(AuthContext)
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider')
+  }
+  return context
 }

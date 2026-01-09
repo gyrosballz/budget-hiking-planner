@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Mountain Trail",
+    "distance": 12,
+    "duration": 4,
+    "difficulty": "Medium",
+    "budget": 50,
+    "createdAt": "2026-01-09T11:22:45.941Z"
+  },
+  {
+    "id": 2,
+    "name": "Forest Loop",
+    "distance": 8,
+    "duration": 3,
+    "difficulty": "Easy",
+    "budget": 30,
+    "createdAt": "2026-01-09T11:22:45.941Z"
+  },
+  {
+    "id": 3,
+    "name": "River Path",
+    "distance": 16,
+    "duration": 5,
+    "difficulty": "Hard",
+    "budget": 80,
+    "createdAt": "2026-01-09T11:22:45.941Z"
+  }
+]

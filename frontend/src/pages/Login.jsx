@@ -30,8 +30,16 @@ export default function Login() {
       }
 
       const data = await response.json()
-      login({ username: data.username, token: data.token })
-      navigate('/profile')
+      login({ username: data.username, token: data.token, role: data.role })
+      
+      // Redirect based on role
+      if (data.role === 'admin') {
+        navigate('/admin-dashboard')
+      } else if (data.role === 'seller') {
+        navigate('/seller')
+      } else {
+        navigate('/profile')
+      }
     } catch (err) {
       setError(err.message)
     } finally {
@@ -87,7 +95,13 @@ export default function Login() {
             Don’t have an account?{' '}
             <a href="/register" className="text-blue-600">Register</a>
           </p>
-        </div>
+          {/* Test Credentials */}
+          <div style={{ marginTop: '2rem', padding: '1rem', backgroundColor: '#f5f5f5', borderRadius: '4px', fontSize: '0.85rem' }}>
+            <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Test Credentials:</p>
+            <p>User: testuser / pass123</p>
+            <p>Seller: testseller / pass123</p>
+            <p>Admin: testadmin / pass123</p>
+          </div>        </div>
 
         {/* RIGHT ILLUSTRATION */}
         <div className="flex justify-center items-center">
