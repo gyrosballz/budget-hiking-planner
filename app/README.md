@@ -1,10 +1,11 @@
-# Budget Hiking Planner - Next.js Version
+# Budget Hiking Planner - Next.js + MongoDB
 
-A full-stack hiking planning and e-commerce application built entirely with **Next.js 14**. The app combines hiking plan management, an outdoor gear store, order tracking, and user role-based dashboards.
+A full-stack hiking planning and e-commerce application built entirely with **Next.js 14** and **MongoDB**. The app combines hiking plan management, an outdoor gear store, order tracking, and user role-based dashboards.
 
 ## Features
 
 ✅ **Full-Stack Next.js Application** - No separate frontend/backend
+✅ **MongoDB Database** - Scalable data persistence with Mongoose ODM
 ✅ **User Authentication** - Login/Register with JWT tokens
 ✅ **Role-Based Access** - User, Seller, and Admin roles
 ✅ **Hiking Plans** - Browse and create hiking plans
@@ -13,16 +14,17 @@ A full-stack hiking planning and e-commerce application built entirely with **Ne
 ✅ **Order Management** - Track orders with status workflow
 ✅ **Seller Dashboard** - Manage products and plans
 ✅ **Admin Dashboard** - Manage all orders and users
-✅ **File-Based Storage** - JSON files for data persistence
+✅ **Smooth Navigation** - Navbar with smooth scroll navigation
+✅ **Responsive Design** - Mobile-friendly UI
 
 ## Tech Stack
 
 - **Framework**: Next.js 14 (App Router)
-- **Frontend**: React 18
-- **Backend API Routes**: Next.js API Routes
+- **Frontend**: React 18 with Context API
+- **Backend**: Next.js API Routes
+- **Database**: MongoDB with Mongoose ODM
 - **Authentication**: JWT + bcrypt
-- **Data Storage**: JSON files
-- **Styling**: CSS (responsive design)
+- **Styling**: Tailwind CSS (responsive design)
 
 ## Project Structure
 
@@ -46,23 +48,30 @@ app/
 │   │   ├── planner/
 │   │   ├── seller/
 │   │   └── admin-dashboard/
+│   ├── components/      # Reusable React components
+│   │   └── Navbar.jsx
 │   ├── layout.js        # Root layout with providers
 │   └── globals.css      # Global styles
-├── components/          # Reusable React components
-│   └── Header.jsx
+├── components/          # Legacy components
 ├── context/            # React Context (Auth, Cart, Hike)
 ├── lib/
 │   ├── api.js          # API client
-│   └── fileUtils.js    # File utilities
-├── data/               # JSON data files
-│   ├── users.json
-│   ├── plans.json
-│   ├── products.json
-│   └── orders.json
+│   ├── mongodb.js      # MongoDB connection (ES6)
+│   ├── mongodb-seed.js # MongoDB connection for seed script
+│   ├── models.js       # Mongoose schemas (ES6)
+│   └── models-seed.js  # Mongoose schemas for seed (CommonJS)
 ├── scripts/
 │   └── seed.js         # Database seeding script
+├── .env.local          # Environment variables (create from .env.local.example)
+├── .env.local.example  # Environment template
 └── package.json
 ```
+
+## Prerequisites
+
+- **Node.js** v18+ 
+- **MongoDB** (local or MongoDB Atlas cloud)
+- **npm** or **yarn**
 
 ## Quick Start
 
@@ -73,26 +82,57 @@ cd app
 npm install
 ```
 
-### 2. Seed the Database (Optional)
+### 2. Configure Environment
 
-This creates test users and sample data:
+Copy the environment template:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Edit `.env.local` with your MongoDB connection string:
+
+**For Local MongoDB:**
+```
+MONGODB_URI=mongodb://localhost:27017/budget-hiking-planner
+```
+
+**For MongoDB Atlas (Cloud):**
+```
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/budget-hiking-planner?retryWrites=true&w=majority
+```
+
+### 3. Start MongoDB
+
+**Local MongoDB:**
+```bash
+mongod
+```
+
+**Or use MongoDB Atlas** - No local setup needed, just update `.env.local`
+
+### 4. Seed the Database
+
+Creates test users and sample data:
 
 ```bash
 npm run seed
 ```
 
 **Test Credentials:**
-- User: `testuser` / `pass123`
-- Seller: `testseller` / `pass123`
-- Admin: `testadmin` / `pass123`
+| Username | Password | Role |
+|----------|----------|------|
+| testuser | pass123 | User |
+| testseller | pass123 | Seller |
+| testadmin | pass123 | Admin |
 
-### 3. Run the Development Server
+### 5. Run the Development Server
 
 ```bash
 npm run dev
 ```
 
-The app will start at **http://localhost:3000**
+Open **http://localhost:3000** in your browser
 
 ## Running the App
 
@@ -102,20 +142,16 @@ The app will start at **http://localhost:3000**
 npm run dev
 ```
 
-Starts Next.js in development mode with hot reload. The server runs on port 3000.
+Starts Next.js with hot reload on port 3000.
 
-### Production Build & Run
+### Production Build
 
 ```bash
 npm run build
 npm start
 ```
 
-Builds the optimized production version and starts the server.
-
 ## API Endpoints
-
-The app includes the following API routes:
 
 ### Authentication
 - `POST /api/login` - Login with username/password
@@ -140,7 +176,7 @@ The app includes the following API routes:
 - `POST /api/orders` - Create order
 - `GET /api/orders/[id]` - Get single order
 - `PUT /api/orders/[id]` - Update order (admin only)
-- `PUT /api/orders/[id]/status` - Update order status (admin/seller)
+- `PUT /api/orders/[id]/status` - Update order status (admin only)
 - `DELETE /api/orders/[id]` - Delete order (admin only)
 
 ## Page Routes
@@ -150,7 +186,7 @@ The app includes the following API routes:
 - `/register` - User registration
 
 ### Protected Pages (Login Required)
-- `/` - Home/Dashboard
+- `/` - Home/Dashboard with Features & Pricing sections
 - `/plans` - Hiking plans list
 - `/store` - Product store
 - `/cart` - Shopping cart
@@ -162,16 +198,90 @@ The app includes the following API routes:
 - `/seller` - Seller dashboard (sellers only)
 - `/admin-dashboard` - Admin dashboard (admins only)
 
-## Data Storage
+## Database Schema
 
-All data is stored in JSON files in the `data/` directory:
+### User
+```javascript
+{
+  username: String (unique),
+  password: String (hashed),
+  role: 'user' | 'seller' | 'admin',
+  createdAt: Date,
+  updatedAt: Date
+}
+```
 
-- `users.json` - User accounts and roles
-- `plans.json` - Hiking plans
-- `products.json` - Store products
-- `orders.json` - Customer orders
+### Plan
+```javascript
+{
+  name: String,
+  distance: Number,
+  duration: Number,
+  difficulty: String,
+  budget: Number,
+  createdBy: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
 
-These files are automatically created on first run. For persistent storage in production, consider migrating to a database like MongoDB or PostgreSQL.
+### Product
+```javascript
+{
+  name: String,
+  price: Number,
+  stock: Number,
+  category: String,
+  createdBy: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Order
+```javascript
+{
+  username: String,
+  items: Array,
+  total: Number,
+  status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled',
+  createdBy: String,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+## Viewing Database Data
+
+### Option 1: MongoDB Compass (GUI)
+1. Download [MongoDB Compass](https://www.mongodb.com/products/compass)
+2. Connect with your MongoDB URI from `.env.local`
+3. Browse `budget-hiking-planner` database and collections
+
+### Option 2: MongoDB Atlas UI (Cloud)
+1. Log into [MongoDB Atlas](https://cloud.mongodb.com)
+2. Go to your cluster → Collections
+3. View all data in the `budget-hiking-planner` database
+
+### Option 3: MongoDB Shell (CLI)
+```bash
+mongosh mongodb://localhost:27017/budget-hiking-planner
+
+# View collections
+show collections
+
+# View users
+db.users.find()
+
+# View orders
+db.orders.find()
+
+# View products
+db.products.find()
+
+# View plans
+db.plans.find()
+```
 
 ## Key Features Explained
 
@@ -179,37 +289,46 @@ These files are automatically created on first run. For persistent storage in pr
 - Password hashing with **bcrypt**
 - JWT tokens for session management
 - Role-based access control (user/seller/admin)
-- LocalStorage for client-side token persistence
+- Secure token storage
 
 ### Shopping Cart
 - Client-side cart management with React Context
 - LocalStorage persistence
-- Checkout creates orders
+- Checkout creates MongoDB orders
 
 ### Order Management
 - Status workflow: Pending → Processing → Shipped → Delivered → Cancelled
 - Admins can manage all orders
-- Sellers can update order status
+- Sellers can view owned orders
 - Users see only their own orders
 
+### Navigation
+- Sticky navbar with smooth scroll
+- Desktop and mobile responsive menus
+- Quick links to all sections
+- User info and logout buttons
+
 ### Role Hierarchy
-1. **User** - Can view plans and products, create orders, see own orders
-2. **Seller** - Can create plans/products, update order status
+1. **User** - View plans/products, create orders, see own orders
+2. **Seller** - Create plans/products, view own orders
 3. **Admin** - Full access to all resources
 
 ## Environment Variables
 
-Currently, the app uses default settings. You can customize:
-
-Create `.env.local`:
+`.env.local` (create from `.env.local.example`):
 
 ```
-NEXT_PUBLIC_API_BASE=http://localhost:3000
+MONGODB_URI=mongodb://localhost:27017/budget-hiking-planner
 JWT_SECRET=your-secret-key
 JWT_EXPIRE=24h
 ```
 
 ## Troubleshooting
+
+### MongoDB Connection Error
+- Ensure MongoDB is running: `mongod`
+- Check `.env.local` has correct `MONGODB_URI`
+- For Atlas, verify IP whitelist in cluster settings
 
 ### "Cannot find module" errors
 ```bash
@@ -221,23 +340,27 @@ npm install
 npm run dev -- -p 3001
 ```
 
-### Data not persisting
-- Check that `data/` directory exists and has write permissions
-- Verify JSON files are not corrupted
+### Seed fails
+```bash
+# Clear database and reseed
+npm run seed
+```
 
-### Authentication issues
-- Clear browser localStorage: `localStorage.clear()`
-- Reseed the database: `npm run seed`
+### Authentication not working
+- Run `npm run seed` to create test users
+- Clear browser cookies/localStorage
+- Check MongoDB connection
 
 ## Future Enhancements
 
-- [ ] Migrate to database (MongoDB/PostgreSQL)
 - [ ] Add image uploads for products
-- [ ] Implement payment processing
+- [ ] Implement payment processing (Stripe)
 - [ ] Add reviews and ratings
 - [ ] Email notifications
 - [ ] Advanced search and filtering
+- [ ] Real-time notifications (WebSocket)
 - [ ] Mobile app (React Native)
+- [ ] Analytics dashboard
 
 ## License
 
@@ -245,7 +368,7 @@ MIT
 
 ## Support
 
-For issues or questions, please refer to the project documentation or create an issue in the repository.
+For issues or questions, please create an issue in the repository or contact the maintainers.
 
 ---
 
