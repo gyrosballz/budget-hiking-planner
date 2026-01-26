@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Hiking Boots",
+    "price": 89.99,
+    "stock": 20,
+    "category": "Footwear",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-26T16:08:15.353Z"
+  },
+  {
+    "id": 2,
+    "name": "Backpack",
+    "price": 49.99,
+    "stock": 15,
+    "category": "Gear",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-26T16:08:15.353Z"
+  },
+  {
+    "id": 3,
+    "name": "Water Bottle",
+    "price": 19.99,
+    "stock": 50,
+    "category": "Accessories",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-26T16:08:15.353Z"
+  },
+  {
+    "id": 4,
+    "name": "Trail Map",
+    "price": 9.99,
+    "stock": 100,
+    "category": "Maps",
+    "createdBy": "testseller",
+    "createdAt": "2026-01-26T16:08:15.353Z"
+  }
+]
