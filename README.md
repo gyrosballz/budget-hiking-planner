@@ -1,3 +1,34 @@
+# Budget-Friendly Hiking Planner with Store
+
+Full-stack demo app (React + Express + MongoDB). Features: Auth, role-based access, Plans, Products, Cart, Orders.
+
+Quick start
+
+Server
+
+1. cd server
+2. copy .env.example .env (Windows: `copy .env.example .env`) and set `MONGO_URI` and `JWT_SECRET`
+3. npm install
+4. npm run seed
+5. npm start
+
+Client
+
+1. cd client
+2. npm install
+3. npm start
+
+Test accounts (created by `server/src/seed.js`)
+- Admin: admin@test.com / admin123
+- Seller: seller@test.com / seller123
+- User: user@test.com / user123
+
+APIs
+- `POST /api/auth/login` → {email,password} returns `{token}`
+- `GET /api/products` → list products
+- `POST /api/cart/items` → add to cart (auth)
+- `POST /api/cart/checkout` → create order (auth)
+
 # 🥾 Budget-Friendly Hiking Planner
 
 A comprehensive full-stack web application for planning budget-friendly hiking trips with integrated shopping, seller management, and admin controls.
