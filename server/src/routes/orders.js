@@ -21,7 +21,22 @@ router.post('/', auth(), async (req, res) => {
     
     // Update inventory
     for (const item of req.body.items) {
-      await Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.qty } });
+      const updatedProduct = await Product.findByIdAndUpdate(
+        item.product, 
+        { $inc: { stock: -item.qty } },
+        { new: true }
+      ).populate('createdBy');
+      
+      // Send low stock alert to seller if stock drops below 10
+      if (updatedProduct && updatedProduct.stock < 10 && updatedProduct.createdBy) {
+        await Notification.create({
+          user: updatedProduct.createdBy._id,
+          title: updatedProduct.stock < 5 ? '🚨 Critical Stock Alert' : '⚠️ Low Stock Alert',
+          message: `${updatedProduct.name} is ${updatedProduct.stock < 5 ? 'critically low' : 'running low'} with only ${updatedProduct.stock} unit${updatedProduct.stock !== 1 ? 's' : ''} remaining.`,
+          type: 'product',
+          link: '/seller'
+        });
+      }
     }
     
     // Create order
