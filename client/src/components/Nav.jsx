@@ -34,6 +34,7 @@ export default function Nav(){
     { path: '/cart', label: 'Cart' },
     { path: '/orders', label: 'Orders', protected: true },
     { path: '/notifications', label: 'Notifications', protected: true },
+    { path: '/seller', label: 'Seller', protected: true, sellerOnly: true },
     { path: '/admin', label: 'Admin', protected: true, adminOnly: true },
   ]
 
@@ -74,6 +75,7 @@ export default function Nav(){
         {menuItems.map(item => {
           if (item.protected && !token) return null
           if (item.adminOnly && role !== 'admin') return null
+          if (item.sellerOnly && !['seller', 'admin'].includes(role)) return null
           
           return (
             <Link

@@ -11,6 +11,7 @@ import RouteExplorer from './pages/Routes'
 import Orders from './pages/Orders'
 import Notifications from './pages/Notifications'
 import Admin from './pages/Admin'
+import Seller from './pages/Seller'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
@@ -105,6 +106,10 @@ export default function App(){
               <Route
                 path='/admin'
                 element={getRole() === 'admin' ? <Admin/> : <Navigate to='/store' replace />}
+              />
+              <Route
+                path='/seller'
+                element={['seller', 'admin'].includes(getRole()) ? <Seller/> : <Navigate to='/store' replace />}
               />
               <Route path='/login' element={<Login/>} />
               <Route path='/register' element={<Register/>} />
