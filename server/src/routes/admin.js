@@ -466,3 +466,4 @@ router.get('/stats/sellers', auth(['admin']), async (req, res) => {
   }
 });
 
+module.exports = router;
