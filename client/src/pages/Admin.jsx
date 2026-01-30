@@ -7,6 +7,7 @@ export default function Admin(){
   const [products, setProducts] = useState([])
   const [orders, setOrders] = useState([])
   const [stats, setStats] = useState(null)
+  const [sellers, setSellers] = useState([])
   const [tab, setTab] = useState('dashboard')
   const [loading, setLoading] = useState(false)
 
@@ -39,8 +40,12 @@ export default function Admin(){
 
   const loadStats = async () => {
     try {
-      const r = await API.get('/admin/stats')
-      setStats(r.data)
+      const [statsRes, sellersRes] = await Promise.all([
+        API.get('/admin/stats'),
+        API.get('/admin/stats/sellers')
+      ])
+      setStats(statsRes.data)
+      setSellers(sellersRes.data)
     } catch (err) {
       console.error(err)
     }
@@ -141,7 +146,8 @@ export default function Admin(){
           { id: 'dashboard', label: 'Dashboard' },
           { id: 'users', label: 'Users' },
           { id: 'products', label: 'Products' },
-          { id: 'orders', label: 'Orders' }
+          { id: 'orders', label: 'Orders' },
+          { id: 'sellers', label: 'Seller Performance' }
         ]}
         active={tab}
         onChange={setTab}
@@ -154,48 +160,205 @@ export default function Admin(){
       ) : (
         <>
           {tab === 'dashboard' && stats && (
-            <Grid columns={4} gap="16px" style={{ marginBottom: '32px' }}>
-              <Card>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-                    {stats.totalUsers}
+            <>
+              {/* Main Stats Cards */}
+              <Grid columns={4} gap="16px" style={{ marginBottom: '24px' }}>
+                <Card>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
+                      {stats.users}
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Total Users
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#4CAF50', marginTop: '8px' }}>
+                      +{stats.userGrowth} this month
+                    </div>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    Total Users
+                </Card>
+                <Card>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
+                      {stats.products}
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Products Listed
+                    </div>
+                    {stats.lowStockCount > 0 && (
+                      <div style={{ fontSize: '11px', color: '#ff9800', marginTop: '8px' }}>
+                        ⚠️ {stats.lowStockCount} low stock
+                      </div>
+                    )}
                   </div>
-                </div>
-              </Card>
-              <Card>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-                    {stats.totalProducts}
+                </Card>
+                <Card>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
+                      {stats.orders}
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Total Orders
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#888', marginTop: '8px' }}>
+                      {stats.completionRate}% completion
+                    </div>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    Products Listed
+                </Card>
+                <Card>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '28px', fontWeight: 700, color: '#4CAF50', marginBottom: '4px' }}>
+                      ${stats.revenue?.toFixed(0) || '0'}
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      Total Revenue
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#888', marginTop: '8px' }}>
+                      ${stats.revenueLastWeek?.toFixed(0) || '0'} this week
+                    </div>
                   </div>
-                </div>
-              </Card>
-              <Card>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-                    {stats.totalOrders}
+                </Card>
+              </Grid>
+
+              {/* Secondary Stats */}
+              <Grid columns={3} gap="16px" style={{ marginBottom: '24px' }}>
+                <Card>
+                  <h3 style={{ fontSize: '14px', color: '#888', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Users by Role
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px' }}>Users:</span>
+                      <Badge variant="primary">{stats.usersByRole?.user || 0}</Badge>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px' }}>Sellers:</span>
+                      <Badge variant="success">{stats.usersByRole?.seller || 0}</Badge>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px' }}>Admins:</span>
+                      <Badge variant="danger">{stats.usersByRole?.admin || 0}</Badge>
+                    </div>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    Total Orders
+                </Card>
+
+                <Card>
+                  <h3 style={{ fontSize: '14px', color: '#888', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Order Status
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {Object.entries(stats.ordersByStatus || {}).map(([status, count]) => (
+                      <div key={status} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '13px', textTransform: 'capitalize' }}>{status}:</span>
+                        <Badge variant={getStatusColor(status)}>{count}</Badge>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              </Card>
-              <Card>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-                    ${stats.totalRevenue?.toFixed(0) || '0'}
+                </Card>
+
+                <Card>
+                  <h3 style={{ fontSize: '14px', color: '#888', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Quick Stats
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px' }}>Hiking Plans:</span>
+                      <strong>{stats.plans}</strong>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px' }}>Routes:</span>
+                      <strong>{stats.routes}</strong>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px' }}>Pending Orders:</span>
+                      <Badge variant="warning">{stats.pendingOrders}</Badge>
+                    </div>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    Total Revenue
-                  </div>
-                </div>
-              </Card>
-            </Grid>
+                </Card>
+              </Grid>
+
+              {/* Top Products & Low Stock Alerts */}
+              <Grid columns={2} gap="16px" style={{ marginBottom: '24px' }}>
+                <Card>
+                  <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#fff' }}>
+                    🏆 Top Selling Products
+                  </h3>
+                  {stats.topProducts && stats.topProducts.length > 0 ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {stats.topProducts.map((product, idx) => (
+                        <div key={product._id} style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '12px',
+                          backgroundColor: 'rgba(255,255,255,0.02)',
+                          borderRadius: '6px'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              backgroundColor: idx === 0 ? '#FFD700' : idx === 1 ? '#C0C0C0' : idx === 2 ? '#CD7F32' : 'rgba(255,255,255,0.1)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '12px',
+                              fontWeight: 700
+                            }}>
+                              {idx + 1}
+                            </div>
+                            <div>
+                              <div style={{ fontSize: '14px', fontWeight: 500 }}>{product.name}</div>
+                              <div style={{ fontSize: '12px', color: '#888' }}>{product.totalSold} sold</div>
+                            </div>
+                          </div>
+                          <div style={{ fontSize: '14px', color: '#4CAF50', fontWeight: 600 }}>
+                            ${product.revenue?.toFixed(2)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p style={{ color: '#888', fontSize: '14px', textAlign: 'center', padding: '20px' }}>
+                      No sales data yet
+                    </p>
+                  )}
+                </Card>
+
+                <Card>
+                  <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#fff' }}>
+                    ⚠️ Low Stock Alerts
+                  </h3>
+                  {stats.lowStockProducts && stats.lowStockProducts.length > 0 ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {stats.lowStockProducts.map(product => (
+                        <div key={product._id} style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '12px',
+                          backgroundColor: 'rgba(255,152,0,0.05)',
+                          borderRadius: '6px',
+                          borderLeft: '3px solid #ff9800'
+                        }}>
+                          <div>
+                            <div style={{ fontSize: '14px', fontWeight: 500 }}>{product.name}</div>
+                            <div style={{ fontSize: '12px', color: '#888' }}>Needs restocking</div>
+                          </div>
+                          <Badge variant={product.stock < 5 ? 'danger' : 'warning'}>
+                            {product.stock} units
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p style={{ color: '#888', fontSize: '14px', textAlign: 'center', padding: '20px' }}>
+                      All products well stocked! ✓
+                    </p>
+                  )}
+                </Card>
+              </Grid>
+            </>
           )}
 
           {tab === 'users' && (
@@ -322,6 +485,62 @@ export default function Admin(){
                         ]}
                       />
                     </div>
+                  </Card>
+                ))
+              )}
+            </Grid>
+          )}
+
+          {tab === 'sellers' && (
+            <Grid columns={1} gap="16px">
+              {sellers.length === 0 ? (
+                <Card style={{ textAlign: 'center', padding: '40px' }}>
+                  <p style={{ color: '#888' }}>No sellers found</p>
+                </Card>
+              ) : (
+                sellers.map(seller => (
+                  <Card key={seller._id} style={{ padding: '24px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '20px' }}>
+                      <div>
+                        <h3 style={{ fontSize: '18px', marginBottom: '8px' }}>{seller.sellerName}</h3>
+                        <p style={{ fontSize: '13px', color: '#888' }}>{seller.sellerEmail}</p>
+                      </div>
+                      <Badge variant="success" style={{ fontSize: '14px', padding: '6px 12px' }}>
+                        Seller
+                      </Badge>
+                    </div>
+                    <Grid columns={5} gap="16px">
+                      <div style={{ textAlign: 'center', padding: '16px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
+                        <div style={{ fontSize: '24px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
+                          {seller.totalProducts}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#888' }}>Products</div>
+                      </div>
+                      <div style={{ textAlign: 'center', padding: '16px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
+                        <div style={{ fontSize: '24px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
+                          {seller.totalStock}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#888' }}>Total Stock</div>
+                      </div>
+                      <div style={{ textAlign: 'center', padding: '16px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
+                        <div style={{ fontSize: '24px', fontWeight: 700, color: seller.lowStockItems > 0 ? '#ff9800' : '#fff', marginBottom: '4px' }}>
+                          {seller.lowStockItems}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#888' }}>Low Stock</div>
+                      </div>
+                      <div style={{ textAlign: 'center', padding: '16px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
+                        <div style={{ fontSize: '24px', fontWeight: 700, color: '#4CAF50', marginBottom: '4px' }}>
+                          {seller.totalSales}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#888' }}>Units Sold</div>
+                      </div>
+                      <div style={{ textAlign: 'center', padding: '16px', backgroundColor: 'rgba(76,175,80,0.1)', borderRadius: '8px', border: '1px solid rgba(76,175,80,0.3)' }}>
+                        <div style={{ fontSize: '24px', fontWeight: 700, color: '#4CAF50', marginBottom: '4px' }}>
+                          ${seller.revenue?.toFixed(0) || '0'}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#4CAF50' }}>Revenue</div>
+                      </div>
+                    </Grid>
                   </Card>
                 ))
               )}
