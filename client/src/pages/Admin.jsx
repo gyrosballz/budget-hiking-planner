@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import API from '../api'
-import { Card, Button, Select, Section, Grid, Badge } from '../components/UI'
+import { Card, Button, Select, Section, Grid, Badge, Input } from '../components/UI'
 
 export default function Admin(){
   const [users, setUsers] = useState([])
@@ -10,6 +10,13 @@ export default function Admin(){
   const [sellers, setSellers] = useState([])
   const [tab, setTab] = useState('dashboard')
   const [loading, setLoading] = useState(false)
+  
+  // Search and filter states
+  const [userSearch, setUserSearch] = useState('')
+  const [userRoleFilter, setUserRoleFilter] = useState('')
+  const [productSearch, setProductSearch] = useState('')
+  const [orderDateFrom, setOrderDateFrom] = useState('')
+  const [orderDateTo, setOrderDateTo] = useState('')
 
   const loadUsers = async () => {
     try {
@@ -108,6 +115,45 @@ export default function Admin(){
       default: return 'default'
     }
   }
+
+  // Filtered data
+  const filteredUsers = useMemo(() => {
+    let filtered = [...users]
+    if (userSearch) {
+      filtered = filtered.filter(u => 
+        u.name?.toLowerCase().includes(userSearch.toLowerCase()) ||
+        u.email?.toLowerCase().includes(userSearch.toLowerCase())
+      )
+    }
+    if (userRoleFilter) {
+      filtered = filtered.filter(u => u.role === userRoleFilter)
+    }
+    return filtered
+  }, [users, userSearch, userRoleFilter])
+
+  const filteredProducts = useMemo(() => {
+    let filtered = [...products]
+    if (productSearch) {
+      filtered = filtered.filter(p => 
+        p.name?.toLowerCase().includes(productSearch.toLowerCase())
+      )
+    }
+    return filtered
+  }, [products, productSearch])
+
+  const filteredOrders = useMemo(() => {
+    let filtered = [...orders]
+    if (orderDateFrom) {
+      const fromDate = new Date(orderDateFrom)
+      filtered = filtered.filter(o => new Date(o.createdAt) >= fromDate)
+    }
+    if (orderDateTo) {
+      const toDate = new Date(orderDateTo)
+      toDate.setHours(23, 59, 59, 999)
+      filtered = filtered.filter(o => new Date(o.createdAt) <= toDate)
+    }
+    return filtered
+  }, [orders, orderDateFrom, orderDateTo])
 
   const NavTabs = ({ tabs, active, onChange }) => (
     <div style={{
@@ -362,13 +408,106 @@ export default function Admin(){
           )}
 
           {tab === 'users' && (
-            <Grid columns={1} gap="16px">
-              {users.length === 0 ? (
-                <Card style={{ textAlign: 'center', padding: '40px' }}>
-                  <p style={{ color: '#888' }}>No users found</p>
-                </Card>
-              ) : (
-                users.map(u => (
+            <>
+              {/* User Search and Filter */}
+              <Card style={{ marginBottom: '24px', padding: '20px' }}>
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                  gap: '16px',
+                  alignItems: 'end'
+                }}>
+                  <div>
+                    <label style={{ 
+                      display: 'block', 
+                      fontSize: '13px', 
+                      color: '#888', 
+                      marginBottom: '8px',
+                      fontWeight: 500
+                    }}>
+                      Search Users
+                    </label>
+                    <Input
+                      placeholder="Search by name or email..."
+                      value={userSearch}
+                      onChange={e => setUserSearch(e.target.value)}
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ 
+                      display: 'block', 
+                      fontSize: '13px', 
+                      color: '#888', 
+                      marginBottom: '8px',
+                      fontWeight: 500
+                    }}>
+                      Filter by Role
+                    </label>
+                    <select
+                      value={userRoleFilter}
+                      onChange={e => setUserRoleFilter(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        borderRadius: '8px',
+                        backgroundColor: 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: '#fff',
+                        fontSize: '14px',
+                        fontFamily: 'inherit',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <option value="" style={{ backgroundColor: '#000', color: '#fff' }}>All Roles</option>
+                      <option value="user" style={{ backgroundColor: '#000', color: '#fff' }}>User</option>
+                      <option value="seller" style={{ backgroundColor: '#000', color: '#fff' }}>Seller</option>
+                      <option value="admin" style={{ backgroundColor: '#000', color: '#fff' }}>Admin</option>
+                    </select>
+                  </div>
+                </div>
+                {(userSearch || userRoleFilter) && (
+                  <div style={{ marginTop: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <span style={{ fontSize: '13px', color: '#888' }}>Active filters:</span>
+                    {userSearch && (
+                      <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => setUserSearch('')}>
+                        Search: {userSearch} ×
+                      </Badge>
+                    )}
+                    {userRoleFilter && (
+                      <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => setUserRoleFilter('')}>
+                        Role: {userRoleFilter} ×
+                      </Badge>
+                    )}
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => {
+                        setUserSearch('')
+                        setUserRoleFilter('')
+                      }}
+                    >
+                      Clear All
+                    </Button>
+                  </div>
+                )}
+              </Card>
+
+              <Grid columns={1} gap="16px">
+                {filteredUsers.length === 0 ? (
+                  <Card style={{ textAlign: 'center', padding: '40px' }}>
+                    <p style={{ color: '#888' }}>
+                      {users.length === 0 ? 'No users found' : 'No users match your search'}
+                    </p>
+                  </Card>
+                ) : (
+                  <>
+                    <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
+                      Showing {filteredUsers.length} of {users.length} users
+                    </div>
+                    {filteredUsers.map(u => (
                   <Card key={u._id}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: '20px', alignItems: 'center' }}>
                       <div>
@@ -397,19 +536,63 @@ export default function Admin(){
                       </Button>
                     </div>
                   </Card>
-                ))
-              )}
-            </Grid>
+                    ))}
+                  </>
+                )}
+              </Grid>
+            </>
           )}
 
           {tab === 'products' && (
-            <Grid columns={1} gap="16px">
-              {products.length === 0 ? (
-                <Card style={{ textAlign: 'center', padding: '40px' }}>
-                  <p style={{ color: '#888' }}>No products found</p>
-                </Card>
-              ) : (
-                products.map(p => (
+            <>
+              {/* Product Search */}
+              <Card style={{ marginBottom: '24px', padding: '20px' }}>
+                <div>
+                  <label style={{ 
+                    display: 'block', 
+                    fontSize: '13px', 
+                    color: '#888', 
+                    marginBottom: '8px',
+                    fontWeight: 500
+                  }}>
+                    Search Products
+                  </label>
+                  <Input
+                    placeholder="Search by product name..."
+                    value={productSearch}
+                    onChange={e => setProductSearch(e.target.value)}
+                    style={{ marginBottom: 0 }}
+                  />
+                </div>
+                {productSearch && (
+                  <div style={{ marginTop: '16px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => setProductSearch('')}>
+                      Search: {productSearch} ×
+                    </Badge>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setProductSearch('')}
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                )}
+              </Card>
+
+              <Grid columns={1} gap="16px">
+                {filteredProducts.length === 0 ? (
+                  <Card style={{ textAlign: 'center', padding: '40px' }}>
+                    <p style={{ color: '#888' }}>
+                      {products.length === 0 ? 'No products found' : 'No products match your search'}
+                    </p>
+                  </Card>
+                ) : (
+                  <>
+                    <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
+                      Showing {filteredProducts.length} of {products.length} products
+                    </div>
+                    {filteredProducts.map(p => (
                   <Card key={p._id}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: '20px', alignItems: 'start' }}>
                       <div>
@@ -437,19 +620,90 @@ export default function Admin(){
                       </Button>
                     </div>
                   </Card>
-                ))
-              )}
-            </Grid>
+                    ))}
+                  </>
+                )}
+              </Grid>
+            </>
           )}
 
           {tab === 'orders' && (
-            <Grid columns={1} gap="16px">
-              {orders.length === 0 ? (
-                <Card style={{ textAlign: 'center', padding: '40px' }}>
-                  <p style={{ color: '#888' }}>No orders found</p>
-                </Card>
-              ) : (
-                orders.map(o => (
+            <>
+              {/* Order Date Range Filter */}
+              <Card style={{ marginBottom: '24px', padding: '20px' }}>
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                  gap: '16px',
+                  alignItems: 'end'
+                }}>
+                  <div>
+                    <label style={{ 
+                      display: 'block', 
+                      fontSize: '13px', 
+                      color: '#888', 
+                      marginBottom: '8px',
+                      fontWeight: 500
+                    }}>
+                      From Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={orderDateFrom}
+                      onChange={e => setOrderDateFrom(e.target.value)}
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ 
+                      display: 'block', 
+                      fontSize: '13px', 
+                      color: '#888', 
+                      marginBottom: '8px',
+                      fontWeight: 500
+                    }}>
+                      To Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={orderDateTo}
+                      onChange={e => setOrderDateTo(e.target.value)}
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                </div>
+                {(orderDateFrom || orderDateTo) && (
+                  <div style={{ marginTop: '16px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => { setOrderDateFrom(''); setOrderDateTo('') }}>
+                      Date: {orderDateFrom || '...'} to {orderDateTo || '...'} ×
+                    </Badge>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => {
+                        setOrderDateFrom('')
+                        setOrderDateTo('')
+                      }}
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                )}
+              </Card>
+
+              <Grid columns={1} gap="16px">
+                {filteredOrders.length === 0 ? (
+                  <Card style={{ textAlign: 'center', padding: '40px' }}>
+                    <p style={{ color: '#888' }}>
+                      {orders.length === 0 ? 'No orders found' : 'No orders match your date range'}
+                    </p>
+                  </Card>
+                ) : (
+                  <>
+                    <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
+                      Showing {filteredOrders.length} of {orders.length} orders
+                    </div>
+                    {filteredOrders.map(o => (
                   <Card key={o._id}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: '20px', alignItems: 'center' }}>
                       <div>
@@ -486,9 +740,11 @@ export default function Admin(){
                       />
                     </div>
                   </Card>
-                ))
-              )}
-            </Grid>
+                    ))}
+                  </>
+                )}
+              </Grid>
+            </>
           )}
 
           {tab === 'sellers' && (
