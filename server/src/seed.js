@@ -8,7 +8,7 @@ const Plan = require('./models/Plan');
 const Route = require('./models/Route');
 
 (async()=>{
- await mongoose.connect(process.env.MONGO_URI);
+ await mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI);
  
  // Clear existing data
  await User.deleteMany();
