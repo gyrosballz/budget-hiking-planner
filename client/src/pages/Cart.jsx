@@ -17,7 +17,11 @@ export default function Cart(){
       setCart(r.data)
       setError('')
     } catch (err) {
-      setError('Failed to load cart')
+      if (err?.response?.status === 401 || err?.response?.status === 403) {
+        setError('Please log in to view your cart.')
+      } else {
+        setError('Failed to load cart')
+      }
     }
     setLoading(false)
   }

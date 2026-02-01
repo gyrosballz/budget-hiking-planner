@@ -10,6 +10,7 @@ export default function Orders(){
   const [statusFilter, setStatusFilter] = useState('')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const load = async () => {
@@ -17,8 +18,13 @@ export default function Orders(){
       try {
         const r = await API.get('/orders')
         setOrders(r.data)
+        setError('')
       } catch (err) {
-        console.error(err)
+        if (err?.response?.status === 401 || err?.response?.status === 403) {
+          setError('Please log in to view your orders.')
+        } else {
+          setError('Failed to load orders')
+        }
       }
       setLoading(false)
     }
@@ -113,6 +119,7 @@ export default function Orders(){
 
   return (
     <Section title="Order History" subtitle="Track your hiking gear purchases">
+      {error && <Alert type="error" style={{ marginBottom: '20px' }}>{error}</Alert>}
       {/* Search and Filter Controls */}
       <Card style={{ marginBottom: '32px', padding: '20px' }}>
         <div style={{ 

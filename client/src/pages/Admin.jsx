@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import API from '../api'
-import { Card, Button, Select, Section, Grid, Badge, Input } from '../components/UI'
+import { Card, Button, Select, Section, Grid, Badge, Input, Alert } from '../components/UI'
 
-export default function Admin(){
+export default function Admin() {
   const [users, setUsers] = useState([])
   const [products, setProducts] = useState([])
   const [orders, setOrders] = useState([])
@@ -10,6 +10,8 @@ export default function Admin(){
   const [sellers, setSellers] = useState([])
   const [tab, setTab] = useState('dashboard')
   const [loading, setLoading] = useState(false)
+  const [alertMsg, setAlertMsg] = useState('')
+  const [alertType, setAlertType] = useState('success')
   
   // Search and filter states
   const [userSearch, setUserSearch] = useState('')
@@ -69,8 +71,11 @@ export default function Admin(){
     try {
       await API.put(`/admin/users/${id}/role`, { role })
       loadUsers()
+      setAlertType('success');
+      setAlertMsg('User role updated successfully.');
     } catch (err) {
-      alert('Error: ' + err.message)
+      setAlertType('error');
+      setAlertMsg('Error updating user role: ' + (err?.response?.data?.message || err.message));
     }
   }
 
@@ -79,8 +84,11 @@ export default function Admin(){
       try {
         await API.delete(`/admin/users/${id}`)
         loadUsers()
+        setAlertType('success');
+        setAlertMsg('User deleted successfully.');
       } catch (err) {
-        alert('Error: ' + err.message)
+        setAlertType('error');
+        setAlertMsg('Error deleting user: ' + (err?.response?.data?.message || err.message));
       }
     }
   }
@@ -90,8 +98,11 @@ export default function Admin(){
       try {
         await API.delete(`/admin/products/${id}`)
         loadProducts()
+        setAlertType('success');
+        setAlertMsg('Product deleted successfully.');
       } catch (err) {
-        alert('Error: ' + err.message)
+        setAlertType('error');
+        setAlertMsg('Error deleting product: ' + (err?.response?.data?.message || err.message));
       }
     }
   }
@@ -100,8 +111,11 @@ export default function Admin(){
     try {
       await API.put(`/admin/orders/${id}/status`, { status })
       loadOrders()
+      setAlertType('success');
+      setAlertMsg('Order status updated successfully.');
     } catch (err) {
-      alert('Error: ' + err.message)
+      setAlertType('error');
+      setAlertMsg('Error updating order status: ' + (err?.response?.data?.message || err.message));
     }
   }
 
@@ -187,6 +201,9 @@ export default function Admin(){
 
   return (
     <Section title="Admin Dashboard" subtitle="Manage users, products, orders, and view analytics">
+      {alertMsg && (
+        <Alert type={alertType} onClose={() => setAlertMsg('')}>{alertMsg}</Alert>
+      )}
       <NavTabs
         tabs={[
           { id: 'dashboard', label: 'Dashboard' },

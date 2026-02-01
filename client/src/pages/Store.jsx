@@ -10,6 +10,8 @@ export default function Store(){
   const [priceFilter, setPriceFilter] = useState('')
   const [stockFilter, setStockFilter] = useState('')
   const [sortBy, setSortBy] = useState('')
+  const [success, setSuccess] = useState('')
+  const [addError, setAddError] = useState('')
 
   const fallbackProducts = [
     {
@@ -107,18 +109,21 @@ export default function Store(){
   }, [products, search, priceFilter, stockFilter, sortBy])
 
   const add = async (id) => {
+    setAddError('');
+    setSuccess('');
     const token = localStorage.getItem('token')
     if (!token) {
-      alert('Please login to add to cart')
-      return
+      setAddError('Please login to add to cart.');
+      return;
     }
     try {
       await API.post('/cart/items', { product: id, qty: 1 })
       const refreshed = await API.get('/products')
       setProducts(refreshed.data)
-      alert('Added to cart')
+      setSuccess('Added to cart!')
+      setTimeout(() => setSuccess(''), 2000)
     } catch (err) {
-      alert('Failed to add to cart')
+      setAddError('Failed to add to cart.');
     }
   }
 
@@ -128,6 +133,8 @@ export default function Store(){
       subtitle="Everything you need for your next adventure"
     >
       {error && <Alert type="error" style={{ marginBottom: '20px' }}>{error}</Alert>}
+      {addError && <Alert type="error" style={{ marginBottom: '20px' }}>{addError}</Alert>}
+      {success && <Alert type="success" style={{ marginBottom: '20px' }}>{success}</Alert>}
       
       {/* Search and Filter Controls */}
       <Card style={{ marginBottom: '32px', padding: '20px' }}>
