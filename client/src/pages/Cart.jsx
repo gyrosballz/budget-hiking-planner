@@ -73,7 +73,9 @@ export default function Cart(){
     setCheckoutLoading(false)
   }
 
-  const total = cart.items.reduce((sum, i) => sum + (i.product.price * i.qty), 0)
+  const total = cart.items
+    .filter(i => i.product) // Filter out items with null products
+    .reduce((sum, i) => sum + (i.product.price * i.qty), 0)
 
   return (
     <Section title="Shopping Cart" subtitle="Review and purchase hiking gear">
@@ -96,7 +98,28 @@ export default function Cart(){
       ) : (
         <>
           <Grid columns={1} gap="16px" style={{ marginBottom: '32px' }}>
-            {cart.items.map(i => (
+            {cart.items.map(i => {
+              // Skip items where product was deleted
+              if (!i.product) {
+                return (
+                  <Card key={i._id} hover={false}>
+                    <div style={{ padding: '20px', textAlign: 'center' }}>
+                      <p style={{ color: '#ff6b6b', fontSize: '14px', marginBottom: '8px' }}>
+                        ⚠️ This product is no longer available
+                      </p>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => remove(i._id)}
+                      >
+                        Remove from Cart
+                      </Button>
+                    </div>
+                  </Card>
+                )
+              }
+              
+              return (
               <Card key={i.product._id} hover={false}>
                 <div style={{
                   display: 'grid',
@@ -129,7 +152,15 @@ export default function Cart(){
                       per unit
                     </div>
                   </div>
-                  <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => update(i.product._id, Math.max(1, i.qty - 1))}
+                      style={{ padding: '6px 12px', minWidth: '36px' }}
+                    >
+                      −
+                    </Button>
                     <input
                       type="number"
                       min="1"
@@ -147,8 +178,16 @@ export default function Cart(){
                         textAlign: 'center'
                       }}
                     />
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => update(i.product._id, Math.min(99, i.qty + 1))}
+                      style={{ padding: '6px 12px', minWidth: '36px' }}
+                    >
+                      +
+                    </Button>
                     {qtyErrors[i.product._id] && (
-                      <div style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '2px' }}>{qtyErrors[i.product._id]}</div>
+                      <div style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '2px', position: 'absolute', bottom: '-18px' }}>{qtyErrors[i.product._id]}</div>
                     )}
                   </div>
                   <div style={{ textAlign: 'right' }}>
@@ -165,7 +204,7 @@ export default function Cart(){
                   </div>
                 </div>
               </Card>
-            ))}
+            )})}
           </Grid>
 
           <Card style={{
@@ -193,7 +232,7 @@ export default function Cart(){
                   color: '#888',
                   margin: '8px 0 0 0'
                 }}>
-                  {cart.items.length} item{cart.items.length !== 1 ? 's' : ''} in cart
+                  {cart.items.filter(i => i.product).length} item{cart.items.filter(i => i.product).length !== 1 ? 's' : ''} in cart
                 </p>
               </div>
               <div style={{ textAlign: 'right' }}>

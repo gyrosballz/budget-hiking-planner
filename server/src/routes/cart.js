@@ -85,11 +85,25 @@ router.post('/checkout', auth(), async (req, res) => {
       return res.status(400).json({ message: 'Cart is empty' });
     }
     
+    // Filter out items with null/deleted products
+    const validItems = cart.items.filter(i => i.product);
+    
+    if (validItems.length === 0) {
+      return res.status(400).json({ message: 'No valid items in cart. Some products may have been removed.' });
+    }
+    
+    // Check if any items were filtered out
+    if (validItems.length < cart.items.length) {
+      // Clean up cart by removing invalid items
+      cart.items = validItems;
+      await cart.save();
+    }
+    
     // Stock already reserved at add-to-cart
     
     // Create order
     const order = await Order.create({ 
-      items: cart.items.map(i => ({ product: i.product._id, qty: i.qty })), 
+      items: validItems.map(i => ({ product: i.product._id, qty: i.qty })), 
       user: req.user.id 
     });
     
@@ -98,7 +112,7 @@ router.post('/checkout', auth(), async (req, res) => {
     await Notification.create({
       user: req.user.id,
       title: 'Order Confirmed',
-      message: `Your order #${order._id.toString().slice(-6)} has been confirmed. Total items: ${cart.items.length}`,
+      message: `Your order #${order._id.toString().slice(-6)} has been confirmed. Total items: ${validItems.length}`,
       type: 'order',
       link: `/orders`
     });

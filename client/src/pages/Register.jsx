@@ -46,7 +46,7 @@ export default function Register(){
       const token = r.data.token
       localStorage.setItem('token', token)
       API.setToken(token)
-      navigate('/store')
+      navigate('/')
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Email may already be in use.')
     }

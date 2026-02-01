@@ -19,5 +19,15 @@ module.exports = mongoose.model('Route', new mongoose.Schema({
     lat: Number,
     lng: Number
   },
+  // Water and nutrition requirements
+  waterLiters: { type: Number, default: 2 }, // Recommended liters of water
+  caloriesNeeded: { type: Number, default: 500 }, // Estimated calories needed
+  nutritionNotes: String, // Additional nutrition tips
+  // Recommended gear
+  recommendedGear: [{
+    name: String,
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    priority: { type: String, enum: ['essential', 'recommended', 'optional'], default: 'recommended' }
+  }],
   createdAt: { type: Date, default: Date.now }
 }));
