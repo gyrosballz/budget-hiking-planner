@@ -8,6 +8,7 @@ export default function Cart(){
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [qtyErrors, setQtyErrors] = useState({})
 
   const load = async () => {
     setLoading(true)
@@ -24,7 +25,13 @@ export default function Cart(){
   useEffect(() => { load() }, [])
 
   const update = async (productId, qty) => {
-    if (qty < 0) return
+    // Validate quantity: must be integer 1-99
+    if (!/^[1-9][0-9]?$/.test(qty)) {
+      setQtyErrors(prev => ({ ...prev, [productId]: 'Quantity must be 1-99' }))
+      return
+    } else {
+      setQtyErrors(prev => ({ ...prev, [productId]: undefined }))
+    }
     try {
       await API.put(`/cart/items/${productId}`, { qty: Number(qty) })
       load()
@@ -44,6 +51,11 @@ export default function Cart(){
 
   const checkout = async () => {
     if (cart.items.length === 0) return
+    // Prevent checkout if any qty error
+    if (Object.values(qtyErrors).some(Boolean)) {
+      setError('Please fix quantity errors before checkout.')
+      return
+    }
     setCheckoutLoading(true)
     setError('')
     try {
@@ -116,7 +128,7 @@ export default function Cart(){
                   <div>
                     <input
                       type="number"
-                      min="0"
+                      min="1"
                       max="99"
                       value={i.qty}
                       onChange={e => update(i.product._id, e.target.value)}
@@ -124,13 +136,16 @@ export default function Cart(){
                         width: '60px',
                         padding: '8px',
                         borderRadius: '6px',
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        border: qtyErrors[i.product._id] ? '1.5px solid #ff6b6b' : '1px solid rgba(255,255,255,0.1)',
                         backgroundColor: 'rgba(255,255,255,0.02)',
                         color: '#fff',
                         fontSize: '14px',
                         textAlign: 'center'
                       }}
                     />
+                    {qtyErrors[i.product._id] && (
+                      <div style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '2px' }}>{qtyErrors[i.product._id]}</div>
+                    )}
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>

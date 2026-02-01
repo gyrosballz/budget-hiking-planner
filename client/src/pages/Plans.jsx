@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import API from '../api'
+import { fetchRoutes } from '../api/routes'
 import { Card, Button, Input, Section, Grid, Badge } from '../components/UI'
 
 export default function Plans(){
   const [plans, setPlans] = useState([])
   const [routeId, setRouteId] = useState('')
+  const [routes, setRoutes] = useState([])
+  const [name, setName] = useState('')
   const [budget, setBudget] = useState('')
   const [duration, setDuration] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [errors, setErrors] = useState({})
+  const [formError, setFormError] = useState('')
 
   const load = async () => {
     setLoading(true)
@@ -22,25 +27,41 @@ export default function Plans(){
   }
 
   useEffect(() => { load() }, [])
+  useEffect(() => {
+    fetchRoutes().then(setRoutes).catch(() => setRoutes([]));
+  }, [])
+
+  const validate = () => {
+    const newErrors = {}
+    if (!name) newErrors.name = 'Plan name is required.'
+    if (!routeId) newErrors.routeId = 'Route is required.'
+    if (!budget) newErrors.budget = 'Budget is required.'
+    else if (isNaN(Number(budget)) || Number(budget) <= 0) newErrors.budget = 'Budget must be a positive number.'
+    if (!duration) newErrors.duration = 'Duration is required.'
+    else if (isNaN(Number(duration)) || Number(duration) <= 0) newErrors.duration = 'Duration must be a positive number.'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const create = async () => {
-    if (!routeId || !budget || !duration) {
-      alert('Please fill all fields')
-      return
-    }
+    setFormError('')
+    if (!validate()) return
     try {
       await API.post('/plans', {
+        name,
         route: routeId,
         budget: Number(budget),
         duration: Number(duration)
       })
+      setName('')
       setRouteId('')
       setBudget('')
       setDuration('')
       setShowForm(false)
+      setErrors({})
       load()
     } catch (err) {
-      alert('Error creating plan: ' + err.message)
+      setFormError('Error creating plan: ' + (err?.response?.data?.message || err.message))
     }
   }
 
@@ -68,28 +89,77 @@ export default function Plans(){
               <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#fff' }}>
                 Create New Trip Plan
               </h3>
-              <Input
-                placeholder="Route ID or name"
-                value={routeId}
-                onChange={e => setRouteId(e.target.value)}
-              />
-              <Input
-                placeholder="Budget ($)"
-                type="number"
-                value={budget}
-                onChange={e => setBudget(e.target.value)}
-              />
-              <Input
-                placeholder="Duration (days)"
-                type="number"
-                value={duration}
-                onChange={e => setDuration(e.target.value)}
-              />
+              {formError && (
+                <div style={{ color: '#ff6b6b', background: 'rgba(255,107,107,0.08)', padding: '8px 12px', borderRadius: '6px', marginBottom: '8px', fontSize: '14px' }}>
+                  {formError}
+                </div>
+              )}
+              <div>
+                <Input
+                  placeholder="Plan Name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  style={errors.name ? { borderColor: '#ff6b6b' } : {}}
+                />
+                {errors.name && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.name}</div>}
+              </div>
+              <div>
+                <select
+                  value={routeId}
+                  onChange={e => setRouteId(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '6px',
+                    border: errors.routeId ? '1.5px solid #ff6b6b' : '1.5px solid #222',
+                    background: '#18181b',
+                    color: '#fff',
+                    fontSize: '15px',
+                    marginBottom: '2px'
+                  }}
+                >
+                  <option value="">Select a route...</option>
+                  {routes.map(r => (
+                    <option key={r._id} value={r._id}>{r.name} {r.location ? `(${r.location})` : ''}</option>
+                  ))}
+                </select>
+                {errors.routeId && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.routeId}</div>}
+              </div>
+              <div>
+                <Input
+                  placeholder="Budget ($)"
+                  type="number"
+                  value={budget}
+                  min={1}
+                  onChange={e => {
+                    // Only allow numbers and dot
+                    const val = e.target.value
+                    if (/^\d*\.?\d*$/.test(val)) setBudget(val)
+                  }}
+                  style={errors.budget ? { borderColor: '#ff6b6b' } : {}}
+                />
+                {errors.budget && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.budget}</div>}
+              </div>
+              <div>
+                <Input
+                  placeholder="Duration (days)"
+                  type="number"
+                  value={duration}
+                  min={1}
+                  onChange={e => {
+                    // Only allow integers
+                    const val = e.target.value
+                    if (/^\d*$/.test(val)) setDuration(val)
+                  }}
+                  style={errors.duration ? { borderColor: '#ff6b6b' } : {}}
+                />
+                {errors.duration && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.duration}</div>}
+              </div>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <Button variant="primary" size="lg" onClick={create} style={{ flex: 1 }}>
                   Create Plan
                 </Button>
-                <Button variant="outline" size="lg" onClick={() => setShowForm(false)} style={{ flex: 1 }}>
+                <Button variant="outline" size="lg" onClick={() => { setShowForm(false); setErrors({}); setFormError(''); }} style={{ flex: 1 }}>
                   Cancel
                 </Button>
               </div>
