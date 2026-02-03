@@ -12,6 +12,8 @@ export default function Store(){
   const [sortBy, setSortBy] = useState('')
   const [success, setSuccess] = useState('')
   const [addError, setAddError] = useState('')
+  const [quantities, setQuantities] = useState({})
+  const [inlineErrors, setInlineErrors] = useState({})
 
   const fallbackProducts = [
     {
@@ -111,17 +113,29 @@ export default function Store(){
   const add = async (id) => {
     setAddError('');
     setSuccess('');
+    setInlineErrors(e => ({ ...e, [id]: '' }));
+    const qty = parseInt(quantities[id] || 1, 10);
+    const product = products.find(p => p._id === id);
+    if (!qty || qty < 1) {
+      setInlineErrors(e => ({ ...e, [id]: 'Enter a valid quantity.' }));
+      return;
+    }
+    if (qty > (product?.stock || 0)) {
+      setInlineErrors(e => ({ ...e, [id]: 'Not enough stock.' }));
+      return;
+    }
     const token = localStorage.getItem('token')
     if (!token) {
       setAddError('Please login to add to cart.');
       return;
     }
     try {
-      await API.post('/cart/items', { product: id, qty: 1 })
+      await API.post('/cart/items', { product: id, qty })
       const refreshed = await API.get('/products')
       setProducts(refreshed.data)
       setSuccess('Added to cart!')
       setTimeout(() => setSuccess(''), 2000)
+      setQuantities(q => ({ ...q, [id]: '' }));
     } catch (err) {
       setAddError('Failed to add to cart.');
     }
@@ -331,86 +345,104 @@ export default function Store(){
           </div>
           <Grid columns={3} gap="24px">
             {filteredProducts.map(p => (
-            <Card key={p._id} style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-              {p.imageUrl && (
-                <div style={{
-                  width: '100%',
-                  height: '200px',
-                  overflow: 'hidden',
-                  marginBottom: '16px',
-                  borderRadius: '8px',
-                  backgroundColor: 'rgba(255,255,255,0.05)'
-                }}>
-                  <img
-                    src={p.imageUrl}
-                    alt={p.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }}
-                    onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
-                    onMouseLeave={e => e.target.style.transform = 'scale(1)'}
-                  />
+              <Card key={p._id} style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                {p.imageUrl && (
+                  <div style={{
+                    width: '100%',
+                    height: '200px',
+                    overflow: 'hidden',
+                    marginBottom: '16px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255,255,255,0.05)'
+                  }}>
+                    <img
+                      src={p.imageUrl}
+                      alt={p.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                      }}
+                      onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
+                      onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+                    />
+                  </div>
+                )}
+                <div style={{ marginBottom: '16px' }}>
+                  <Badge variant={p.stock > 0 ? 'success' : 'danger'}>
+                    {p.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                  </Badge>
                 </div>
-              )}
-              <div style={{ marginBottom: '16px' }}>
-                <Badge variant={p.stock > 0 ? 'success' : 'danger'}>
-                  {p.stock > 0 ? 'In Stock' : 'Out of Stock'}
-                </Badge>
-              </div>
-              <h3 style={{
-                fontSize: '18px',
-                fontWeight: 600,
-                marginBottom: '12px',
-                letterSpacing: '-0.3px',
-                color: '#fff'
-              }}>
-                {p.name}
-              </h3>
-              <p style={{
-                fontSize: '13px',
-                color: '#888',
-                marginBottom: '16px',
-                minHeight: '36px',
-                flex: 1
-              }}>
-                {p.description || 'Quality hiking gear perfect for your trips'}
-              </p>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '20px',
-                paddingBottom: '16px',
-                borderBottom: '1px solid rgba(255,255,255,0.06)'
-              }}>
-                <span style={{
-                  fontSize: '28px',
-                  fontWeight: 700,
-                  color: '#fff',
-                  letterSpacing: '-0.5px'
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: 600,
+                  marginBottom: '12px',
+                  letterSpacing: '-0.3px',
+                  color: '#fff'
                 }}>
-                  ${p.price}
-                </span>
-                <span style={{
+                  {p.name}
+                </h3>
+                <p style={{
                   fontSize: '13px',
-                  color: '#888'
+                  color: '#888',
+                  marginBottom: '16px',
+                  minHeight: '36px',
+                  flex: 1
                 }}>
-                  Stock: <strong style={{ color: '#fff' }}>{p.stock}</strong>
-                </span>
-              </div>
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={() => add(p._id)}
-                disabled={p.stock === 0}
-                style={{ width: '100%' }}
-              >
-                Add to Cart
-              </Button>
-            </Card>
+                  {p.description || 'Quality hiking gear perfect for your trips'}
+                </p>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '20px',
+                  paddingBottom: '16px',
+                  borderBottom: '1px solid rgba(255,255,255,0.06)'
+                }}>
+                  <span style={{
+                    fontSize: '28px',
+                    fontWeight: 700,
+                    color: '#fff',
+                    letterSpacing: '-0.5px'
+                  }}>
+                    ${p.price}
+                  </span>
+                  <span style={{
+                    fontSize: '13px',
+                    color: '#888'
+                  }}>
+                    Stock: <strong style={{ color: '#fff' }}>{p.stock}</strong>
+                  </span>
+                </div>
+                <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Input
+                    type="number"
+                    min={1}
+                    max={p.stock}
+                    value={quantities[p._id] || ''}
+                    onChange={e => setQuantities(q => ({ ...q, [p._id]: e.target.value }))}
+                    placeholder="Qty"
+                    style={{ width: '80px', marginBottom: 0 }}
+                    disabled={p.stock === 0}
+                  />
+                  <span style={{ color: '#888', fontSize: '13px' }}>
+                    / {p.stock} available
+                  </span>
+                </div>
+                {inlineErrors[p._id] && (
+                  <div style={{ color: '#ff6b6b', fontSize: '13px', marginBottom: '8px' }}>{inlineErrors[p._id]}</div>
+                )}
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => add(p._id)}
+                  disabled={p.stock === 0}
+                  style={{ width: '100%' }}
+                >
+                  Add to Cart
+                </Button>
+              </Card>
             ))}
           </Grid>
         </>
