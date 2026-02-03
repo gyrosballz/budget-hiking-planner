@@ -26,17 +26,36 @@ export default function Nav(){
 
   const isActive = (path) => location.pathname === path
 
-  const menuItems = [
-    { path: '/', label: 'Home' },
-    { path: '/routes', label: 'Routes' },
-    { path: '/plans', label: 'My Plans' },
-    { path: '/store', label: 'Store' },
-    { path: '/cart', label: 'Cart' },
-    { path: '/orders', label: 'Orders', protected: true },
-    { path: '/notifications', label: 'Notifications', protected: true },
-    { path: '/seller', label: 'Seller', protected: true, sellerOnly: true },
-    { path: '/admin', label: 'Admin', protected: true, adminOnly: true },
-  ]
+  // Different menu items based on role
+  const getMenuItems = () => {
+    if (role === 'seller') {
+      return [
+        { path: '/seller', label: 'Dashboard' },
+        { path: '/notifications', label: 'Notifications' }
+      ]
+    }
+    
+    if (role === 'admin') {
+      return [
+        { path: '/admin', label: 'Dashboard' },
+        { path: '/store', label: 'Monitor Store' },
+        { path: '/notifications', label: 'Notifications' }
+      ]
+    }
+    
+    // Regular user menu
+    return [
+      { path: '/', label: 'Home' },
+      { path: '/routes', label: 'Routes' },
+      { path: '/plans', label: 'My Plans' },
+      { path: '/store', label: 'Store' },
+      { path: '/cart', label: 'Cart' },
+      { path: '/orders', label: 'Orders', protected: true },
+      { path: '/notifications', label: 'Notifications', protected: true }
+    ]
+  }
+
+  const menuItems = getMenuItems()
 
   return (
     <nav style={{
@@ -56,7 +75,7 @@ export default function Nav(){
       zIndex: 1000
     }}>
       {/* Logo */}
-      <Link to='/store' style={{
+      <Link to={role === 'seller' ? '/seller' : role === 'admin' ? '/admin' : '/store'} style={{
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
@@ -80,7 +99,9 @@ export default function Nav(){
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           display: 'inline-block',
-        }}>HIKING</span>
+        }}>
+          {role === 'seller' ? 'SELLER' : role === 'admin' ? 'ADMIN' : 'HIKING'}
+        </span>
       </Link>
 
       {/* Center Menu Items */}
@@ -91,8 +112,6 @@ export default function Nav(){
       }}>
         {menuItems.map(item => {
           if (item.protected && !token) return null
-          if (item.adminOnly && role !== 'admin') return null
-          if (item.sellerOnly && !['seller', 'admin'].includes(role)) return null
           
           return (
             <Link

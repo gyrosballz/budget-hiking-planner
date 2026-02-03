@@ -19,9 +19,9 @@ Client
 3. npm start
 
 Test accounts (created by `server/src/seed.js`)
-- Admin: admin@test.com / admin123
-- Seller: seller@test.com / seller123
-- User: user@test.com / user123
+- Admin: admin@test.com / role123
+- Seller: seller@test.com / role123
+- User: user@test.com / role123
 
 APIs
 - `POST /api/auth/login` → {email,password} returns `{token}`
@@ -60,11 +60,11 @@ npm run dev
 
 Visit: **http://localhost:5173**
 
-### Test Logins
+### Demo Accounts (Password: role123)
 ```
-User: testuser / pass123
-Seller: testseller / pass123
-Admin: testadmin / pass123
+Admin: admin@test.com
+Seller: seller@test.com
+User: user@test.com
 ```
 
 ## ✨ Features

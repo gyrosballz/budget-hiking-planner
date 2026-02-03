@@ -19,6 +19,7 @@ export default function Admin() {
   const [productSearch, setProductSearch] = useState('')
   const [orderDateFrom, setOrderDateFrom] = useState('')
   const [orderDateTo, setOrderDateTo] = useState('')
+  const [expandedOrder, setExpandedOrder] = useState(null)
 
   const loadUsers = async () => {
     try {
@@ -41,9 +42,12 @@ export default function Admin() {
   const loadOrders = async () => {
     try {
       const r = await API.get('/admin/orders')
+      console.log('Admin orders loaded:', r.data.length, 'orders')
       setOrders(r.data)
     } catch (err) {
-      console.error(err)
+      console.error('Error loading admin orders:', err)
+      setAlertType('error')
+      setAlertMsg('Failed to load orders: ' + (err?.response?.data?.message || err.message))
     }
   }
 
@@ -53,10 +57,13 @@ export default function Admin() {
         API.get('/admin/stats'),
         API.get('/admin/stats/sellers')
       ])
+      console.log('Admin stats loaded:', statsRes.data)
       setStats(statsRes.data)
       setSellers(sellersRes.data)
     } catch (err) {
-      console.error(err)
+      console.error('Error loading admin stats:', err)
+      setAlertType('error')
+      setAlertMsg('Failed to load dashboard stats: ' + (err?.response?.data?.message || err.message))
     }
   }
 
@@ -110,10 +117,11 @@ export default function Admin() {
   const updateOrderStatus = async (id, status) => {
     try {
       await API.put(`/admin/orders/${id}/status`, { status })
-      loadOrders()
+      await loadOrders()
       setAlertType('success');
       setAlertMsg('Order status updated successfully.');
     } catch (err) {
+      console.error('Error updating order status:', err)
       setAlertType('error');
       setAlertMsg('Error updating order status: ' + (err?.response?.data?.message || err.message));
     }
@@ -712,23 +720,28 @@ export default function Admin() {
                 {filteredOrders.length === 0 ? (
                   <Card style={{ textAlign: 'center', padding: '40px' }}>
                     <p style={{ color: '#888' }}>
-                      {orders.length === 0 ? 'No orders found' : 'No orders match your date range'}
+                      {orders.length === 0 ? 'No orders found in the system' : 'No orders match your date range'}
                     </p>
+                    {orders.length === 0 && (
+                      <p style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>
+                        Orders will appear here once customers make purchases
+                      </p>
+                    )}
                   </Card>
                 ) : (
                   <>
                     <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
-                      Showing {filteredOrders.length} of {orders.length} orders
+                      Showing {filteredOrders.length} of {orders.length} total orders
                     </div>
                     {filteredOrders.map(o => (
                   <Card key={o._id}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: '20px', alignItems: 'center' }}>
-                      <div>
+                      <div style={{ cursor: 'pointer' }} onClick={() => setExpandedOrder(expandedOrder === o._id ? null : o._id)}>
                         <h4 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 4px 0', color: '#fff' }}>
-                          Order #{o._id.slice(-8)}
+                          {expandedOrder === o._id ? '▼' : '▶'} Order #{o._id.slice(-8)}
                         </h4>
                         <p style={{ fontSize: '13px', color: '#888', margin: '0 0 8px 0' }}>
-                          User: <strong>{o.user?.name || 'Unknown'}</strong> | Items: {o.items?.length || 0}
+                          Customer: <strong style={{ color: '#fff' }}>{o.user?.name || 'Unknown'}</strong> | Items: {o.items?.length || 0}
                         </p>
                         <div style={{
                           display: 'grid',
@@ -756,6 +769,85 @@ export default function Admin() {
                         ]}
                       />
                     </div>
+                    
+                    {/* Expanded Order Details */}
+                    {expandedOrder === o._id && (
+                      <div style={{
+                        marginTop: '20px',
+                        padding: '20px',
+                        borderRadius: '8px',
+                        backgroundColor: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.08)'
+                      }}>
+                        {/* Customer Information */}
+                        <div style={{ marginBottom: '20px' }}>
+                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                              <circle cx="12" cy="8" r="4"/>
+                              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                            </svg>
+                            Customer Details
+                          </h4>
+                          <div style={{ display: 'grid', gap: '8px', fontSize: '14px', color: '#aaa' }}>
+                            <div>Name: <strong style={{ color: '#fff' }}>{o.user?.name || 'N/A'}</strong></div>
+                            <div>Email: <strong style={{ color: '#fff' }}>{o.user?.email || 'N/A'}</strong></div>
+                            <div>Role: <Badge variant="primary" style={{ marginLeft: '8px' }}>{o.user?.role || 'user'}</Badge></div>
+                            <div>Order Date: <strong style={{ color: '#fff' }}>{new Date(o.createdAt).toLocaleString()}</strong></div>
+                          </div>
+                        </div>
+
+                        {/* Order Items */}
+                        <div style={{ marginBottom: '20px' }}>
+                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                              <rect x="4" y="4" width="16" height="18" rx="2"/>
+                              <path d="M8 2v4M16 2v4"/>
+                            </svg>
+                            Order Items
+                          </h4>
+                          <div style={{ display: 'grid', gap: '12px' }}>
+                            {o.items?.map((item, idx) => (
+                              <div key={idx} style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: '12px',
+                                backgroundColor: 'rgba(255,255,255,0.02)',
+                                borderRadius: '6px',
+                                border: '1px solid rgba(255,255,255,0.06)'
+                              }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                  <Badge variant="default">{item.qty}x</Badge>
+                                  <div>
+                                    <div style={{ color: '#fff', fontSize: '14px', fontWeight: 500 }}>{item.product?.name || 'Unknown Product'}</div>
+                                    <div style={{ color: '#888', fontSize: '12px' }}>By: {item.product?.createdBy?.name || 'Unknown Seller'}</div>
+                                  </div>
+                                </div>
+                                <div style={{ textAlign: 'right' }}>
+                                  <div style={{ color: '#fff', fontSize: '14px', fontWeight: 600 }}>${((item.product?.price || 0) * item.qty).toFixed(2)}</div>
+                                  <div style={{ color: '#888', fontSize: '12px' }}>${item.product?.price || 0} each</div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Order Summary */}
+                        <div style={{
+                          padding: '16px',
+                          backgroundColor: 'rgba(76,175,80,0.1)',
+                          borderRadius: '8px',
+                          border: '1px solid rgba(76,175,80,0.3)'
+                        }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>Order Total:</span>
+                            <span style={{ fontSize: '20px', fontWeight: 700, color: '#4CAF50' }}>
+                              ${o.items?.reduce((sum, it) => sum + (it.product?.price * it.qty || 0), 0).toFixed(2) || '0.00'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </Card>
                     ))}
                   </>

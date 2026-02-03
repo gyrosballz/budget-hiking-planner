@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 module.exports = mongoose.model('Plan', new mongoose.Schema({
   name: { type: String, required: true },
   route: { type: mongoose.Schema.Types.ObjectId, ref: 'Route', required: true },
-  budget: { type: Number, required: true },
+  budget: { type: Number },
   duration: { type: Number, required: true }, // days
   startDate: Date,
   endDate: Date,

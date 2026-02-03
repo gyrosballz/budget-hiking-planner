@@ -95,8 +95,14 @@ router.get('/orders', auth(['admin']), async (req, res) => {
     if (status) query.status = status;
     
     const orders = await Order.find(query)
-      .populate('user', 'name email')
-      .populate('items.product')
+      .populate('user', 'name email role')
+      .populate({
+        path: 'items.product',
+        populate: {
+          path: 'createdBy',
+          select: 'name email'
+        }
+      })
       .sort({ createdAt: -1 });
     res.json(orders);
   } catch (err) {

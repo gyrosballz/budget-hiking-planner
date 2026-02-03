@@ -92,26 +92,6 @@ export default function Login(){
               Sign up here
             </Link>
           </div>
-
-          <div style={{
-            marginTop: '24px',
-            padding: '16px',
-            borderRadius: '8px',
-            backgroundColor: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.06)',
-            fontSize: '13px',
-            color: '#888',
-            lineHeight: '1.6'
-          }}>
-            <p style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#aaa' }}>
-              Demo Accounts (Password: role123)
-            </p>
-            <div style={{ display: 'grid', gap: '6px' }}>
-              <div><strong>Admin:</strong> admin@test.com</div>
-              <div><strong>Seller:</strong> seller@test.com</div>
-              <div><strong>User:</strong> user@test.com</div>
-            </div>
-          </div>
         </Card>
 
         <div style={{

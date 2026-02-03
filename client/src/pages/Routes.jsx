@@ -152,8 +152,9 @@ export default function Routes(){
                       {/* Water & Nutrition Section */}
                       <div style={{ marginBottom: '20px' }}>
                         <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 12h8M12 8v8"/>
                           </svg>
                           Water & Nutrition
                         </h4>
@@ -161,8 +162,12 @@ export default function Routes(){
                           <div>• Recommended Water: <strong style={{ color: '#fff' }}>{r.waterLiters || 2} liters</strong></div>
                           <div>• Estimated Calories: <strong style={{ color: '#fff' }}>{r.caloriesNeeded || 500} kcal</strong></div>
                           {r.nutritionNotes && (
-                            <div style={{ marginTop: '8px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px' }}>
-                              💡 {r.nutritionNotes}
+                            <div style={{ marginTop: '8px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ flexShrink: 0, marginTop: '2px' }}>
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 8v8M12 16h.01"/>
+                              </svg>
+                              <span>{r.nutritionNotes}</span>
                             </div>
                           )}
                         </div>
@@ -171,8 +176,12 @@ export default function Routes(){
                       {/* Recommended Gear Section */}
                       {r.recommendedGear && r.recommendedGear.length > 0 && (
                         <div>
-                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px' }}>
-                            🎒 Recommended Gear
+                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                              <rect x="4" y="4" width="16" height="18" rx="2"/>
+                              <path d="M8 2v4M16 2v4"/>
+                            </svg>
+                            Recommended Gear
                           </h4>
                           <div style={{ display: 'grid', gap: '12px' }}>
                             {r.recommendedGear.map((gear, i) => (
@@ -228,8 +237,8 @@ export default function Routes(){
                   minWidth: '120px'
                 }}>
                   <div style={{ fontSize: '24px', fontWeight: 700, color: '#fff', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <polygon points="12,2 15,10 23,10 17,15 19,23 12,18 5,23 7,15 1,10 9,10"/>
                     </svg>
                     {r.rating}
                   </div>

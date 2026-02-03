@@ -6,6 +6,7 @@ export default function Notifications(){
   const [notifs, setNotifs] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all') // all, unread
+  const [expandedNotif, setExpandedNotif] = useState(null)
 
   const load = async () => {
     setLoading(true)
@@ -97,43 +98,72 @@ export default function Notifications(){
                   {getNotificationIcon(n.type)}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
-                    <h4 style={{
-                      fontSize: '15px',
-                      fontWeight: 600,
-                      margin: 0,
-                      color: '#fff'
+                  <div 
+                    style={{ cursor: n.type === 'order' && n.order ? 'pointer' : 'default' }}
+                    onClick={() => n.type === 'order' && n.order && setExpandedNotif(expandedNotif === n._id ? null : n._id)}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
+                      {n.type === 'order' && n.order && (
+                        <span style={{ fontSize: '14px', color: '#888' }}>
+                          {expandedNotif === n._id ? '▼' : '▶'}
+                        </span>
+                      )}
+                      <h4 style={{
+                        fontSize: '15px',
+                        fontWeight: 600,
+                        margin: 0,
+                        color: '#fff'
+                      }}>
+                        {n.title}
+                      </h4>
+                      {!n.read && (
+                        <Badge variant="primary">New</Badge>
+                      )}
+                    </div>
+                    <p style={{
+                      fontSize: '13px',
+                      color: '#aaa',
+                      margin: '0 0 12px 0',
+                      lineHeight: '1.4'
                     }}>
-                      {n.title}
-                    </h4>
-                    {!n.read && (
-                      <Badge variant="primary">New</Badge>
-                    )}
+                      {n.message}
+                    </p>
+                    <div style={{
+                      display: 'flex',
+                      gap: '8px',
+                      fontSize: '12px',
+                      color: '#888'
+                    }}>
+                      <span>
+                        {new Date(n.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
+                    </div>
                   </div>
-                  <p style={{
-                    fontSize: '13px',
-                    color: '#aaa',
-                    margin: '0 0 12px 0',
-                    lineHeight: '1.4'
-                  }}>
-                    {n.message}
-                  </p>
-                  <div style={{
-                    display: 'flex',
-                    gap: '8px',
-                    fontSize: '12px',
-                    color: '#888'
-                  }}>
-                    <span>
-                      {new Date(n.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </span>
-                  </div>
+                  
+                  {/* Expanded Order Details */}
+                  {expandedNotif === n._id && n.type === 'order' && n.order && (
+                    <div style={{
+                      borderTop: '1px solid rgba(255,255,255,0.06)',
+                      paddingTop: '12px',
+                      marginTop: '12px'
+                    }}>
+                      <div style={{ marginBottom: '12px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
+                        <h4 style={{ fontSize: '13px', marginBottom: '8px', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Customer Information:</h4>
+                        <div style={{ fontSize: '13px', color: '#fff', lineHeight: '1.8' }}>
+                          <div><span style={{ color: '#888' }}>Name:</span> <strong>{n.order.user?.name || 'N/A'}</strong></div>
+                          <div><span style={{ color: '#888' }}>Email:</span> <strong>{n.order.user?.email || 'N/A'}</strong></div>
+                          <div><span style={{ color: '#888' }}>Role:</span> <Badge variant="secondary" style={{ fontSize: '11px', padding: '2px 8px' }}>{n.order.user?.role || 'user'}</Badge></div>
+                          <div><span style={{ color: '#888' }}>Order Date:</span> <strong>{new Date(n.order.createdAt).toLocaleString()}</strong></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
                   {!n.read && (

@@ -48,8 +48,36 @@ router.post('/', auth(), async (req, res) => {
       title: 'Order Confirmed',
       message: `Your order #${order._id.toString().slice(-6)} has been confirmed and is being processed.`,
       type: 'order',
+      order: order._id,
       link: `/orders`
     });
+    
+    // Notify sellers about new orders containing their products
+    const sellerMap = new Map();
+    for (const item of req.body.items) {
+      const product = await Product.findById(item.product).populate('createdBy');
+      if (product && product.createdBy) {
+        if (!sellerMap.has(product.createdBy._id.toString())) {
+          sellerMap.set(product.createdBy._id.toString(), {
+            sellerId: product.createdBy._id,
+            products: []
+          });
+        }
+        sellerMap.get(product.createdBy._id.toString()).products.push(product.name);
+      }
+    }
+    
+    // Create notifications for each seller
+    for (const [sellerId, data] of sellerMap.entries()) {
+      await Notification.create({
+        user: data.sellerId,
+        title: '🎉 New Order Received',
+        message: `New order #${order._id.toString().slice(-6)} includes your products: ${data.products.join(', ')}`,
+        type: 'order',
+        order: order._id,
+        link: '/seller'
+      });
+    }
     
     const populated = await Order.findById(order._id).populate('items.product');
     res.json(populated);
