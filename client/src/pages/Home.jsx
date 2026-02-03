@@ -28,7 +28,8 @@ export default function Home(){
       </Card>
 
       <Grid columns={3} gap="20px">
-        <Card>
+        <Card hover={true} style={{ position: 'relative', borderRadius: '24px', transition: 'transform 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s cubic-bezier(0.4,0,0.2,1)' }}>
+          <Link to="/routes" style={{ position: 'absolute', inset: 0, zIndex: 2, textDecoration: 'none', color: 'inherit' }} aria-label="Go to Routes page" />
           <div style={{ marginBottom: '10px' }}>
             <Badge variant="primary">Routes</Badge>
           </div>
@@ -37,7 +38,8 @@ export default function Home(){
             Filter by difficulty, distance, and features to find the perfect hike.
           </p>
         </Card>
-        <Card>
+        <Card hover={true} style={{ position: 'relative', borderRadius: '24px', transition: 'transform 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s cubic-bezier(0.4,0,0.2,1)' }}>
+          <Link to="/plans" style={{ position: 'absolute', inset: 0, zIndex: 2, textDecoration: 'none', color: 'inherit' }} aria-label="Go to Plans page" />
           <div style={{ marginBottom: '10px' }}>
             <Badge variant="success">Plans</Badge>
           </div>
@@ -46,7 +48,8 @@ export default function Home(){
             Create detailed plans with dates, budgets, and gear checklists.
           </p>
         </Card>
-        <Card>
+        <Card hover={true} style={{ position: 'relative', borderRadius: '24px', transition: 'transform 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s cubic-bezier(0.4,0,0.2,1)' }}>
+          <Link to="/store" style={{ position: 'absolute', inset: 0, zIndex: 2, textDecoration: 'none', color: 'inherit' }} aria-label="Go to Store page" />
           <div style={{ marginBottom: '10px' }}>
             <Badge variant="warning">Store</Badge>
           </div>

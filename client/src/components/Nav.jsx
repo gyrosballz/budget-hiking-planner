@@ -57,14 +57,31 @@ export default function Nav(){
     }}>
       {/* Logo */}
       <Link to='/store' style={{
-        fontSize: '20px',
-        fontWeight: 700,
-        letterSpacing: '-0.5px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
         textDecoration: 'none',
-        background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent'
-      }}>HIKING</Link>
+      }}>
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <defs>
+            <linearGradient id="mountain-gradient" x1="0" y1="0" x2="28" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#fff" />
+              <stop offset="1" stopColor="#888" />
+            </linearGradient>
+          </defs>
+          <path d="M2 20L10 8L15 16L18.5 11L26 20H2Z" fill="url(#mountain-gradient)" stroke="#888" strokeWidth="1.5" strokeLinejoin="round"/>
+          <path d="M10 8L13 13L15 16" stroke="#888" strokeWidth="1.5" strokeLinejoin="round"/>
+        </svg>
+        <span style={{
+          fontSize: '20px',
+          fontWeight: 700,
+          letterSpacing: '-0.5px',
+          background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          display: 'inline-block',
+        }}>HIKING</span>
+      </Link>
 
       {/* Center Menu Items */}
       <div style={{

@@ -138,12 +138,44 @@ export default function Orders(){
             }}>
               Search Order ID
             </label>
-            <Input
-              placeholder="Search by order ID..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              style={{ marginBottom: 0 }}
-            />
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(255,255,255,0.07)',
+              borderRadius: '24px',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              padding: '2px 12px 2px 8px',
+              border: '1px solid rgba(255,255,255,0.13)',
+              transition: 'box-shadow 0.2s',
+              marginBottom: 0,
+              minHeight: '44px',
+              position: 'relative',
+            }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
+                <rect x="3" y="8" width="14" height="2" rx="1" fill="#bbb" />
+                <rect x="8" y="3" width="2" height="14" rx="1" fill="#bbb" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search by order ID..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  color: '#fff',
+                  fontSize: '15px',
+                  padding: '10px 0',
+                  fontFamily: 'inherit',
+                  letterSpacing: '-0.2px',
+                  borderRadius: '24px',
+                  transition: 'background 0.2s',
+                }}
+                aria-label="Search order ID"
+              />
+            </div>
           </div>
 
           <div>
@@ -192,12 +224,54 @@ export default function Orders(){
             }}>
               From Date
             </label>
-            <Input
-              type="date"
-              value={dateFrom}
-              onChange={e => setDateFrom(e.target.value)}
-              style={{ marginBottom: 0 }}
-            />
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(255,255,255,0.07)',
+              borderRadius: '24px',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              padding: '2px 12px 2px 8px',
+              border: '1px solid rgba(255,255,255,0.13)',
+              transition: 'box-shadow 0.2s',
+              marginBottom: 0,
+              minHeight: '44px',
+              position: 'relative',
+            }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
+                <rect x="2" y="5" width="16" height="12" rx="3" fill="#bbb" />
+                <rect x="6" y="2" width="2" height="4" rx="1" fill="#bbb" />
+                <rect x="12" y="2" width="2" height="4" rx="1" fill="#bbb" />
+              </svg>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={e => setDateFrom(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  color: '#fff',
+                  fontSize: '15px',
+                  padding: '10px 0',
+                  fontFamily: 'inherit',
+                  letterSpacing: '-0.2px',
+                  borderRadius: '24px',
+                  transition: 'background 0.2s, color 0.2s',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  boxShadow: 'none',
+                  boxSizing: 'border-box',
+                  textAlign: 'left',
+                  caretColor: '#fff',
+                  WebkitTextFillColor: '#fff',
+                  WebkitBoxShadow: '0 0 0 1000px transparent inset',
+                  filter: 'none',
+                }}
+                aria-label="From date"
+              />
+            </div>
           </div>
 
           <div>
@@ -210,12 +284,51 @@ export default function Orders(){
             }}>
               To Date
             </label>
-            <Input
-              type="date"
-              value={dateTo}
-              onChange={e => setDateTo(e.target.value)}
-              style={{ marginBottom: 0 }}
-            />
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(255,255,255,0.07)',
+              borderRadius: '24px',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              padding: '2px 12px 2px 8px',
+              border: '1px solid rgba(255,255,255,0.13)',
+              transition: 'box-shadow 0.2s',
+              marginBottom: 0,
+              minHeight: '44px',
+              position: 'relative',
+            }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
+                <rect x="2" y="5" width="16" height="12" rx="3" fill="#bbb" />
+                <rect x="6" y="2" width="2" height="4" rx="1" fill="#bbb" />
+                <rect x="12" y="2" width="2" height="4" rx="1" fill="#bbb" />
+              </svg>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={e => setDateTo(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  color: '#fff',
+                  fontSize: '15px',
+                  padding: '10px 0',
+                  fontFamily: 'inherit',
+                  letterSpacing: '-0.2px',
+                  borderRadius: '24px',
+                  transition: 'background 0.2s',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  boxShadow: 'none',
+                  boxSizing: 'border-box',
+                  textAlign: 'left',
+                  caretColor: '#fff',
+                }}
+                aria-label="To date"
+              />
+            </div>
           </div>
         </div>
 

@@ -168,12 +168,44 @@ export default function Store(){
             }}>
               Search Products
             </label>
-            <Input
-              placeholder="Search by name..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              style={{ marginBottom: 0 }}
-            />
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(255,255,255,0.07)',
+              borderRadius: '24px',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              padding: '2px 12px 2px 8px',
+              border: '1px solid rgba(255,255,255,0.13)',
+              transition: 'box-shadow 0.2s',
+              marginBottom: 0,
+              minHeight: '44px',
+              position: 'relative',
+            }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
+                <circle cx="9" cy="9" r="7" stroke="#bbb" strokeWidth="2" />
+                <line x1="14.2" y1="14.2" x2="18" y2="18" stroke="#bbb" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search by name..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  color: '#fff',
+                  fontSize: '15px',
+                  padding: '10px 0',
+                  fontFamily: 'inherit',
+                  letterSpacing: '-0.2px',
+                  borderRadius: '24px',
+                  transition: 'background 0.2s',
+                }}
+                aria-label="Search products"
+              />
+            </div>
           </div>
           
           <div>
