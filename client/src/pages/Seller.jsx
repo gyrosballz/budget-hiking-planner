@@ -197,7 +197,7 @@ export default function Seller() {
       display: 'flex',
       gap: '8px',
       marginBottom: '32px',
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      borderBottom: '1px solid #e5e5e5',
       paddingBottom: '16px'
     }}>
       {tabs.map(t => (
@@ -208,11 +208,11 @@ export default function Seller() {
             padding: '8px 16px',
             backgroundColor: 'transparent',
             border: 'none',
-            color: active === t.id ? '#fff' : '#888',
+            color: active === t.id ? '#000' : '#666',
             fontSize: '14px',
             fontWeight: active === t.id ? 600 : 400,
             cursor: 'pointer',
-            borderBottom: active === t.id ? '2px solid #fff' : 'none',
+            borderBottom: active === t.id ? '2px solid #000' : 'none',
             transition: 'all 0.2s'
           }}
         >
@@ -239,23 +239,23 @@ export default function Seller() {
           {/* Stats Overview */}
           <Grid columns={4} gap="16px" style={{ marginBottom: '24px' }}>
             <Card>
-              <h3 style={{ fontSize: '14px', color: '#888', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Total Revenue
               </h3>
               <div style={{ fontSize: '28px', fontWeight: 700, color: '#4CAF50', marginBottom: '4px' }}>
                 ${stats.totalRevenue?.toFixed(2) || '0.00'}
               </div>
-              <div style={{ fontSize: '12px', color: '#888' }}>All-time earnings</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>All-time earnings</div>
             </Card>
             
             <Card>
-              <h3 style={{ fontSize: '14px', color: '#888', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Products
               </h3>
-              <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-                {stats.totalProducts || 0}
+              <div style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
+                {stats.totalProducts}
               </div>
-              <div style={{ fontSize: '12px', color: '#888' }}>
+              <div style={{ fontSize: '12px', color: '#666' }}>
                 {stats.lowStockItems > 0 && (
                   <span style={{ color: '#ff9800' }}>⚠️ {stats.lowStockItems} low stock</span>
                 )}
@@ -264,23 +264,23 @@ export default function Seller() {
             </Card>
             
             <Card>
-              <h3 style={{ fontSize: '14px', color: '#888', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Total Sales
               </h3>
-              <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-                {stats.totalSales || 0}
+              <div style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
+                {stats.totalSales}
               </div>
-              <div style={{ fontSize: '12px', color: '#888' }}>Units sold</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>Units sold</div>
             </Card>
             
             <Card>
-              <h3 style={{ fontSize: '14px', color: '#888', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Orders
+              <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Pending Orders
               </h3>
-              <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '4px' }}>
-                {stats.totalOrders || 0}
+              <div style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
+                {stats.pendingOrders}
               </div>
-              <div style={{ fontSize: '12px', color: '#888' }}>
+              <div style={{ fontSize: '12px', color: '#666' }}>
                 {stats.pendingOrders > 0 && (
                   <Badge variant="warning">{stats.pendingOrders} pending</Badge>
                 )}
@@ -291,7 +291,7 @@ export default function Seller() {
 
           {/* Quick Actions */}
           <Card style={{ marginBottom: '24px', padding: '20px' }}>
-            <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#fff' }}>Quick Actions</h3>
+            <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#000' }}>Quick Actions</h3>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               <Button variant="primary" onClick={() => { setTab('products'); setShowForm(true) }}>
                 + Add New Product
@@ -307,9 +307,9 @@ export default function Seller() {
 
           {/* Product Performance */}
           <Card style={{ padding: '20px' }}>
-            <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#fff' }}>Product Performance</h3>
+            <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#000' }}>Product Performance</h3>
             {products.length === 0 ? (
-              <p style={{ color: '#888', textAlign: 'center', padding: '20px' }}>Add products to see performance metrics</p>
+              <p style={{ color: '#666', textAlign: 'center', padding: '20px' }}>Add products to see performance metrics</p>
             ) : (
               <div style={{ display: 'grid', gap: '12px' }}>
                 {products.slice(0, 5).map(p => (
@@ -318,12 +318,12 @@ export default function Seller() {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     padding: '12px',
-                    backgroundColor: 'rgba(255,255,255,0.02)',
+                    backgroundColor: '#f9f9f9',
                     borderRadius: '6px'
                   }}>
                     <div>
-                      <div style={{ fontSize: '14px', fontWeight: 500, color: '#fff' }}>{p.name}</div>
-                      <div style={{ fontSize: '12px', color: '#888' }}>Stock: {p.stock} units</div>
+                      <div style={{ fontSize: '14px', fontWeight: 500, color: '#000' }}>{p.name}</div>
+                      <div style={{ fontSize: '12px', color: '#666' }}>Stock: {p.stock} units</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontSize: '16px', fontWeight: 600, color: '#4CAF50' }}>${p.price}</div>
@@ -349,8 +349,8 @@ export default function Seller() {
             }}>
               {showForm ? 'Cancel' : '+ Add New Product'}
             </Button>
-            <div style={{ color: '#888', fontSize: '14px' }}>
-              Total Products: <strong style={{ color: '#fff' }}>{products.length}</strong>
+            <div style={{ color: '#666', fontSize: '14px' }}>
+              Total Products: <strong style={{ color: '#000' }}>{products.length}</strong>
             </div>
           </div>
 
@@ -362,7 +362,7 @@ export default function Seller() {
               <form onSubmit={handleSubmit}>
                 <div style={{ display: 'grid', gap: '16px' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#aaa' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666' }}>
                       Product Name *
                     </label>
                     <input
@@ -373,16 +373,16 @@ export default function Seller() {
                       style={{
                         width: '100%',
                         padding: '10px',
-                        backgroundColor: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        backgroundColor: '#f9f9f9',
+                        border: '1px solid #e5e5e5',
                         borderRadius: '6px',
-                        color: '#fff',
+                        color: '#000',
                         fontSize: '14px'
                       }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#aaa' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666' }}>
                       Description *
                     </label>
                     <textarea
@@ -393,10 +393,10 @@ export default function Seller() {
                       style={{
                         width: '100%',
                         padding: '10px',
-                        backgroundColor: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        backgroundColor: '#f9f9f9',
+                        border: '1px solid #e5e5e5',
                         borderRadius: '6px',
-                        color: '#fff',
+                        color: '#000',
                         fontSize: '14px',
                         fontFamily: 'inherit',
                         resize: 'vertical'
@@ -405,7 +405,7 @@ export default function Seller() {
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <div>
-                      <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#aaa' }}>
+                      <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666' }}>
                         Price ($) *
                       </label>
                       <input
@@ -418,16 +418,16 @@ export default function Seller() {
                         style={{
                           width: '100%',
                           padding: '10px',
-                          backgroundColor: 'rgba(255,255,255,0.05)',
-                          border: '1px solid rgba(255,255,255,0.1)',
+                          backgroundColor: '#f9f9f9',
+                          border: '1px solid #e5e5e5',
                           borderRadius: '6px',
-                          color: '#fff',
+                          color: '#000',
                           fontSize: '14px'
                         }}
                       />
                     </div>
                     <div>
-                      <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#aaa' }}>
+                      <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666' }}>
                         Stock Quantity *
                       </label>
                       <input
@@ -439,17 +439,17 @@ export default function Seller() {
                         style={{
                           width: '100%',
                           padding: '10px',
-                          backgroundColor: 'rgba(255,255,255,0.05)',
-                          border: '1px solid rgba(255,255,255,0.1)',
+                          backgroundColor: '#f9f9f9',
+                          border: '1px solid #e5e5e5',
                           borderRadius: '6px',
-                          color: '#fff',
+                          color: '#000',
                           fontSize: '14px'
                         }}
                       />
                     </div>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#aaa' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666' }}>
                       Image URL (optional)
                     </label>
                     <input
@@ -460,10 +460,10 @@ export default function Seller() {
                       style={{
                         width: '100%',
                         padding: '10px',
-                        backgroundColor: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        backgroundColor: '#f9f9f9',
+                        border: '1px solid #e5e5e5',
                         borderRadius: '6px',
-                        color: '#fff',
+                        color: '#000',
                         fontSize: '14px'
                       }}
                     />
@@ -490,12 +490,12 @@ export default function Seller() {
           )}
 
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '40px', color: '#888' }}>
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
               Loading products...
             </div>
           ) : products.length === 0 ? (
             <Card style={{ textAlign: 'center', padding: '40px' }}>
-              <p style={{ color: '#888', marginBottom: '16px' }}>No products yet</p>
+              <p style={{ color: '#666', marginBottom: '16px' }}>No products yet</p>
               <p style={{ color: '#666', fontSize: '14px' }}>Add your first product to start selling</p>
             </Card>
           ) : (
@@ -507,10 +507,10 @@ export default function Seller() {
                       <div style={{
                         width: '120px',
                         height: '120px',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         overflow: 'hidden',
                         flexShrink: 0,
-                        backgroundColor: 'rgba(255,255,255,0.05)'
+                        backgroundColor: '#f9f9f9'
                       }}>
                         <img
                           src={p.imageUrl}
@@ -523,7 +523,7 @@ export default function Seller() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '12px' }}>
                         <div>
                           <h3 style={{ fontSize: '18px', marginBottom: '8px' }}>{p.name}</h3>
-                          <p style={{ color: '#aaa', fontSize: '14px', marginBottom: '12px' }}>{p.description}</p>
+                          <p style={{ color: '#666', fontSize: '14px', marginBottom: '12px' }}>{p.description}</p>
                         </div>
                         <div style={{ display: 'flex', gap: '8px' }}>
                           <Button variant="secondary" onClick={() => handleEdit(p)}>Edit</Button>
@@ -531,11 +531,11 @@ export default function Seller() {
                       </div>
                       <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
                         <div>
-                          <span style={{ color: '#888', fontSize: '13px' }}>Price: </span>
+                          <span style={{ color: '#666', fontSize: '13px' }}>Price: </span>
                           <strong style={{ fontSize: '16px', color: '#4CAF50' }}>${p.price.toFixed(2)}</strong>
                         </div>
                         <div>
-                          <span style={{ color: '#888', fontSize: '13px' }}>Stock: </span>
+                          <span style={{ color: '#666', fontSize: '13px' }}>Stock: </span>
                           <Badge variant={p.stock > 10 ? 'success' : p.stock > 5 ? 'warning' : 'danger'}>
                             {p.stock} units
                           </Badge>
@@ -546,7 +546,7 @@ export default function Seller() {
                           )}
                         </div>
                         <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                          <label style={{ color: '#888', fontSize: '13px' }}>Quick Update:</label>
+                          <label style={{ color: '#666', fontSize: '13px' }}>Quick Update:</label>
                           <input
                             type="number"
                             min="0"
@@ -559,10 +559,10 @@ export default function Seller() {
                             style={{
                               width: '80px',
                               padding: '6px 8px',
-                              backgroundColor: 'rgba(255,255,255,0.05)',
-                              border: '1px solid rgba(255,255,255,0.1)',
+                              backgroundColor: '#f9f9f9',
+                              border: '1px solid #e5e5e5',
                               borderRadius: '4px',
-                              color: '#fff',
+                              color: '#000',
                               fontSize: '13px'
                             }}
                           />
@@ -580,12 +580,12 @@ export default function Seller() {
       {tab === 'orders' && (
         <>
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '40px', color: '#888' }}>
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
               Loading orders...
             </div>
           ) : orders.length === 0 ? (
             <Card style={{ textAlign: 'center', padding: '40px' }}>
-              <p style={{ color: '#888', marginBottom: '16px' }}>No orders yet</p>
+              <p style={{ color: '#666', marginBottom: '16px' }}>No orders yet</p>
               <p style={{ color: '#666', fontSize: '14px' }}>Orders will appear here once customers make purchases</p>
             </Card>
           ) : (
@@ -598,15 +598,15 @@ export default function Seller() {
                         <h3 style={{ fontSize: '16px' }}>{expandedOrder === o._id ? '▼' : '▶'} Order #{o._id.slice(-6)}</h3>
                         <Badge variant={getStatusColor(o.status)}>{o.status}</Badge>
                       </div>
-                      <p style={{ color: '#888', fontSize: '13px' }}>
-                        Customer: <strong style={{ color: '#fff' }}>{o.user?.name || 'Unknown'}</strong>
+                      <p style={{ color: '#666', fontSize: '13px' }}>
+                        Customer: <strong style={{ color: '#000' }}>{o.user?.name || 'Unknown'}</strong>
                       </p>
-                      <p style={{ color: '#888', fontSize: '13px' }}>
+                      <p style={{ color: '#666', fontSize: '13px' }}>
                         Date: {new Date(o.createdAt).toLocaleDateString()} at {new Date(o.createdAt).toLocaleTimeString()}
                       </p>
                     </div>
                     <div>
-                      <label style={{ display: 'block', marginBottom: '6px', fontSize: '12px', color: '#888' }}>
+                      <label style={{ display: 'block', marginBottom: '6px', fontSize: '12px', color: '#666' }}>
                         Update Status:
                       </label>
                       <select
@@ -614,10 +614,10 @@ export default function Seller() {
                         onChange={(e) => updateOrderStatus(o._id, e.target.value)}
                         style={{
                           padding: '6px 12px',
-                          backgroundColor: 'rgba(255,255,255,0.05)',
-                          border: '1px solid rgba(255,255,255,0.1)',
+                          backgroundColor: '#f9f9f9',
+                          border: '1px solid #e5e5e5',
                           borderRadius: '4px',
-                          color: '#fff',
+                          color: '#000',
                           fontSize: '13px',
                           cursor: 'pointer'
                         }}
@@ -634,28 +634,28 @@ export default function Seller() {
                   {/* Expanded Order Details */}
                   {expandedOrder === o._id && (
                     <div style={{
-                      borderTop: '1px solid rgba(255,255,255,0.06)',
+                      borderTop: '1px solid #e5e5e5',
                       paddingTop: '16px',
                       marginTop: '16px'
                     }}>
                       {/* Customer Details */}
-                      <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
-                        <h4 style={{ fontSize: '14px', marginBottom: '8px', color: '#aaa' }}>Customer Information:</h4>
-                        <div style={{ fontSize: '14px', color: '#fff' }}>
+                      <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#f9f9f9', borderRadius: '6px' }}>
+                        <h4 style={{ fontSize: '14px', marginBottom: '8px', color: '#666' }}>Customer Information:</h4>
+                        <div style={{ fontSize: '14px', color: '#000' }}>
                           <div>Name: <strong>{o.user?.name || 'N/A'}</strong></div>
                           <div>Email: <strong>{o.user?.email || 'N/A'}</strong></div>
                         </div>
                       </div>
                       
                       {/* Order Items */}
-                      <h4 style={{ fontSize: '14px', marginBottom: '12px', color: '#aaa' }}>Order Items:</h4>
+                      <h4 style={{ fontSize: '14px', marginBottom: '12px', color: '#666' }}>Order Items:</h4>
                       {o.items.map((item, idx) => (
                         <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '14px' }}>
                           <span>{item.product?.name || 'Unknown Product'} × {item.qty}</span>
                           <span style={{ color: '#4CAF50' }}>${((item.product?.price || 0) * item.qty).toFixed(2)}</span>
                         </div>
                       ))}
-                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: '12px', paddingTop: '12px', display: 'flex', justifyContent: 'space-between', fontWeight: 600 }}>
+                      <div style={{ borderTop: '1px solid #e5e5e5', marginTop: '12px', paddingTop: '12px', display: 'flex', justifyContent: 'space-between', fontWeight: 600 }}>
                         <span>Total:</span>
                         <span style={{ color: '#4CAF50', fontSize: '16px' }}>
                           ${o.items.reduce((sum, item) => sum + (item.product?.price || 0) * item.qty, 0).toFixed(2)}
@@ -672,3 +672,4 @@ export default function Seller() {
     </Section>
   )
 }
+

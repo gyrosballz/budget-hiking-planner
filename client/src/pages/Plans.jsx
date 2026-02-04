@@ -163,7 +163,7 @@ export default function Plans(){
         ) : (
           <Card>
             <div style={{ display: 'grid', gap: '16px' }}>
-              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#fff' }}>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#000' }}>
                 {editingPlanId ? 'Edit Trip Plan' : 'Create New Trip Plan'}
               </h3>
               {formError && (
@@ -190,7 +190,7 @@ export default function Plans(){
                     borderRadius: '6px',
                     border: errors.routeId ? '1.5px solid #ff6b6b' : '1.5px solid #222',
                     background: '#18181b',
-                    color: '#fff',
+                    color: '#000',
                     fontSize: '15px',
                     marginBottom: '2px'
                   }}
@@ -233,7 +233,7 @@ export default function Plans(){
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
-                  <label style={{ fontSize: '13px', color: '#888', display: 'block', marginBottom: '6px' }}>Start Date</label>
+                  <label style={{ fontSize: '13px', color: '#666', display: 'block', marginBottom: '6px' }}>Start Date</label>
                   <Input
                     type="date"
                     value={startDate}
@@ -243,7 +243,7 @@ export default function Plans(){
                   {errors.startDate && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.startDate}</div>}
                 </div>
                 <div>
-                  <label style={{ fontSize: '13px', color: '#888', display: 'block', marginBottom: '6px' }}>End Date</label>
+                  <label style={{ fontSize: '13px', color: '#666', display: 'block', marginBottom: '6px' }}>End Date</label>
                   <Input
                     type="date"
                     value={endDate}
@@ -279,11 +279,11 @@ export default function Plans(){
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ color: '#888' }}>Loading plans...</p>
+          <p style={{ color: '#666' }}>Loading plans...</p>
         </div>
       ) : plans.length === 0 ? (
         <Card style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ color: '#888', marginBottom: '16px' }}>
+          <p style={{ color: '#666', marginBottom: '16px' }}>
             No trip plans yet. Create your first plan to get started!
           </p>
         </Card>
@@ -298,7 +298,7 @@ export default function Plans(){
                       fontSize: '18px',
                       fontWeight: 600,
                       margin: 0,
-                      color: '#fff',
+                      color: '#000',
                       cursor: 'pointer'
                     }}
                     onClick={() => setExpandedPlan(expandedPlan === p._id ? null : p._id)}
@@ -314,7 +314,7 @@ export default function Plans(){
                     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
                     gap: '12px',
                     fontSize: '13px',
-                    color: '#888',
+                    color: '#666',
                     marginBottom: '12px'
                   }}>
                     <div>Duration: {p.duration} days</div>
@@ -324,7 +324,7 @@ export default function Plans(){
                   {(p.startDate || p.endDate) && (
                     <div style={{
                       fontSize: '13px',
-                      color: '#aaa',
+                      color: '#666',
                       marginBottom: '12px',
                       display: 'flex',
                       gap: '16px'
@@ -382,43 +382,43 @@ export default function Plans(){
                     <div style={{
                       marginTop: '16px',
                       padding: '20px',
-                      borderRadius: '8px',
-                      backgroundColor: 'rgba(255,255,255,0.03)',
-                      border: '1px solid rgba(255,255,255,0.08)'
+                      borderRadius: '4px',
+                      backgroundColor: '#f9f9f9',
+                      border: '1px solid #e5e5e5'
                     }}>
                       {/* Route Name Header */}
                       <div style={{ marginBottom: '20px', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                        <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '-0.5px' }}>
+                        <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#000', margin: 0, letterSpacing: '-0.5px' }}>
                           {p.route.name}
                         </h3>
                       </div>
 
                       {/* Route Info */}
                       <div style={{ marginBottom: '20px' }}>
-                        <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px' }}>Route Details</h4>
-                        <div style={{ display: 'grid', gap: '8px', fontSize: '14px', color: '#aaa' }}>
-                          <div>Location: <strong style={{ color: '#fff' }}>{p.route.location}</strong></div>
-                          <div>Distance: <strong style={{ color: '#fff' }}>{p.route.distance} miles</strong></div>
-                          <div>Elevation: <strong style={{ color: '#fff' }}>{p.route.elevation} ft</strong></div>
-                          <div>Trail Type: <strong style={{ color: '#fff' }}>{p.route.trailType || 'N/A'}</strong></div>
-                          <div>Difficulty: <strong style={{ color: '#fff' }}>{(p.route.difficulty || '').charAt(0).toUpperCase() + (p.route.difficulty || '').slice(1)}</strong></div>
+                        <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#000', marginBottom: '12px' }}>Route Details</h4>
+                        <div style={{ display: 'grid', gap: '8px', fontSize: '14px', color: '#666' }}>
+                          <div>Location: <strong style={{ color: '#000' }}>{p.route.location}</strong></div>
+                          <div>Distance: <strong style={{ color: '#000' }}>{p.route.distance} miles</strong></div>
+                          <div>Elevation: <strong style={{ color: '#000' }}>{p.route.elevation} ft</strong></div>
+                          <div>Trail Type: <strong style={{ color: '#000' }}>{p.route.trailType || 'N/A'}</strong></div>
+                          <div>Difficulty: <strong style={{ color: '#000' }}>{(p.route.difficulty || '').charAt(0).toUpperCase() + (p.route.difficulty || '').slice(1)}</strong></div>
                         </div>
                       </div>
 
                       {/* Water & Nutrition Section */}
                       <div style={{ marginBottom: '20px' }}>
-                        <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#000', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="M8 12h8M12 8v8"/>
                           </svg>
                           Water & Nutrition
                         </h4>
-                        <div style={{ display: 'grid', gap: '8px', fontSize: '14px', color: '#aaa' }}>
-                          <div>• Recommended Water: <strong style={{ color: '#fff' }}>{p.route.waterLiters || 2} liters</strong></div>
-                          <div>• Estimated Calories: <strong style={{ color: '#fff' }}>{p.route.caloriesNeeded || 500} kcal</strong></div>
+                        <div style={{ display: 'grid', gap: '8px', fontSize: '14px', color: '#666' }}>
+                          <div>• Recommended Water: <strong style={{ color: '#000' }}>{p.route.waterLiters || 2} liters</strong></div>
+                          <div>• Estimated Calories: <strong style={{ color: '#000' }}>{p.route.caloriesNeeded || 500} kcal</strong></div>
                           {p.route.nutritionNotes && (
-                            <div style={{ marginTop: '8px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                            <div style={{ marginTop: '8px', padding: '12px', backgroundColor: '#f9f9f9', borderRadius: '6px', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ flexShrink: 0, marginTop: '2px' }}>
                                 <circle cx="12" cy="12" r="10"/>
                                 <path d="M12 8v8M12 16h.01"/>
@@ -432,7 +432,7 @@ export default function Plans(){
                       {/* Recommended Gear Section */}
                       {p.route.recommendedGear && p.route.recommendedGear.length > 0 && (
                         <div>
-                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#000', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                               <rect x="4" y="4" width="16" height="18" rx="2"/>
                               <path d="M8 2v4M16 2v4"/>
@@ -446,9 +446,9 @@ export default function Plans(){
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
                                 padding: '12px',
-                                backgroundColor: 'rgba(255,255,255,0.02)',
+                                backgroundColor: '#f9f9f9',
                                 borderRadius: '6px',
-                                border: '1px solid rgba(255,255,255,0.06)',
+                                border: '1px solid #e5e5e5',
                                 cursor: gear.productId ? 'pointer' : 'default',
                                 transition: 'all 0.2s'
                               }}
@@ -460,10 +460,10 @@ export default function Plans(){
                                   <Badge variant={gear.priority === 'essential' ? 'danger' : gear.priority === 'recommended' ? 'warning' : 'default'}>
                                     {gear.priority}
                                   </Badge>
-                                  <span style={{ color: '#fff', fontSize: '14px' }}>{gear.name}</span>
+                                  <span style={{ color: '#000', fontSize: '14px' }}>{gear.name}</span>
                                 </div>
                                 {gear.productId && (
-                                  <span style={{ color: '#888', fontSize: '12px' }}>
+                                  <span style={{ color: '#666', fontSize: '12px' }}>
                                     View in Store →
                                   </span>
                                 )}
@@ -486,21 +486,21 @@ export default function Plans(){
                       {p.notes && (
                         <div style={{
                           fontSize: '13px',
-                          color: '#aaa',
-                          backgroundColor: 'rgba(255,255,255,0.02)',
+                          color: '#666',
+                          backgroundColor: '#f9f9f9',
                           padding: '12px',
                           borderRadius: '6px',
                           borderLeft: '3px solid rgba(255,255,255,0.1)',
                           marginTop: '20px'
                         }}>
-                          <strong style={{ color: '#fff' }}>Plan Notes:</strong> {p.notes}
+                          <strong style={{ color: '#000' }}>Plan Notes:</strong> {p.notes}
                         </div>
                       )}
 
                       {/* Gear List */}
                       {p.gearList && p.gearList.length > 0 && (
                         <div style={{ marginTop: '20px' }}>
-                          <p style={{ fontSize: '12px', color: '#888', marginBottom: '8px' }}>
+                          <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
                             Your Gear List ({p.gearList.length}):
                           </p>
                           <div style={{

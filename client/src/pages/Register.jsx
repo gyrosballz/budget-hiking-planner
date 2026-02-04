@@ -68,7 +68,7 @@ export default function Register(){
             fontSize: '24px',
             fontWeight: 700,
             margin: '0 0 24px 0',
-            color: '#fff',
+            color: '#000',
             textAlign: 'center'
           }}>
             Create Account
@@ -117,13 +117,13 @@ export default function Register(){
             marginTop: '24px',
             textAlign: 'center',
             fontSize: '14px',
-            color: '#888'
+            color: '#666'
           }}>
             Already have an account?{' '}
             <Link
               to="/login"
               style={{
-                color: '#fff',
+                color: '#000',
                 textDecoration: 'none',
                 fontWeight: 600,
                 transition: 'color 0.2s'
@@ -138,14 +138,14 @@ export default function Register(){
           <div style={{
             marginTop: '24px',
             padding: '16px',
-            borderRadius: '8px',
-            backgroundColor: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '4px',
+            backgroundColor: '#f9f9f9',
+            border: '1px solid #e5e5e5',
             fontSize: '13px',
-            color: '#888',
+            color: '#666',
             lineHeight: '1.6'
           }}>
-            <p style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#aaa' }}>
+            <p style={{ margin: '0 0 8px 0', fontWeight: 600, color: '#666' }}>
               Test Existing Accounts
             </p>
             <div style={{ display: 'grid', gap: '6px', fontSize: '12px' }}>
@@ -160,7 +160,7 @@ export default function Register(){
           marginTop: '24px',
           textAlign: 'center',
           fontSize: '13px',
-          color: '#888'
+          color: '#666'
         }}>
           <p>Join our community to discover trails and gear up for your next adventure</p>
         </div>

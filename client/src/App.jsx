@@ -48,19 +48,19 @@ export default function App(){
         return (
           <div style={{
             padding: '80px 40px',
-            color: '#fff',
+            color: '#000',
             textAlign: 'center'
           }}>
             <h2 style={{ marginBottom: '12px' }}>Something went wrong.</h2>
-            <p style={{ color: '#aaa' }}>Check the error details below or in the console.</p>
+            <p style={{ color: '#666' }}>Check the error details below or in the console.</p>
             {this.state.error && (
               <pre style={{
                 marginTop: '16px',
                 padding: '12px',
-                background: 'rgba(255,255,255,0.06)',
-                borderRadius: '8px',
+                background: '#f5f5f5',
+                borderRadius: '4px',
                 textAlign: 'left',
-                color: '#ddd',
+                color: '#333',
                 whiteSpace: 'pre-wrap'
               }}>
                 {this.state.error.message}
@@ -85,21 +85,21 @@ export default function App(){
     <BrowserRouter>
       <ErrorBoundary>
         <div style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif',
           minHeight: '100vh',
-          backgroundColor: '#000',
-          color: '#fff'
+          backgroundColor: '#ffffff',
+          color: '#000'
         }}>
           <Nav />
           <main style={{
-            paddingTop: '80px',
-            paddingLeft: '40px',
-            paddingRight: '40px',
-            paddingBottom: '40px',
-            maxWidth: '1400px',
+            paddingTop: '100px',
+            paddingLeft: '48px',
+            paddingRight: '48px',
+            paddingBottom: '80px',
+            maxWidth: '1440px',
             margin: '0 auto',
-            background: 'radial-gradient(ellipse at top, rgba(30,30,30,0.8) 0%, #000 60%)',
-            minHeight: 'calc(100vh - 60px)'
+            backgroundColor: '#ffffff',
+            minHeight: 'calc(100vh - 64px)'
           }}>
             <Routes>
               <Route path='/' element={<Home/>} />

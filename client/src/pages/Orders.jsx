@@ -136,7 +136,7 @@ export default function Orders(){
             <label style={{ 
               display: 'block', 
               fontSize: '13px', 
-              color: '#888', 
+              color: '#666', 
               marginBottom: '8px',
               fontWeight: 500
             }}>
@@ -169,7 +169,7 @@ export default function Orders(){
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  color: '#fff',
+                  color: '#000',
                   fontSize: '15px',
                   padding: '10px 0',
                   fontFamily: 'inherit',
@@ -186,7 +186,7 @@ export default function Orders(){
             <label style={{ 
               display: 'block', 
               fontSize: '13px', 
-              color: '#888', 
+              color: '#666', 
               marginBottom: '8px',
               fontWeight: 500
             }}>
@@ -198,10 +198,10 @@ export default function Orders(){
               style={{
                 width: '100%',
                 padding: '12px 16px',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 backgroundColor: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff',
+                color: '#000',
                 fontSize: '14px',
                 fontFamily: 'inherit',
                 outline: 'none',
@@ -209,12 +209,12 @@ export default function Orders(){
                 cursor: 'pointer'
               }}
             >
-              <option value="" style={{ backgroundColor: '#000', color: '#fff' }}>All Statuses</option>
-              <option value="pending" style={{ backgroundColor: '#000', color: '#fff' }}>Pending</option>
-              <option value="processing" style={{ backgroundColor: '#000', color: '#fff' }}>Processing</option>
-              <option value="shipped" style={{ backgroundColor: '#000', color: '#fff' }}>Shipped</option>
-              <option value="delivered" style={{ backgroundColor: '#000', color: '#fff' }}>Delivered</option>
-              <option value="cancelled" style={{ backgroundColor: '#000', color: '#fff' }}>Cancelled</option>
+              <option value="" style={{ backgroundColor: '#000', color: '#000' }}>All Statuses</option>
+              <option value="pending" style={{ backgroundColor: '#000', color: '#000' }}>Pending</option>
+              <option value="processing" style={{ backgroundColor: '#000', color: '#000' }}>Processing</option>
+              <option value="shipped" style={{ backgroundColor: '#000', color: '#000' }}>Shipped</option>
+              <option value="delivered" style={{ backgroundColor: '#000', color: '#000' }}>Delivered</option>
+              <option value="cancelled" style={{ backgroundColor: '#000', color: '#000' }}>Cancelled</option>
             </select>
           </div>
 
@@ -222,7 +222,7 @@ export default function Orders(){
             <label style={{ 
               display: 'block', 
               fontSize: '13px', 
-              color: '#888', 
+              color: '#666', 
               marginBottom: '8px',
               fontWeight: 500
             }}>
@@ -255,7 +255,7 @@ export default function Orders(){
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  color: '#fff',
+                  color: '#000',
                   fontSize: '15px',
                   padding: '10px 0',
                   fontFamily: 'inherit',
@@ -268,8 +268,8 @@ export default function Orders(){
                   boxShadow: 'none',
                   boxSizing: 'border-box',
                   textAlign: 'left',
-                  caretColor: '#fff',
-                  WebkitTextFillColor: '#fff',
+                  caretcolor: '#000',
+                  WebkitTextFillcolor: '#000',
                   WebkitBoxShadow: '0 0 0 1000px transparent inset',
                   filter: 'none',
                 }}
@@ -282,7 +282,7 @@ export default function Orders(){
             <label style={{ 
               display: 'block', 
               fontSize: '13px', 
-              color: '#888', 
+              color: '#666', 
               marginBottom: '8px',
               fontWeight: 500
             }}>
@@ -315,7 +315,7 @@ export default function Orders(){
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  color: '#fff',
+                  color: '#000',
                   fontSize: '15px',
                   padding: '10px 0',
                   fontFamily: 'inherit',
@@ -328,7 +328,7 @@ export default function Orders(){
                   boxShadow: 'none',
                   boxSizing: 'border-box',
                   textAlign: 'left',
-                  caretColor: '#fff',
+                  caretcolor: '#000',
                 }}
                 aria-label="To date"
               />
@@ -347,7 +347,7 @@ export default function Orders(){
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
             {(search || statusFilter || dateFrom || dateTo) && (
               <>
-                <span style={{ fontSize: '13px', color: '#888' }}>Active filters:</span>
+                <span style={{ fontSize: '13px', color: '#666' }}>Active filters:</span>
                 {search && (
                   <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => setSearch('')}>
                     ID: {search} ×
@@ -394,11 +394,11 @@ export default function Orders(){
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ color: '#888' }}>Loading orders...</p>
+          <p style={{ color: '#666' }}>Loading orders...</p>
         </div>
       ) : filteredOrders.length === 0 ? (
         <Card style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ fontSize: '16px', color: '#888', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: '#666', marginBottom: '16px' }}>
             {orders.length === 0 ? 'No orders yet' : 'No orders match your filters'}
           </p>
           <p style={{ fontSize: '13px', color: '#666', marginBottom: '16px' }}>
@@ -420,7 +420,7 @@ export default function Orders(){
         </Card>
       ) : (
         <>
-          <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
+          <div style={{ marginBottom: '16px', fontSize: '14px', color: '#666' }}>
             Showing {filteredOrders.length} of {orders.length} orders
           </div>
           <Grid columns={1} gap="16px">
@@ -437,7 +437,7 @@ export default function Orders(){
                       fontSize: '16px',
                       fontWeight: 600,
                       margin: 0,
-                      color: '#fff'
+                      color: '#000'
                     }}>
                       Order #{o._id.slice(-8)}
                     </h3>
@@ -447,19 +447,19 @@ export default function Orders(){
                   </div>
                   <div style={{
                     fontSize: '13px',
-                    color: '#888',
+                    color: '#666',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
                     gap: '12px'
                   }}>
                     <div>Placed: {formatDate(o.createdAt)}</div>
                     <div>Items: {o.items?.length || 0}</div>
-                    <div style={{ fontWeight: 600, color: '#fff' }}>
+                    <div style={{ fontWeight: 600, color: '#000' }}>
                       Total: ${o.items?.reduce((sum, it) => sum + (it.product?.price * it.qty || 0), 0).toFixed(2) || '0.00'}
                     </div>
                   </div>
                 </div>
-                <div style={{ fontSize: '18px', color: '#888' }}>
+                <div style={{ fontSize: '18px', color: '#666' }}>
                   {expandedId === o._id ? '▼' : '▶'}
                 </div>
               </div>
@@ -469,7 +469,7 @@ export default function Orders(){
                   <h4 style={{
                     fontSize: '13px',
                     fontWeight: 600,
-                    color: '#888',
+                    color: '#666',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
                     margin: '0 0 12px 0'
@@ -485,7 +485,7 @@ export default function Orders(){
                           gridTemplateColumns: '1fr auto auto',
                           gap: '12px',
                           padding: '12px',
-                          backgroundColor: 'rgba(255,255,255,0.02)',
+                          backgroundColor: '#f9f9f9',
                           borderRadius: '6px'
                         }}
                       >
@@ -493,14 +493,14 @@ export default function Orders(){
                           <p style={{
                             fontSize: '14px',
                             fontWeight: 500,
-                            color: '#fff',
+                            color: '#000',
                             margin: '0 0 4px 0'
                           }}>
                             {it.product?.name || 'Unknown Product'}
                           </p>
                           <p style={{
                             fontSize: '12px',
-                            color: '#888',
+                            color: '#666',
                             margin: 0
                           }}>
                             {it.product?.description}
@@ -509,13 +509,13 @@ export default function Orders(){
                         <div style={{ textAlign: 'right' }}>
                           <p style={{
                             fontSize: '14px',
-                            color: '#888',
+                            color: '#666',
                             margin: 0
                           }}>
                             {it.qty} × ${it.product?.price}
                           </p>
                         </div>
-                        <div style={{ textAlign: 'right', fontWeight: 600, color: '#fff' }}>
+                        <div style={{ textAlign: 'right', fontWeight: 600, color: '#000' }}>
                           ${(it.product?.price * it.qty).toFixed(2)}
                         </div>
                       </div>
@@ -528,7 +528,7 @@ export default function Orders(){
                       paddingTop: '12px',
                       borderTop: '1px solid rgba(255,255,255,0.08)',
                       fontSize: '12px',
-                      color: '#888'
+                      color: '#666'
                     }}>
                       Last updated: {formatDate(o.updatedAt)}
                     </div>

@@ -12,42 +12,43 @@ export const Button = ({
   ...props 
 }) => {
   const baseStyles = {
-    padding: size === 'sm' ? '8px 16px' : size === 'lg' ? '14px 28px' : '10px 20px',
-    fontSize: size === 'sm' ? '13px' : size === 'lg' ? '16px' : '14px',
-    fontWeight: 500,
-    border: '1px solid transparent',
-    borderRadius: '8px',
+    padding: size === 'sm' ? '8px 20px' : size === 'lg' ? '14px 32px' : '12px 28px',
+    fontSize: size === 'sm' ? '13px' : size === 'lg' ? '15px' : '14px',
+    fontWeight: 400,
+    border: '1px solid #000',
+    borderRadius: '24px',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+    transition: 'all 0.2s ease',
     opacity: disabled ? 0.5 : 1,
-    letterSpacing: '-0.3px',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+    letterSpacing: '0px',
+    boxShadow: 'none',
     outline: 'none'
   };
 
   const variants = {
     primary: {
       ...baseStyles,
-      background: 'linear-gradient(135deg, #ffffff 0%, #d9d9d9 100%)',
-      color: '#111',
-      borderColor: 'rgba(255,255,255,0.2)'
+      backgroundColor: '#000',
+      color: '#fff',
+      borderColor: '#000'
     },
     secondary: {
       ...baseStyles,
-      backgroundColor: 'rgba(255,255,255,0.08)',
-      color: '#fff',
-      border: '1px solid rgba(255,255,255,0.1)',
+      backgroundColor: '#fff',
+      color: '#000',
+      border: '1px solid #e5e5e5',
     },
     outline: {
       ...baseStyles,
       backgroundColor: 'transparent',
-      color: '#fff',
-      border: '1px solid rgba(255,255,255,0.2)',
+      color: '#000',
+      border: '1px solid #e5e5e5',
     },
     danger: {
       ...baseStyles,
-      background: 'linear-gradient(135deg, #ff5f5f 0%, #d93a3a 100%)',
+      backgroundColor: '#ff4444',
       color: '#fff',
+      borderColor: '#ff4444'
     }
   };
 
@@ -59,28 +60,19 @@ export const Button = ({
       onMouseEnter={(e) => {
         if (!disabled) {
           if (variant === 'primary') {
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 12px 28px rgba(0,0,0,0.4)';
+            e.currentTarget.style.backgroundColor = '#333';
           } else if (variant === 'secondary') {
-            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.12)';
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 12px 28px rgba(0,0,0,0.35)';
+            e.currentTarget.style.backgroundColor = '#f5f5f5';
           } else if (variant === 'outline') {
-            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 12px 28px rgba(0,0,0,0.35)';
+            e.currentTarget.style.backgroundColor = '#f9f9f9';
           } else if (variant === 'danger') {
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 12px 28px rgba(0,0,0,0.4)';
+            e.currentTarget.style.backgroundColor = '#e03030';
           }
         }
       }}
       onMouseLeave={(e) => {
         if (!disabled) {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = baseStyles.boxShadow;
           const style = variants[variant];
-          e.currentTarget.style.background = style.background;
           e.currentTarget.style.backgroundColor = style.backgroundColor;
         }
       }}
@@ -97,24 +89,20 @@ export const Card = ({ children, padding = '24px', hover = true, ...props }) => 
     <div
       style={{
         padding,
-        borderRadius: '12px',
-        backgroundColor: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        borderRadius: '0px',
+        backgroundColor: '#ffffff',
+        border: '1px solid #e5e5e5',
+        transition: 'all 0.2s ease',
         cursor: hover ? 'pointer' : 'default',
       }}
       onMouseEnter={(e) => {
         if (hover) {
-          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.06)';
-          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
-          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.borderColor = '#ccc';
         }
       }}
       onMouseLeave={(e) => {
         if (hover) {
-          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)';
-          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.borderColor = '#e5e5e5';
         }
       }}
       {...props}
@@ -139,11 +127,11 @@ export const Input = ({
       {label && (
         <label style={{
           display: 'block',
-          fontSize: '14px',
-          fontWeight: 500,
+          fontSize: '13px',
+          fontWeight: 400,
           marginBottom: '8px',
-          color: '#fff',
-          letterSpacing: '-0.2px'
+          color: '#666',
+          letterSpacing: '0px'
         }}>
           {label}
         </label>
@@ -156,10 +144,10 @@ export const Input = ({
         style={{
           width: '100%',
           padding: '12px 16px',
-          borderRadius: '8px',
-          backgroundColor: 'rgba(255,255,255,0.05)',
-          border: error ? '1px solid #ff4444' : '1px solid rgba(255,255,255,0.1)',
-          color: '#fff',
+          borderRadius: '4px',
+          backgroundColor: '#fff',
+          border: error ? '1px solid #ff4444' : '1px solid #e5e5e5',
+          color: '#000',
           fontSize: '14px',
           fontFamily: 'inherit',
           transition: 'all 0.2s',
@@ -167,12 +155,10 @@ export const Input = ({
           boxSizing: 'border-box'
         }}
         onFocus={(e) => {
-          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)';
-          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+          e.currentTarget.style.borderColor = '#000';
         }}
         onBlur={(e) => {
-          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
-          e.currentTarget.style.borderColor = error ? '#ff4444' : 'rgba(255,255,255,0.1)';
+          e.currentTarget.style.borderColor = error ? '#ff4444' : '#e5e5e5';
         }}
         {...props}
       />
@@ -194,11 +180,11 @@ export const Select = ({
       {label && (
         <label style={{
           display: 'block',
-          fontSize: '14px',
-          fontWeight: 500,
+          fontSize: '13px',
+          fontWeight: 400,
           marginBottom: '8px',
-          color: '#fff',
-          letterSpacing: '-0.2px'
+          color: '#666',
+          letterSpacing: '0px'
         }}>
           {label}
         </label>
@@ -209,10 +195,10 @@ export const Select = ({
         style={{
           width: '100%',
           padding: '12px 16px',
-          borderRadius: '8px',
-          backgroundColor: 'rgba(255,255,255,0.05)',
-          border: error ? '1px solid #ff4444' : '1px solid rgba(255,255,255,0.1)',
-          color: '#fff',
+          borderRadius: '4px',
+          backgroundColor: '#fff',
+          border: error ? '1px solid #ff4444' : '1px solid #e5e5e5',
+          color: '#000',
           fontSize: '14px',
           fontFamily: 'inherit',
           transition: 'all 0.2s',
@@ -223,7 +209,7 @@ export const Select = ({
         {...props}
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value} style={{ backgroundColor: '#000', color: '#fff' }}>
+          <option key={opt.value} value={opt.value} style={{ backgroundColor: '#fff', color: '#000' }}>
             {opt.label}
           </option>
         ))}
@@ -235,11 +221,11 @@ export const Select = ({
 // Small colored label for status indicators and tags
 export const Badge = ({ children, variant = 'default', ...props }) => {
   const variants = {
-    default: { backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff' },
-    success: { backgroundColor: 'rgba(68,204,85,0.2)', color: '#44cc55' },
-    warning: { backgroundColor: 'rgba(255,170,0,0.2)', color: '#ffaa00' },
-    danger: { backgroundColor: 'rgba(255,68,68,0.2)', color: '#ff4444' },
-    primary: { backgroundColor: 'rgba(100,200,255,0.2)', color: '#64c8ff' }
+    default: { backgroundColor: '#f5f5f5', color: '#666' },
+    success: { backgroundColor: '#f0f9f0', color: '#2d7a2d' },
+    warning: { backgroundColor: '#fff8e6', color: '#996600' },
+    danger: { backgroundColor: '#ffebee', color: '#c62828' },
+    primary: { backgroundColor: '#e3f2fd', color: '#1976d2' }
   };
 
   return (
@@ -247,10 +233,11 @@ export const Badge = ({ children, variant = 'default', ...props }) => {
       style={{
         display: 'inline-block',
         padding: '4px 12px',
-        borderRadius: '6px',
-        fontSize: '12px',
-        fontWeight: 600,
-        letterSpacing: '-0.2px',
+        borderRadius: '4px',
+        fontSize: '11px',
+        fontWeight: 500,
+        letterSpacing: '0.5px',
+        textTransform: 'uppercase',
         ...variants[variant]
       }}
       {...props}
@@ -263,29 +250,29 @@ export const Badge = ({ children, variant = 'default', ...props }) => {
 // Page section wrapper with optional title and subtitle
 export const Section = ({ title, subtitle, children, ...props }) => {
   return (
-    <section style={{ marginBottom: '60px' }} {...props}>
+    <section style={{ marginBottom: '80px' }} {...props}>
       {(title || subtitle) && (
-        <div style={{ marginBottom: '40px', textAlign: 'center' }}>
+        <div style={{ marginBottom: '48px', textAlign: 'left' }}>
           {title && (
-            <h2 style={{
-              fontSize: '40px',
+            <h1 style={{
+              fontSize: '56px',
               fontWeight: 700,
-              letterSpacing: '-1px',
-              marginBottom: '12px',
-              background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              letterSpacing: '0px',
+              marginBottom: '16px',
+              color: '#000',
+              lineHeight: 1.1
             }}>
               {title}
-            </h2>
+            </h1>
           )}
           {subtitle && (
             <p style={{
-              fontSize: '16px',
-              color: '#888',
+              fontSize: '18px',
+              color: '#666',
               maxWidth: '600px',
-              margin: '0 auto',
-              letterSpacing: '-0.2px'
+              margin: '0',
+              letterSpacing: '0px',
+              lineHeight: 1.6
             }}>
               {subtitle}
             </p>
@@ -324,7 +311,7 @@ export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.6)',
+      backgroundColor: 'rgba(0,0,0,0.4)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -332,13 +319,13 @@ export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
       backdropFilter: 'blur(4px)'
     }}>
       <div style={{
-        backgroundColor: '#0a0a0a',
-        borderRadius: '12px',
-        border: '1px solid rgba(255,255,255,0.08)',
+        backgroundColor: '#ffffff',
+        borderRadius: '4px',
+        border: '1px solid #e5e5e5',
         padding: '32px',
         maxWidth: '500px',
         width: '90%',
-        boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+        boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
       }}>
         <div style={{
           display: 'flex',
@@ -349,9 +336,10 @@ export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
           {title && (
             <h3 style={{
               fontSize: '24px',
-              fontWeight: 700,
+              fontWeight: 600,
               margin: 0,
-              letterSpacing: '-0.5px'
+              letterSpacing: '0px',
+              color: '#000'
             }}>
               {title}
             </h3>
@@ -361,7 +349,7 @@ export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
             style={{
               background: 'none',
               border: 'none',
-              color: '#888',
+              color: '#666',
               fontSize: '24px',
               cursor: 'pointer',
               padding: '0',
@@ -371,8 +359,8 @@ export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
               alignItems: 'center',
               justifyContent: 'center'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#888'}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#000'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
           >
             ×
           </button>
@@ -386,10 +374,10 @@ export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
 // Alert message box with success, error, warning, and info variants
 export const Alert = ({ type = 'info', message, children, onClose = () => {}, ...props }) => {
   const types = {
-    success: { bg: 'rgba(68,204,85,0.15)', border: '#44cc55', color: '#44cc55', icon: '✓' },
-    error: { bg: 'rgba(255,68,68,0.15)', border: '#ff4444', color: '#ff4444', icon: '!' },
-    warning: { bg: 'rgba(255,170,0,0.15)', border: '#ffaa00', color: '#ffaa00', icon: '⚠' },
-    info: { bg: 'rgba(100,200,255,0.15)', border: '#64c8ff', color: '#64c8ff', icon: 'ⓘ' }
+    success: { bg: '#f0f9f0', border: '#2d7a2d', color: '#2d7a2d', icon: '✓' },
+    error: { bg: '#ffebee', border: '#c62828', color: '#c62828', icon: '!' },
+    warning: { bg: '#fff8e6', border: '#996600', color: '#996600', icon: '⚠' },
+    info: { bg: '#e3f2fd', border: '#1976d2', color: '#1976d2', icon: 'ⓘ' }
   };
 
   const config = types[type];
@@ -397,7 +385,7 @@ export const Alert = ({ type = 'info', message, children, onClose = () => {}, ..
   return (
     <div style={{
       padding: '16px 20px',
-      borderRadius: '8px',
+      borderRadius: '4px',
       backgroundColor: config.bg,
       borderLeft: `4px solid ${config.border}`,
       display: 'flex',
@@ -409,7 +397,7 @@ export const Alert = ({ type = 'info', message, children, onClose = () => {}, ..
       <span style={{ color: config.color, fontSize: '18px', fontWeight: 'bold' }}>
         {config.icon}
       </span>
-      <span style={{ color: '#fff', flex: 1, fontSize: '14px' }}>
+      <span style={{ color: config.color, flex: 1, fontSize: '14px' }}>
         {message || children}
       </span>
       <button
@@ -417,10 +405,11 @@ export const Alert = ({ type = 'info', message, children, onClose = () => {}, ..
         style={{
           background: 'none',
           border: 'none',
-          color: '#888',
+          color: config.color,
           cursor: 'pointer',
           fontSize: '18px',
-          padding: '0'
+          padding: '0',
+          opacity: 0.6
         }}
       >
         ×
@@ -433,7 +422,7 @@ export const Alert = ({ type = 'info', message, children, onClose = () => {}, ..
 export const Divider = (props) => (
   <hr style={{
     border: 'none',
-    borderTop: '1px solid rgba(255,255,255,0.08)',
+    borderTop: '1px solid #e5e5e5',
     margin: '32px 0',
     ...props.style
   }} />

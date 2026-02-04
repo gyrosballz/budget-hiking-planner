@@ -51,9 +51,9 @@ export default function Routes(){
       <div style={{
         marginBottom: '40px',
         padding: '24px',
-        borderRadius: '12px',
-        backgroundColor: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.06)'
+        borderRadius: '0px',
+        backgroundColor: '#ffffff',
+        border: '1px solid #e5e5e5'
       }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
           <Input
@@ -79,11 +79,11 @@ export default function Routes(){
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ color: '#888' }}>Loading routes...</p>
+          <p style={{ color: '#000' }}>Loading routes...</p>
         </div>
       ) : routes.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ color: '#888' }}>No routes found. Try different search parameters.</p>
+          <p style={{ color: '#000' }}>No routes found. Try different search parameters.</p>
         </div>
       ) : (
         <Grid columns={1} gap="24px">
@@ -93,11 +93,11 @@ export default function Routes(){
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
                     <h3 style={{
-                      fontSize: '22px',
-                      fontWeight: 700,
+                      fontSize: '20px',
+                      fontWeight: 600,
                       margin: 0,
-                      letterSpacing: '-0.5px',
-                      color: '#fff',
+                      letterSpacing: '0px',
+                      color: '#000',
                       cursor: 'pointer'
                     }}
                     onClick={() => setExpandedRoute(expandedRoute === r._id ? null : r._id)}
@@ -110,9 +110,9 @@ export default function Routes(){
                   </div>
                   <p style={{
                     fontSize: '14px',
-                    color: '#888',
+                    color: '#000',
                     marginBottom: '12px',
-                    letterSpacing: '-0.2px'
+                    letterSpacing: '0px'
                   }}>
                     {r.description}
                   </p>
@@ -121,7 +121,7 @@ export default function Routes(){
                     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
                     gap: '16px',
                     fontSize: '13px',
-                    color: '#888'
+                    color: '#000'
                   }}>
                     <div>Location: {r.location}</div>
                     <div>Distance: {r.distance} miles</div>
@@ -132,7 +132,7 @@ export default function Routes(){
                   </div>
                   {r.features && r.features.length > 0 && (
                     <div style={{ marginTop: '12px' }}>
-                      <div style={{ fontSize: '12px', color: '#888', marginBottom: '8px' }}>Features:</div>
+                      <div style={{ fontSize: '12px', color: '#000', marginBottom: '8px' }}>Features:</div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                         {r.features.map((f, i) => (
                           <Badge key={i} variant="primary">
@@ -148,9 +148,9 @@ export default function Routes(){
                     <div style={{
                       marginTop: '20px',
                       padding: '20px',
-                      borderRadius: '8px',
-                      backgroundColor: 'rgba(255,255,255,0.03)',
-                      border: '1px solid rgba(255,255,255,0.08)'
+                      borderRadius: '0px',
+                      backgroundColor: '#f9f9f9',
+                      border: '1px solid #e5e5e5'
                     }}>
                       {/* Water & Nutrition Section */}
                       <div style={{ marginBottom: '20px' }}>
@@ -161,11 +161,11 @@ export default function Routes(){
                           </svg>
                           Water & Nutrition
                         </h4>
-                        <div style={{ display: 'grid', gap: '8px', fontSize: '14px', color: '#aaa' }}>
-                          <div>• Recommended Water: <strong style={{ color: '#fff' }}>{r.waterLiters || 2} liters</strong></div>
-                          <div>• Estimated Calories: <strong style={{ color: '#fff' }}>{r.caloriesNeeded || 500} kcal</strong></div>
+                        <div style={{ display: 'grid', gap: '8px', fontSize: '14px', color: '#000' }}>
+                          <div>• Recommended Water: <strong style={{ color: '#000' }}>{r.waterLiters || 2} liters</strong></div>
+                          <div>• Estimated Calories: <strong style={{ color: '#000' }}>{r.caloriesNeeded || 500} kcal</strong></div>
                           {r.nutritionNotes && (
-                            <div style={{ marginTop: '8px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                            <div style={{ marginTop: '8px', padding: '12px', backgroundColor: '#ffffff', borderRadius: '4px', display: 'flex', alignItems: 'flex-start', gap: '8px', border: '1px solid #e5e5e5' }}>
                               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ flexShrink: 0, marginTop: '2px' }}>
                                 <circle cx="12" cy="12" r="10"/>
                                 <path d="M12 8v8M12 16h.01"/>
@@ -179,7 +179,7 @@ export default function Routes(){
                       {/* Recommended Gear Section */}
                       {r.recommendedGear && r.recommendedGear.length > 0 && (
                         <div>
-                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <h4 style={{ fontSize: '16px', fontWeight: 600, color: '#000', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                               <rect x="4" y="4" width="16" height="18" rx="2"/>
                               <path d="M8 2v4M16 2v4"/>
@@ -193,24 +193,24 @@ export default function Routes(){
                                 justifyContent: 'space-between',
                                 alignItems: 'center',
                                 padding: '12px',
-                                backgroundColor: 'rgba(255,255,255,0.02)',
-                                borderRadius: '6px',
-                                border: '1px solid rgba(255,255,255,0.06)',
+                                backgroundColor: '#ffffff',
+                                borderRadius: '4px',
+                                border: '1px solid #e5e5e5',
                                 cursor: gear.productId ? 'pointer' : 'default',
                                 transition: 'all 0.2s'
                               }}
                               onClick={() => gear.productId && navigate('/store')}
-                              onMouseEnter={(e) => gear.productId && (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)')}
-                              onMouseLeave={(e) => gear.productId && (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)')}
+                              onMouseEnter={(e) => gear.productId && (e.currentTarget.style.backgroundColor = '#f9f9f9')}
+                              onMouseLeave={(e) => gear.productId && (e.currentTarget.style.backgroundColor = '#ffffff')}
                               >
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                   <Badge variant={gear.priority === 'essential' ? 'danger' : gear.priority === 'recommended' ? 'warning' : 'default'}>
                                     {gear.priority}
                                   </Badge>
-                                  <span style={{ color: '#fff', fontSize: '14px' }}>{gear.name}</span>
+                                  <span style={{ color: '#000', fontSize: '14px' }}>{gear.name}</span>
                                 </div>
                                 {gear.productId && (
-                                  <span style={{ color: '#888', fontSize: '12px' }}>
+                                  <span style={{ color: '#666', fontSize: '12px' }}>
                                     View in Store →
                                   </span>
                                 )}
@@ -234,18 +234,18 @@ export default function Routes(){
                 <div style={{
                   textAlign: 'center',
                   padding: '20px',
-                  borderRadius: '8px',
-                  backgroundColor: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '4px',
+                  backgroundColor: '#f9f9f9',
+                  border: '1px solid #e5e5e5',
                   minWidth: '120px'
                 }}>
-                  <div style={{ fontSize: '24px', fontWeight: 700, color: '#fff', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                  <div style={{ fontSize: '24px', fontWeight: 700, color: '#000', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <polygon points="12,2 15,10 23,10 17,15 19,23 12,18 5,23 7,15 1,10 9,10"/>
                     </svg>
                     {r.rating}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#888' }}>
+                  <div style={{ fontSize: '12px', color: '#666' }}>
                     {r.reviews} reviews
                   </div>
                 </div>

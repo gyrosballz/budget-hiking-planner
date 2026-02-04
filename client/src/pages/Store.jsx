@@ -11,6 +11,8 @@ export default function Store(){
   const [priceFilter, setPriceFilter] = useState('')
   const [stockFilter, setStockFilter] = useState('')
   const [sortBy, setSortBy] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('')
+  const [iconCategoryFilter, setIconCategoryFilter] = useState('')
   const [success, setSuccess] = useState('')
   const [addError, setAddError] = useState('')
   const [quantities, setQuantities] = useState({})
@@ -70,6 +72,37 @@ export default function Store(){
       )
     }
 
+    // Category filter
+    if (categoryFilter) {
+      filtered = filtered.filter(p => 
+        p.name.toLowerCase().includes(categoryFilter.toLowerCase())
+      )
+    }
+
+    // Icon category filter
+    if (iconCategoryFilter) {
+      if (iconCategoryFilter.toLowerCase() === 'accessories') {
+        // Show items that don't match other specific categories
+        filtered = filtered.filter(p => {
+          const name = p.name.toLowerCase();
+          return !name.includes('tent') && 
+                 !name.includes('sleeping') && 
+                 !name.includes('bag') && 
+                 !name.includes('stove') && 
+                 !name.includes('cooking') && 
+                 !name.includes('kitchen') && 
+                 !name.includes('pot') && 
+                 !name.includes('pan') && 
+                 !name.includes('backpack') && 
+                 !name.includes('pack');
+        });
+      } else {
+        filtered = filtered.filter(p => 
+          p.name.toLowerCase().includes(iconCategoryFilter.toLowerCase())
+        );
+      }
+    }
+
     // Price filter
     if (priceFilter) {
       switch (priceFilter) {
@@ -111,7 +144,7 @@ export default function Store(){
     }
 
     return filtered
-  }, [products, search, priceFilter, stockFilter, sortBy])
+  }, [products, search, priceFilter, stockFilter, sortBy, categoryFilter, iconCategoryFilter])
 
   // Adds product to cart with quantity validation and stock checking
   const add = async (id) => {
@@ -154,6 +187,155 @@ export default function Store(){
       {addError && <Alert type="error" style={{ marginBottom: '20px' }}>{addError}</Alert>}
       {success && <Alert type="success" style={{ marginBottom: '20px' }}>{success}</Alert>}
       
+      {/* Category Icon Grid */}
+      <div style={{ 
+        marginBottom: '32px', 
+        padding: '24px',
+        backgroundColor: '#f9f9f9',
+        borderRadius: '4px'
+      }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+          gap: '16px'
+        }}>
+          {[
+            { name: 'Tent', keywords: ['tent'], icon: (
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M20 8L8 30H32L20 8Z" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                <path d="M20 8V30" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            )},
+            { name: 'Sleeping', keywords: ['sleeping', 'bag'], icon: (
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect x="8" y="18" width="24" height="8" rx="2" stroke="#000" strokeWidth="1.5" fill="none"/>
+                <path d="M8 22H32" stroke="#000" strokeWidth="1.5"/>
+                <circle cx="28" cy="22" r="2" fill="#000"/>
+              </svg>
+            )},
+            { name: 'Kitchen', keywords: ['stove', 'cooking', 'kitchen', 'pot', 'pan'], icon: (
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="22" r="8" stroke="#000" strokeWidth="1.5" fill="none"/>
+                <path d="M12 22H28M20 14V10" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
+                <rect x="18" y="8" width="4" height="4" rx="1" stroke="#000" strokeWidth="1.5" fill="none"/>
+              </svg>
+            )},
+            { name: 'Backpack', keywords: ['backpack', 'bag', 'pack'], icon: (
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M12 16L10 30H30L28 16H12Z" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                <path d="M16 16V14C16 11.7909 17.7909 10 20 10C22.2091 10 24 11.7909 24 14V16" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            )},
+            { name: 'Accessories', keywords: ['accessories', 'gear', 'equipment'], icon: (
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="8" stroke="#000" strokeWidth="1.5" fill="none"/>
+                <path d="M20 12V8M20 32V28M28 20H32M8 20H12" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            )}
+          ].map((cat, idx) => {
+            const isActive = cat.keywords.some(keyword => 
+              iconCategoryFilter.toLowerCase() === keyword.toLowerCase()
+            );
+            return (
+              <button
+                key={idx}
+                onClick={() => {
+                  if (isActive) {
+                    setIconCategoryFilter('');
+                  } else {
+                    setIconCategoryFilter(cat.keywords[0]);
+                    setCategoryFilter(''); // Clear pill filter when icon is clicked
+                  }
+                }}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '16px 8px',
+                  backgroundColor: isActive ? '#000' : '#fff',
+                  border: '1px solid #e5e5e5',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  outline: 'none',
+                  fontFamily: 'inherit'
+                }}
+                onMouseEnter={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.borderColor = '#000'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.borderColor = '#e5e5e5'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }
+                }}
+              >
+                <div style={{ marginBottom: '8px' }}>
+                  <div style={{ filter: isActive ? 'brightness(0) invert(1)' : 'none' }}>
+                    {cat.icon}
+                  </div>
+                </div>
+                <div style={{ 
+                  fontSize: '12px', 
+                  color: isActive ? '#fff' : '#000', 
+                  fontWeight: 400,
+                  textAlign: 'center',
+                  letterSpacing: '0px'
+                }}>
+                  {cat.name}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      
+      {/* Category Filter Pills */}
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{ 
+          display: 'flex', 
+          gap: '12px', 
+          flexWrap: 'wrap',
+          alignItems: 'center'
+        }}>
+          {['Original Tent', 'One Touch Tent', 'One Pole Tent', 'Shelter Tent'].map(category => (
+            <button
+              key={category}
+              onClick={() => setCategoryFilter(categoryFilter === category ? '' : category)}
+              style={{
+                padding: '10px 20px',
+                borderRadius: '24px',
+                border: '1px solid #e5e5e5',
+                backgroundColor: categoryFilter === category ? '#000' : '#fff',
+                color: categoryFilter === category ? '#fff' : '#000',
+                fontSize: '14px',
+                fontWeight: 400,
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                letterSpacing: '0px',
+                outline: 'none',
+                fontFamily: 'inherit'
+              }}
+              onMouseEnter={e => {
+                if (categoryFilter !== category) {
+                  e.target.style.borderColor = '#999'
+                }
+              }}
+              onMouseLeave={e => {
+                if (categoryFilter !== category) {
+                  e.target.style.borderColor = '#e5e5e5'
+                }
+              }}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Search and Filter Controls */}
       <Card style={{ marginBottom: '32px', padding: '20px' }}>
         <div style={{ 
@@ -175,19 +357,18 @@ export default function Store(){
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              background: 'rgba(255,255,255,0.07)',
-              borderRadius: '24px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              background: '#fff',
+              borderRadius: '4px',
+              border: '1px solid #e5e5e5',
               padding: '2px 12px 2px 8px',
-              border: '1px solid rgba(255,255,255,0.13)',
-              transition: 'box-shadow 0.2s',
+              transition: 'border-color 0.2s',
               marginBottom: 0,
               minHeight: '44px',
               position: 'relative',
             }}>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
-                <circle cx="9" cy="9" r="7" stroke="#bbb" strokeWidth="2" />
-                <line x1="14.2" y1="14.2" x2="18" y2="18" stroke="#bbb" strokeWidth="2" strokeLinecap="round" />
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.5}}>
+                <circle cx="9" cy="9" r="7" stroke="#666" strokeWidth="2" />
+                <line x1="14.2" y1="14.2" x2="18" y2="18" stroke="#666" strokeWidth="2" strokeLinecap="round" />
               </svg>
               <input
                 type="text"
@@ -199,12 +380,12 @@ export default function Store(){
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  color: '#fff',
-                  fontSize: '15px',
+                  color: '#000',
+                  fontSize: '14px',
                   padding: '10px 0',
                   fontFamily: 'inherit',
-                  letterSpacing: '-0.2px',
-                  borderRadius: '24px',
+                  letterSpacing: '0px',
+                  borderRadius: '4px',
                   transition: 'background 0.2s',
                 }}
                 aria-label="Search products"
@@ -216,9 +397,9 @@ export default function Store(){
             <label style={{ 
               display: 'block', 
               fontSize: '13px', 
-              color: '#888', 
+              color: '#666', 
               marginBottom: '8px',
-              fontWeight: 500
+              fontWeight: 400
             }}>
               Price Range
             </label>
@@ -228,10 +409,10 @@ export default function Store(){
               style={{
                 width: '100%',
                 padding: '12px 16px',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff',
+                borderRadius: '4px',
+                backgroundColor: '#fff',
+                border: '1px solid #e5e5e5',
+                color: '#000',
                 fontSize: '14px',
                 fontFamily: 'inherit',
                 outline: 'none',
@@ -239,10 +420,10 @@ export default function Store(){
                 cursor: 'pointer'
               }}
             >
-              <option value="" style={{ backgroundColor: '#000', color: '#fff' }}>All Prices</option>
-              <option value="budget" style={{ backgroundColor: '#000', color: '#fff' }}>Budget (&lt;$50)</option>
-              <option value="mid" style={{ backgroundColor: '#000', color: '#fff' }}>Mid ($50-$100)</option>
-              <option value="premium" style={{ backgroundColor: '#000', color: '#fff' }}>Premium (&gt;$100)</option>
+              <option value="" style={{ backgroundColor: '#fff', color: '#000' }}>All Prices</option>
+              <option value="budget" style={{ backgroundColor: '#fff', color: '#000' }}>Budget (&lt;$50)</option>
+              <option value="mid" style={{ backgroundColor: '#fff', color: '#000' }}>Mid ($50-$100)</option>
+              <option value="premium" style={{ backgroundColor: '#fff', color: '#000' }}>Premium (&gt;$100)</option>
             </select>
           </div>
 
@@ -250,9 +431,9 @@ export default function Store(){
             <label style={{ 
               display: 'block', 
               fontSize: '13px', 
-              color: '#888', 
+              color: '#666', 
               marginBottom: '8px',
-              fontWeight: 500
+              fontWeight: 400
             }}>
               Stock Status
             </label>
@@ -262,10 +443,10 @@ export default function Store(){
               style={{
                 width: '100%',
                 padding: '12px 16px',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff',
+                borderRadius: '4px',
+                backgroundColor: '#fff',
+                border: '1px solid #e5e5e5',
+                color: '#000',
                 fontSize: '14px',
                 fontFamily: 'inherit',
                 outline: 'none',
@@ -273,9 +454,9 @@ export default function Store(){
                 cursor: 'pointer'
               }}
             >
-              <option value="" style={{ backgroundColor: '#000', color: '#fff' }}>All Items</option>
-              <option value="in-stock" style={{ backgroundColor: '#000', color: '#fff' }}>In Stock</option>
-              <option value="out-of-stock" style={{ backgroundColor: '#000', color: '#fff' }}>Out of Stock</option>
+              <option value="" style={{ backgroundColor: '#fff', color: '#000' }}>All Items</option>
+              <option value="in-stock" style={{ backgroundColor: '#fff', color: '#000' }}>In Stock</option>
+              <option value="out-of-stock" style={{ backgroundColor: '#fff', color: '#000' }}>Out of Stock</option>
             </select>
           </div>
 
@@ -283,9 +464,9 @@ export default function Store(){
             <label style={{ 
               display: 'block', 
               fontSize: '13px', 
-              color: '#888', 
+              color: '#666', 
               marginBottom: '8px',
-              fontWeight: 500
+              fontWeight: 400
             }}>
               Sort By
             </label>
@@ -295,10 +476,10 @@ export default function Store(){
               style={{
                 width: '100%',
                 padding: '12px 16px',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff',
+                borderRadius: '4px',
+                backgroundColor: '#fff',
+                border: '1px solid #e5e5e5',
+                color: '#000',
                 fontSize: '14px',
                 fontFamily: 'inherit',
                 outline: 'none',
@@ -306,21 +487,31 @@ export default function Store(){
                 cursor: 'pointer'
               }}
             >
-              <option value="" style={{ backgroundColor: '#000', color: '#fff' }}>Default</option>
-              <option value="price-low" style={{ backgroundColor: '#000', color: '#fff' }}>Price: Low to High</option>
-              <option value="price-high" style={{ backgroundColor: '#000', color: '#fff' }}>Price: High to Low</option>
-              <option value="name" style={{ backgroundColor: '#000', color: '#fff' }}>Name (A-Z)</option>
-              <option value="newest" style={{ backgroundColor: '#000', color: '#fff' }}>Newest First</option>
+              <option value="" style={{ backgroundColor: '#fff', color: '#000' }}>Default</option>
+              <option value="price-low" style={{ backgroundColor: '#fff', color: '#000' }}>Price: Low to High</option>
+              <option value="price-high" style={{ backgroundColor: '#fff', color: '#000' }}>Price: High to Low</option>
+              <option value="name" style={{ backgroundColor: '#fff', color: '#000' }}>Name (A-Z)</option>
+              <option value="newest" style={{ backgroundColor: '#fff', color: '#000' }}>Newest First</option>
             </select>
           </div>
         </div>
 
-        {(search || priceFilter || stockFilter || sortBy) && (
+        {(search || priceFilter || stockFilter || sortBy || categoryFilter || iconCategoryFilter) && (
           <div style={{ marginTop: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ fontSize: '13px', color: '#888' }}>Active filters:</span>
+            <span style={{ fontSize: '13px', color: '#666' }}>Active filters:</span>
             {search && (
               <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => setSearch('')}>
                 Search: {search} ×
+              </Badge>
+            )}
+            {iconCategoryFilter && (
+              <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => setIconCategoryFilter('')}>
+                Category: {iconCategoryFilter} ×
+              </Badge>
+            )}
+            {categoryFilter && (
+              <Badge variant="primary" style={{ cursor: 'pointer' }} onClick={() => setCategoryFilter('')}>
+                Type: {categoryFilter} ×
               </Badge>
             )}
             {priceFilter && (
@@ -343,6 +534,8 @@ export default function Store(){
               size="sm" 
               onClick={() => {
                 setSearch('')
+                setCategoryFilter('')
+                setIconCategoryFilter('')
                 setPriceFilter('')
                 setStockFilter('')
                 setSortBy('')
@@ -356,16 +549,18 @@ export default function Store(){
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <p style={{ color: '#888', fontSize: '16px' }}>Loading products...</p>
+          <p style={{ color: '#666', fontSize: '16px' }}>Loading products...</p>
         </div>
       ) : filteredProducts.length === 0 ? (
         <Card style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <p style={{ color: '#888', fontSize: '16px', marginBottom: '8px' }}>
+          <p style={{ color: '#666', fontSize: '16px', marginBottom: '8px' }}>
             {products.length === 0 ? 'No products available' : 'No products match your filters'}
           </p>
           {(search || priceFilter || stockFilter) && (
             <Button variant="outline" size="sm" onClick={() => {
               setSearch('')
+              setCategoryFilter('')
+              setIconCategoryFilter('')
               setPriceFilter('')
               setStockFilter('')
               setSortBy('')
@@ -376,20 +571,36 @@ export default function Store(){
         </Card>
       ) : (
         <>
-          <div style={{ marginBottom: '16px', fontSize: '14px', color: '#888' }}>
+          <div style={{ marginBottom: '16px', fontSize: '14px', color: '#666' }}>
             Showing {filteredProducts.length} of {products.length} products
           </div>
-          <Grid columns={3} gap="24px">
+          <Grid columns={4} gap="20px">
             {filteredProducts.map(p => (
-              <Card key={p._id} style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+              <Card key={p._id} style={{ 
+                overflow: 'hidden', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                padding: '0', 
+                border: '1px solid #e5e5e5', 
+                borderRadius: '0',
+                transition: 'transform 0.2s, box-shadow 0.2s'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-4px)'
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+              >
                 {p.imageUrl && (
                   <div style={{
                     width: '100%',
-                    height: '200px',
+                    height: '300px',
                     overflow: 'hidden',
-                    marginBottom: '16px',
-                    borderRadius: '8px',
-                    backgroundColor: 'rgba(255,255,255,0.05)'
+                    backgroundColor: '#f9f9f9',
+                    position: 'relative'
                   }}>
                     <img
                       src={p.imageUrl}
@@ -397,87 +608,117 @@ export default function Store(){
                       style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                        objectFit: 'cover'
                       }}
-                      onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
-                      onMouseLeave={e => e.target.style.transform = 'scale(1)'}
                     />
                   </div>
                 )}
-                <div style={{ marginBottom: '16px' }}>
-                  <Badge variant={p.stock > 0 ? 'success' : 'danger'}>
-                    {p.stock > 0 ? 'In Stock' : 'Out of Stock'}
-                  </Badge>
-                </div>
-                <h3 style={{
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  marginBottom: '12px',
-                  letterSpacing: '-0.3px',
-                  color: '#fff'
-                }}>
-                  {p.name}
-                </h3>
-                <p style={{
-                  fontSize: '13px',
-                  color: '#888',
-                  marginBottom: '16px',
-                  minHeight: '36px',
-                  flex: 1
-                }}>
-                  {p.description || 'Quality hiking gear perfect for your trips'}
-                </p>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginBottom: '20px',
-                  paddingBottom: '16px',
-                  borderBottom: '1px solid rgba(255,255,255,0.06)'
-                }}>
-                  <span style={{
-                    fontSize: '28px',
-                    fontWeight: 700,
-                    color: '#fff',
-                    letterSpacing: '-0.5px'
+                <div style={{ padding: '16px' }}>
+                  <div style={{ marginBottom: '8px' }}>
+                    <Badge variant="default" style={{ 
+                      fontSize: '10px', 
+                      textTransform: 'uppercase', 
+                      letterSpacing: '1px',
+                      padding: '4px 8px'
+                    }}>
+                      TENT
+                    </Badge>
+                  </div>
+                  <h3 style={{
+                    fontSize: '14px',
+                    fontWeight: 400,
+                    marginBottom: '8px',
+                    letterSpacing: '0px',
+                    color: '#000',
+                    lineHeight: 1.4,
+                    minHeight: '40px'
                   }}>
-                    ${p.price}
-                  </span>
-                  <span style={{
-                    fontSize: '13px',
-                    color: '#888'
+                    {p.name}
+                  </h3>
+                  
+                  {/* Color Swatches */}
+                  <div style={{ 
+                    display: 'flex', 
+                    gap: '6px', 
+                    marginBottom: '12px',
+                    alignItems: 'center' 
                   }}>
-                    Stock: <strong style={{ color: '#fff' }}>{p.stock}</strong>
-                  </span>
-                </div>
-                <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Input
-                    type="number"
-                    min={1}
-                    max={p.stock}
-                    value={quantities[p._id] || ''}
-                    onChange={e => setQuantities(q => ({ ...q, [p._id]: e.target.value }))}
-                    placeholder="Qty"
-                    style={{ width: '80px', marginBottom: 0 }}
+                    {['#8B4513', '#228B22', '#1E90FF', '#FFD700'].map((color, idx) => (
+                      <button
+                        key={idx}
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          borderRadius: '50%',
+                          backgroundColor: color,
+                          border: idx === 0 ? '2px solid #000' : '1px solid #e5e5e5',
+                          cursor: 'pointer',
+                          padding: 0,
+                          outline: 'none',
+                          transition: 'transform 0.2s'
+                        }}
+                        onMouseEnter={e => e.target.style.transform = 'scale(1.15)'}
+                        onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+                        aria-label={`Color ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                  
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: '12px',
+                    paddingTop: '8px',
+                    borderTop: '1px solid #f0f0f0'
+                  }}>
+                    <span style={{
+                      fontSize: '16px',
+                      fontWeight: 600,
+                      color: '#000',
+                      letterSpacing: '0px'
+                    }}>
+                      ${p.price}
+                    </span>
+                    <span style={{ 
+                      color: p.stock > 0 ? '#666' : '#ff4444', 
+                      fontSize: '11px',
+                      fontWeight: 400
+                    }}>
+                      {p.stock > 0 ? `Stock: ${p.stock}` : 'Out of Stock'}
+                    </span>
+                  </div>
+                  
+                  <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Input
+                      type="number"
+                      min={1}
+                      max={p.stock}
+                      value={quantities[p._id] || ''}
+                      onChange={e => setQuantities(q => ({ ...q, [p._id]: e.target.value }))}
+                      placeholder="Qty"
+                      style={{ width: '70px', marginBottom: 0, fontSize: '13px', padding: '8px' }}
+                      disabled={p.stock === 0}
+                    />
+                  </div>
+                  {inlineErrors[p._id] && (
+                    <div style={{ color: '#ff4444', fontSize: '12px', marginBottom: '8px' }}>{inlineErrors[p._id]}</div>
+                  )}
+                  <Button
+                    variant="primary"
+                    onClick={() => add(p._id)}
                     disabled={p.stock === 0}
-                  />
-                  <span style={{ color: '#888', fontSize: '13px' }}>
-                    / {p.stock} available
-                  </span>
+                    style={{ 
+                      width: '100%',
+                      padding: '12px',
+                      fontSize: '13px',
+                      fontWeight: 500,
+                      letterSpacing: '0.5px'
+                    }}
+                  >
+                    {p.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                  </Button>
                 </div>
-                {inlineErrors[p._id] && (
-                  <div style={{ color: '#ff6b6b', fontSize: '13px', marginBottom: '8px' }}>{inlineErrors[p._id]}</div>
-                )}
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={() => add(p._id)}
-                  disabled={p.stock === 0}
-                  style={{ width: '100%' }}
-                >
-                  Add to Cart
-                </Button>
               </Card>
             ))}
           </Grid>

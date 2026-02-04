@@ -41,7 +41,7 @@ export default function Login(){
             fontSize: '24px',
             fontWeight: 700,
             margin: '0 0 24px 0',
-            color: '#fff',
+            color: '#000',
             textAlign: 'center'
           }}>
             Sign In
@@ -77,13 +77,13 @@ export default function Login(){
             marginTop: '24px',
             textAlign: 'center',
             fontSize: '14px',
-            color: '#888'
+            color: '#666'
           }}>
             Don't have an account?{' '}
             <Link
               to="/register"
               style={{
-                color: '#fff',
+                color: '#000',
                 textDecoration: 'none',
                 fontWeight: 600,
                 transition: 'color 0.2s'
@@ -100,7 +100,7 @@ export default function Login(){
           marginTop: '24px',
           textAlign: 'center',
           fontSize: '13px',
-          color: '#888'
+          color: '#666'
         }}>
           <p>Discover trails, plan trips, and gear up for your next adventure</p>
         </div>

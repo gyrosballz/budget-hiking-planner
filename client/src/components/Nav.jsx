@@ -64,18 +64,17 @@ export default function Nav(){
   return (
     <nav style={{
       width: '100%',
-      height: '60px',
-      backgroundColor: 'rgba(10,10,10,0.8)',
-      backdropFilter: 'blur(12px)',
-      color: '#fff',
+      height: '64px',
+      backgroundColor: '#ffffff',
+      color: '#000',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 40px',
+      padding: '0 48px',
       position: 'fixed',
       top: 0,
       left: 0,
-      borderBottom: '1px solid rgba(255,255,255,0.06)',
+      borderBottom: '1px solid #e5e5e5',
       zIndex: 1000
     }}>
       {/* Logo */}
@@ -88,23 +87,21 @@ export default function Nav(){
         <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
           <defs>
             <linearGradient id="mountain-gradient" x1="0" y1="0" x2="28" y2="22" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#fff" />
-              <stop offset="1" stopColor="#888" />
+              <stop stopColor="#000" />
+              <stop offset="1" stopColor="#666" />
             </linearGradient>
           </defs>
-          <path d="M2 20L10 8L15 16L18.5 11L26 20H2Z" fill="url(#mountain-gradient)" stroke="#888" strokeWidth="1.5" strokeLinejoin="round"/>
-          <path d="M10 8L13 13L15 16" stroke="#888" strokeWidth="1.5" strokeLinejoin="round"/>
+          <path d="M2 20L10 8L15 16L18.5 11L26 20H2Z" fill="url(#mountain-gradient)" stroke="#666" strokeWidth="1.5" strokeLinejoin="round"/>
+          <path d="M10 8L13 13L15 16" stroke="#666" strokeWidth="1.5" strokeLinejoin="round"/>
         </svg>
         <span style={{
-          fontSize: '20px',
+          fontSize: '18px',
           fontWeight: 700,
-          letterSpacing: '-0.5px',
-          background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
+          letterSpacing: '0.5px',
+          color: '#000',
           display: 'inline-block',
         }}>
-          {role === 'seller' ? 'SELLER' : role === 'admin' ? 'ADMIN' : 'HIKING'}
+          {role === 'seller' ? 'SELLER' : role === 'admin' ? 'ADMIN' : 'HIKEY'}
         </span>
       </Link>
 
@@ -112,7 +109,7 @@ export default function Nav(){
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '4px'
+        gap: '32px'
       }}>
         {menuItems.map(item => {
           if (item.protected && !token) return null
@@ -122,26 +119,25 @@ export default function Nav(){
               key={item.path}
               to={item.path}
               style={{
-                padding: '8px 16px',
-                color: isActive(item.path) ? '#fff' : '#888',
+                padding: '8px 0px',
+                color: isActive(item.path) ? '#000' : '#666',
                 textDecoration: 'none',
                 fontSize: '14px',
-                fontWeight: isActive(item.path) ? 500 : 400,
-                letterSpacing: '-0.2px',
-                borderRadius: '6px',
-                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                backgroundColor: isActive(item.path) ? 'rgba(255,255,255,0.08)' : 'transparent'
+                fontWeight: 400,
+                letterSpacing: '0px',
+                borderRadius: '0px',
+                transition: 'all 0.2s ease',
+                backgroundColor: 'transparent',
+                textTransform: 'uppercase'
               }}
               onMouseEnter={(e) => {
                 if (!isActive(item.path)) {
-                  e.currentTarget.style.color = '#fff'
-                  e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                  e.currentTarget.style.color = '#000'
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isActive(item.path)) {
-                  e.currentTarget.style.color = '#888'
-                  e.currentTarget.style.backgroundColor = 'transparent'
+                  e.currentTarget.style.color = '#666'
                 }
               }}
             >
@@ -152,60 +148,48 @@ export default function Nav(){
       </div>
 
       {/* Auth Section */}
-      <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         {token ? (
           <button
             onClick={logout}
             style={{
-              padding: '8px 20px',
-              color: '#888',
+              padding: '8px 0px',
+              color: '#666',
               backgroundColor: 'transparent',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '6px',
+              border: 'none',
               cursor: 'pointer',
               fontSize: '14px',
               fontWeight: 400,
-              letterSpacing: '-0.2px',
-              transition: 'all 0.2s'
+              letterSpacing: '0px',
+              transition: 'all 0.2s ease',
+              textTransform: 'uppercase'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#fff'
-              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+              e.currentTarget.style.color = '#000'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = '#888'
-              e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+              e.currentTarget.style.color = '#666'
             }}
           >
-            Logout
+            LOGOUT
           </button>
         ) : (
           <Link
             to='/login'
             style={{
-              padding: '8px 20px',
-              color: '#000',
-              backgroundColor: '#fff',
+              padding: '8px 0px',
+              color: '#666',
               textDecoration: 'none',
               fontSize: '14px',
-              fontWeight: 500,
-              letterSpacing: '-0.2px',
-              borderRadius: '6px',
-              transition: 'all 0.2s',
-              display: 'inline-block'
+              fontWeight: 400,
+              letterSpacing: '0px',
+              transition: 'all 0.2s ease',
+              textTransform: 'uppercase'
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#e0e0e0'
-              e.currentTarget.style.transform = 'scale(0.98)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#fff'
-              e.currentTarget.style.transform = 'scale(1)'
-            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#000'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
           >
-            Login
+            LOGIN
           </Link>
         )}
       </div>

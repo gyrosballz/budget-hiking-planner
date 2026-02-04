@@ -90,11 +90,11 @@ export default function Cart(){
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ color: '#888' }}>Loading cart...</p>
+          <p style={{ color: '#666' }}>Loading cart...</p>
         </div>
       ) : cart.items.length === 0 ? (
         <Card style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ fontSize: '16px', color: '#888', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: '#666', marginBottom: '16px' }}>
             Your cart is empty
           </p>
           <p style={{ fontSize: '13px', color: '#666' }}>
@@ -138,23 +138,23 @@ export default function Cart(){
                       fontSize: '16px',
                       fontWeight: 600,
                       margin: '0 0 8px 0',
-                      color: '#fff'
+                      color: '#000'
                     }}>
                       {i.product.name}
                     </h4>
                     <p style={{
                       fontSize: '13px',
-                      color: '#888',
+                      color: '#666',
                       margin: 0
                     }}>
                       {i.product.description}
                     </p>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 700, color: '#000' }}>
                       ${i.product.price}
                     </div>
-                    <div style={{ fontSize: '12px', color: '#888' }}>
+                    <div style={{ fontSize: '12px', color: '#666' }}>
                       per unit
                     </div>
                   </div>
@@ -178,8 +178,8 @@ export default function Cart(){
                         padding: '8px',
                         borderRadius: '6px',
                         border: qtyErrors[i.product._id] ? '1.5px solid #ff6b6b' : '1px solid rgba(255,255,255,0.1)',
-                        backgroundColor: 'rgba(255,255,255,0.02)',
-                        color: '#fff',
+                        backgroundColor: '#f9f9f9',
+                        color: '#000',
                         fontSize: '14px',
                         textAlign: 'center'
                       }}
@@ -197,7 +197,7 @@ export default function Cart(){
                     )}
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 700, color: '#000', marginBottom: '8px' }}>
                       ${(i.product.price * i.qty).toFixed(2)}
                     </div>
                     <Button
@@ -215,7 +215,7 @@ export default function Cart(){
 
           <Card style={{
             padding: '24px',
-            backgroundColor: 'rgba(255,255,255,0.03)',
+            backgroundColor: '#f9f9f9',
             border: '1px solid rgba(255,255,255,0.1)'
           }}>
             <div style={{
@@ -229,13 +229,13 @@ export default function Cart(){
                   fontSize: '20px',
                   fontWeight: 700,
                   margin: 0,
-                  color: '#fff'
+                  color: '#000'
                 }}>
                   Order Summary
                 </h3>
                 <p style={{
                   fontSize: '13px',
-                  color: '#888',
+                  color: '#666',
                   margin: '8px 0 0 0'
                 }}>
                   {cart.items.filter(i => i.product).length} item{cart.items.filter(i => i.product).length !== 1 ? 's' : ''} in cart
@@ -244,7 +244,7 @@ export default function Cart(){
               <div style={{ textAlign: 'right' }}>
                 <div style={{
                   fontSize: '12px',
-                  color: '#888',
+                  color: '#666',
                   marginBottom: '8px'
                 }}>
                   Total
@@ -252,7 +252,7 @@ export default function Cart(){
                 <div style={{
                   fontSize: '32px',
                   fontWeight: 700,
-                  color: '#fff',
+                  color: '#000',
                   marginBottom: '16px'
                 }}>
                   ${total.toFixed(2)}

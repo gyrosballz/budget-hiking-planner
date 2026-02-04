@@ -74,11 +74,11 @@ export default function Notifications(){
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ color: '#888' }}>Loading notifications...</p>
+          <p style={{ color: '#666' }}>Loading notifications...</p>
         </div>
       ) : filteredNotifs.length === 0 ? (
         <Card style={{ textAlign: 'center', padding: '40px' }}>
-          <p style={{ fontSize: '16px', color: '#888', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: '#666', marginBottom: '16px' }}>
             {filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
           </p>
           <p style={{ fontSize: '13px', color: '#666' }}>
@@ -95,11 +95,11 @@ export default function Notifications(){
               style={{
                 backgroundColor: !n.read ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)',
                 borderLeft: !n.read ? '4px solid rgba(100,200,255,0.5)' : 'transparent',
-                borderRadius: '8px'
+                borderRadius: '4px'
               }}
             >
               <div style={{ display: 'flex', gap: '16px', alignItems: 'start' }}>
-                <div style={{ fontSize: '20px', color: '#888' }}>
+                <div style={{ fontSize: '20px', color: '#666' }}>
                   {getNotificationIcon(n.type)}
                 </div>
                 <div style={{ flex: 1 }}>
@@ -109,7 +109,7 @@ export default function Notifications(){
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
                       {n.type === 'order' && n.order && (
-                        <span style={{ fontSize: '14px', color: '#888' }}>
+                        <span style={{ fontSize: '14px', color: '#666' }}>
                           {expandedNotif === n._id ? '▼' : '▶'}
                         </span>
                       )}
@@ -117,7 +117,7 @@ export default function Notifications(){
                         fontSize: '15px',
                         fontWeight: 600,
                         margin: 0,
-                        color: '#fff'
+                        color: '#000'
                       }}>
                         {n.title}
                       </h4>
@@ -127,7 +127,7 @@ export default function Notifications(){
                     </div>
                     <p style={{
                       fontSize: '13px',
-                      color: '#aaa',
+                      color: '#666',
                       margin: '0 0 12px 0',
                       lineHeight: '1.4'
                     }}>
@@ -137,7 +137,7 @@ export default function Notifications(){
                       display: 'flex',
                       gap: '8px',
                       fontSize: '12px',
-                      color: '#888'
+                      color: '#666'
                     }}>
                       <span>
                         {new Date(n.createdAt).toLocaleDateString('en-US', {
@@ -158,13 +158,13 @@ export default function Notifications(){
                       paddingTop: '12px',
                       marginTop: '12px'
                     }}>
-                      <div style={{ marginBottom: '12px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '6px' }}>
-                        <h4 style={{ fontSize: '13px', marginBottom: '8px', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Customer Information:</h4>
-                        <div style={{ fontSize: '13px', color: '#fff', lineHeight: '1.8' }}>
-                          <div><span style={{ color: '#888' }}>Name:</span> <strong>{n.order.user?.name || 'N/A'}</strong></div>
-                          <div><span style={{ color: '#888' }}>Email:</span> <strong>{n.order.user?.email || 'N/A'}</strong></div>
-                          <div><span style={{ color: '#888' }}>Role:</span> <Badge variant="secondary" style={{ fontSize: '11px', padding: '2px 8px' }}>{n.order.user?.role || 'user'}</Badge></div>
-                          <div><span style={{ color: '#888' }}>Order Date:</span> <strong>{new Date(n.order.createdAt).toLocaleString()}</strong></div>
+                      <div style={{ marginBottom: '12px', padding: '12px', backgroundColor: '#f9f9f9', borderRadius: '6px' }}>
+                        <h4 style={{ fontSize: '13px', marginBottom: '8px', color: '#666', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Customer Information:</h4>
+                        <div style={{ fontSize: '13px', color: '#000', lineHeight: '1.8' }}>
+                          <div><span style={{ color: '#666' }}>Name:</span> <strong>{n.order.user?.name || 'N/A'}</strong></div>
+                          <div><span style={{ color: '#666' }}>Email:</span> <strong>{n.order.user?.email || 'N/A'}</strong></div>
+                          <div><span style={{ color: '#666' }}>Role:</span> <Badge variant="secondary" style={{ fontSize: '11px', padding: '2px 8px' }}>{n.order.user?.role || 'user'}</Badge></div>
+                          <div><span style={{ color: '#666' }}>Order Date:</span> <strong>{new Date(n.order.createdAt).toLocaleString()}</strong></div>
                         </div>
                       </div>
                     </div>
