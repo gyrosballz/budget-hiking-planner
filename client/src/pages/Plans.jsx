@@ -4,6 +4,7 @@ import API from '../api'
 import { fetchRoutes } from '../api/routes'
 import { Card, Button, Input, Section, Grid, Badge } from '../components/UI'
 
+// Trip planning page for creating and managing hiking plans
 export default function Plans(){
   const [plans, setPlans] = useState([])
   const [routeId, setRouteId] = useState('')
@@ -21,6 +22,7 @@ export default function Plans(){
   const [expandedPlan, setExpandedPlan] = useState(null)
   const navigate = useNavigate()
 
+  // Loads user's trip plans from backend
   const load = async () => {
     setLoading(true)
     try {
@@ -37,6 +39,7 @@ export default function Plans(){
     fetchRoutes().then(setRoutes).catch(() => setRoutes([]));
   }, [])
 
+  // Validates plan form inputs before submission
   const validate = () => {
     const newErrors = {}
     if (!name) newErrors.name = 'Plan name is required.'
@@ -52,6 +55,7 @@ export default function Plans(){
     return Object.keys(newErrors).length === 0
   }
 
+  // Creates new plan or updates existing plan with validated data
   const create = async () => {
     setFormError('')
     if (!validate()) return
@@ -86,6 +90,7 @@ export default function Plans(){
     }
   }
 
+  // Deletes a trip plan after user confirmation
   const deletePlan = async (id) => {
     if (!window.confirm('Are you sure you want to delete this plan?')) return
     try {
@@ -96,6 +101,7 @@ export default function Plans(){
     }
   }
 
+  // Creates a duplicate copy of an existing plan
   const duplicatePlan = async (plan) => {
     try {
       await API.post('/plans', {
@@ -112,6 +118,7 @@ export default function Plans(){
     }
   }
 
+  // Loads plan data into form for editing
   const editPlan = (plan) => {
     setName(plan.name)
     setRouteId(plan.route?._id || plan.route)
@@ -124,6 +131,7 @@ export default function Plans(){
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // Updates the status of a trip plan
   const updateStatus = async (id, status) => {
     try {
       await API.put(`/plans/${id}`, { status })
@@ -133,6 +141,7 @@ export default function Plans(){
     }
   }
 
+  // Returns badge color based on plan status
   const getStatusColor = (status) => {
     switch (status) {
       case 'planning': return 'primary'

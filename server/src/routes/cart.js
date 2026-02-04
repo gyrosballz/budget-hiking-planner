@@ -4,12 +4,14 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const auth = require('../middleware/auth');
 
+// Retrieves user's shopping cart with populated product details
 router.get('/', auth(), async (req, res) => {
   let cart = await Cart.findOne({ user: req.user.id }).populate('items.product');
   if (!cart) cart = await Cart.create({ user: req.user.id, items: [] });
   res.json(cart);
 });
 
+// Adds product to cart with quantity validation and stock reservation
 router.post('/items', auth(), async (req, res) => {
   const { product, qty = 1 } = req.body;
   let cart = await Cart.findOne({ user: req.user.id });
@@ -35,6 +37,7 @@ router.post('/items', auth(), async (req, res) => {
   res.json(await cart.populate('items.product'));
 });
 
+// Updates cart item quantity with stock validation and reservation adjustment
 router.put('/items/:productId', auth(), async (req, res) => {
   const { qty } = req.body;
   let cart = await Cart.findOne({ user: req.user.id });
@@ -66,6 +69,7 @@ router.put('/items/:productId', auth(), async (req, res) => {
   res.json(await cart.populate('items.product'));
 });
 
+// Removes item from cart and restores reserved stock
 router.delete('/items/:productId', auth(), async (req, res) => {
   let cart = await Cart.findOne({ user: req.user.id });
   if (!cart) return res.sendStatus(404);
@@ -78,6 +82,7 @@ router.delete('/items/:productId', auth(), async (req, res) => {
   res.json(await cart.populate('items.product'));
 });
 
+// Processes checkout by creating order and clearing cart
 router.post('/checkout', auth(), async (req, res) => {
   try {
     let cart = await Cart.findOne({ user: req.user.id }).populate('items.product');

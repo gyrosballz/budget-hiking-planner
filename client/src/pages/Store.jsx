@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import API from '../api'
 import { Card, Button, Badge, Section, Grid, Alert, Input } from '../components/UI'
 
+// Product marketplace for browsing and purchasing hiking gear
 export default function Store(){
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -15,6 +16,7 @@ export default function Store(){
   const [quantities, setQuantities] = useState({})
   const [inlineErrors, setInlineErrors] = useState({})
 
+  // Fallback product data displayed when backend API is unavailable
   const fallbackProducts = [
     {
       _id: 'fallback-1',
@@ -42,6 +44,7 @@ export default function Store(){
     }
   ]
 
+  // Loads products from backend API on component mount
   useEffect(() => {
     API.get('/products')
       .then(r => {
@@ -56,7 +59,7 @@ export default function Store(){
       })
   }, [])
 
-  // Filter and sort products
+  // Filters and sorts products based on search, price, stock, and sort criteria
   const filteredProducts = useMemo(() => {
     let filtered = [...products]
 
@@ -110,6 +113,7 @@ export default function Store(){
     return filtered
   }, [products, search, priceFilter, stockFilter, sortBy])
 
+  // Adds product to cart with quantity validation and stock checking
   const add = async (id) => {
     setAddError('');
     setSuccess('');

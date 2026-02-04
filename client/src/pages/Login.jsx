@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import API from '../api'
 import { Card, Button, Input, Alert, Section } from '../components/UI'
 
+// User login page with email and password authentication
 export default function Login(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -10,6 +11,7 @@ export default function Login(){
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+  // Handles user login by validating credentials and storing JWT token
   const submit = async (e) => {
     e.preventDefault()
     setError('')

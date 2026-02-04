@@ -4,8 +4,10 @@ const Product = require('../models/Product');
 const Notification = require('../models/Notification');
 const auth = require('../middleware/auth');
 
+// Retrieves all products from database for store display
 router.get('/', async (_,res)=> res.json(await Product.find()));
 
+// Creates new product and sends low stock alert if applicable
 router.post('/', auth(['seller','admin']), async (req,res)=>{
   const product = await Product.create({...req.body, createdBy:req.user.id});
   
@@ -23,6 +25,7 @@ router.post('/', auth(['seller','admin']), async (req,res)=>{
   res.json(product);
 });
 
+// Updates product details and triggers low stock notifications
 router.put('/:id', auth(['seller','admin']), async (req,res)=>{
   const oldProduct = await Product.findById(req.params.id);
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, {new:true});
@@ -41,6 +44,7 @@ router.put('/:id', auth(['seller','admin']), async (req,res)=>{
   res.json(product);
 });
 
+// Deletes product from inventory (admin only)
 router.delete('/:id', auth(['admin']), async (req,res)=>{
   await Product.findByIdAndDelete(req.params.id);
   res.sendStatus(204);

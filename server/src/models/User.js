@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose');
 
+// User model schema for authentication and role-based access control
 module.exports = mongoose.model('User', new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },

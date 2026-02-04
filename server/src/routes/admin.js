@@ -9,6 +9,7 @@ const auth = require('../middleware/auth');
 
 // ========== User Management ==========
 
+// Retrieves all users with optional role filtering for admin oversight
 router.get('/users', auth(['admin']), async (req, res) => {
   try {
     const { role } = req.query;
@@ -22,6 +23,7 @@ router.get('/users', auth(['admin']), async (req, res) => {
   }
 });
 
+// Updates user role and sends notification about account changes
 router.put('/users/:id/role', auth(['admin']), async (req, res) => {
   try {
     const { role } = req.body;
@@ -53,6 +55,7 @@ router.put('/users/:id/role', auth(['admin']), async (req, res) => {
   }
 });
 
+// Deletes user account from the platform
 router.delete('/users/:id', auth(['admin']), async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
@@ -65,6 +68,7 @@ router.delete('/users/:id', auth(['admin']), async (req, res) => {
 
 // ========== Product Management ==========
 
+// Retrieves all products with seller information for admin monitoring
 router.get('/products', auth(['admin']), async (req, res) => {
   try {
     const products = await Product.find()
@@ -76,6 +80,7 @@ router.get('/products', auth(['admin']), async (req, res) => {
   }
 });
 
+// Removes product from marketplace inventory
 router.delete('/products/:id', auth(['admin']), async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
@@ -88,6 +93,7 @@ router.delete('/products/:id', auth(['admin']), async (req, res) => {
 
 // ========== Order Management ==========
 
+// Fetches all orders with user and product details for admin tracking
 router.get('/orders', auth(['admin']), async (req, res) => {
   try {
     const { status } = req.query;

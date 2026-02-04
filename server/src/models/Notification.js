@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Notification model for alerting users about orders, updates, and system events
 module.exports = mongoose.model('Notification', new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   title: String,

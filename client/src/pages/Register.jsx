@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import API from '../api'
 import { Card, Button, Input, Alert, Section } from '../components/UI'
 
+// User registration page for creating new accounts
 export default function Register(){
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -12,6 +13,7 @@ export default function Register(){
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+  // Validates form data and creates new user account with auto-login
   const submit = async (e) => {
     e.preventDefault()
     setError('')

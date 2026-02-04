@@ -2,6 +2,7 @@ import React from 'react'
 import { Section, Card, Grid, Button, Badge } from '../components/UI'
 import { Link } from 'react-router-dom'
 
+// Landing page showcasing app features and navigation to main sections
 export default function Home(){
   return (
     <Section

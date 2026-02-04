@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import API from '../api'
 import { Card, Button, Select, Section, Grid, Badge, Input, Alert } from '../components/UI'
 
+// Admin dashboard for managing users, products, orders, and platform statistics
 export default function Admin() {
   const [users, setUsers] = useState([])
   const [products, setProducts] = useState([])
@@ -21,6 +22,7 @@ export default function Admin() {
   const [orderDateTo, setOrderDateTo] = useState('')
   const [expandedOrder, setExpandedOrder] = useState(null)
 
+  // Fetches all users from the database for admin management
   const loadUsers = async () => {
     try {
       const r = await API.get('/admin/users')
@@ -30,6 +32,7 @@ export default function Admin() {
     }
   }
 
+  // Fetches all products from the database for admin oversight
   const loadProducts = async () => {
     try {
       const r = await API.get('/admin/products')
@@ -39,6 +42,7 @@ export default function Admin() {
     }
   }
 
+  // Fetches all orders from the database for admin monitoring
   const loadOrders = async () => {
     try {
       const r = await API.get('/admin/orders')
@@ -51,6 +55,7 @@ export default function Admin() {
     }
   }
 
+  // Fetches platform statistics and seller performance metrics
   const loadStats = async () => {
     try {
       const [statsRes, sellersRes] = await Promise.all([
@@ -74,6 +79,7 @@ export default function Admin() {
     })
   }, [])
 
+  // Updates user role (customer, seller, or admin)
   const changeRole = async (id, role) => {
     try {
       await API.put(`/admin/users/${id}/role`, { role })
@@ -86,6 +92,7 @@ export default function Admin() {
     }
   }
 
+  // Deletes a user account from the platform
   const delUser = async (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
@@ -100,6 +107,7 @@ export default function Admin() {
     }
   }
 
+  // Removes a product from the store inventory
   const delProduct = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
@@ -114,6 +122,7 @@ export default function Admin() {
     }
   }
 
+  // Updates order status for tracking and fulfillment
   const updateOrderStatus = async (id, status) => {
     try {
       await API.put(`/admin/orders/${id}/status`, { status })
@@ -127,6 +136,7 @@ export default function Admin() {
     }
   }
 
+  // Returns badge color based on order status for visual consistency
   const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return 'warning'
@@ -138,7 +148,7 @@ export default function Admin() {
     }
   }
 
-  // Filtered data
+  // Filters users by search query and role for admin management
   const filteredUsers = useMemo(() => {
     let filtered = [...users]
     if (userSearch) {
@@ -153,6 +163,7 @@ export default function Admin() {
     return filtered
   }, [users, userSearch, userRoleFilter])
 
+  // Filters products by search query for quick lookup
   const filteredProducts = useMemo(() => {
     let filtered = [...products]
     if (productSearch) {
@@ -163,6 +174,7 @@ export default function Admin() {
     return filtered
   }, [products, productSearch])
 
+  // Filters orders by date range for reporting and analysis
   const filteredOrders = useMemo(() => {
     let filtered = [...orders]
     if (orderDateFrom) {
@@ -177,6 +189,7 @@ export default function Admin() {
     return filtered
   }, [orders, orderDateFrom, orderDateTo])
 
+  // Reusable tab navigation component for switching between admin sections
   const NavTabs = ({ tabs, active, onChange }) => (
     <div style={{
       display: 'flex',

@@ -4,7 +4,7 @@ const Plan = require('../models/Plan');
 const Route = require('../models/Route');
 const auth = require('../middleware/auth');
 
-// Get user's plans with optional status filter
+// Retrieves user's trip plans with optional status filtering
 router.get('/', auth(), async (req, res) => {
   try {
     const { status } = req.query;
@@ -21,7 +21,7 @@ router.get('/', auth(), async (req, res) => {
   }
 });
 
-// Create new plan
+// Creates new trip plan with route validation
 router.post('/', auth(), async (req, res) => {
   try {
     // Verify route exists
@@ -41,7 +41,7 @@ router.post('/', auth(), async (req, res) => {
   }
 });
 
-// Update plan
+// Updates existing trip plan details
 router.put('/:id', auth(), async (req, res) => {
   try {
     const plan = await Plan.findOne({ _id: req.params.id, user: req.user.id });
@@ -57,7 +57,7 @@ router.put('/:id', auth(), async (req, res) => {
   }
 });
 
-// Add item to gear list
+// Adds new item to plan's gear checklist
 router.post('/:id/gear', auth(), async (req, res) => {
   try {
     const plan = await Plan.findOne({ _id: req.params.id, user: req.user.id });
@@ -74,7 +74,7 @@ router.post('/:id/gear', auth(), async (req, res) => {
   }
 });
 
-// Update gear item status
+// Updates gear item purchase status or details
 router.put('/:id/gear/:gearId', auth(), async (req, res) => {
   try {
     const plan = await Plan.findOne({ _id: req.params.id, user: req.user.id });

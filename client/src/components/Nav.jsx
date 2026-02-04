@@ -2,11 +2,13 @@ import React from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import API from '../api'
 
+// Navigation bar with role-based menu items and authentication controls
 export default function Nav(){
   const navigate = useNavigate()
   const location = useLocation()
   const token = localStorage.getItem('token')
 
+  // Decodes JWT token to extract user data
   const parseJwt = (t) => {
     try {
       const base64 = t.split('.')[1]
@@ -18,15 +20,17 @@ export default function Nav(){
 
   const role = token ? parseJwt(token)?.role : null
 
+  // Clears authentication token and redirects to login page
   const logout = ()=>{
     localStorage.removeItem('token')
     API.setToken(null)
     navigate('/login')
   }
 
+  // Checks if current route matches the given path for active styling
   const isActive = (path) => location.pathname === path
 
-  // Different menu items based on role
+  // Returns menu items based on user role (seller, admin, or regular user)
   const getMenuItems = () => {
     if (role === 'seller') {
       return [

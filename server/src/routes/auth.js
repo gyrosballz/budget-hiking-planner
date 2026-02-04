@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Handles user registration with password hashing and auto-login
 router.post('/register', async (req,res)=>{
   try {
     const { name, email, password } = req.body;
@@ -30,6 +31,7 @@ router.post('/register', async (req,res)=>{
   }
 });
 
+// Authenticates user credentials and returns JWT token
 router.post('/login', async (req,res)=>{
   try {
     const u = await User.findOne({email:req.body.email});

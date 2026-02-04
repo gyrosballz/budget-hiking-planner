@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import API from '../api'
 import { Card, Button, Section, Grid, Badge, Alert } from '../components/UI'
 
+// Seller dashboard for managing products, inventory, and order fulfillment
 export default function Seller() {
   const [products, setProducts] = useState([])
   const [orders, setOrders] = useState([])
@@ -24,6 +25,7 @@ export default function Seller() {
     loadStats()
   }, [tab])
 
+  // Calculates seller statistics including revenue, sales, and inventory metrics
   const loadStats = async () => {
     try {
       const [productsRes, ordersRes] = await Promise.all([
@@ -76,6 +78,7 @@ export default function Seller() {
     }
   }
 
+  // Loads seller's products or orders based on active tab
   const loadData = async () => {
     setLoading(true)
     try {
@@ -95,6 +98,7 @@ export default function Seller() {
     setLoading(false)
   }
 
+  // Creates new product or updates existing product in the catalog
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -120,6 +124,7 @@ export default function Seller() {
     }
   }
 
+  // Loads product data into form for editing
   const handleEdit = (product) => {
     setEditingProduct(product)
     setFormData({
@@ -132,6 +137,7 @@ export default function Seller() {
     setShowForm(true)
   }
 
+  // Deletes a product from seller's inventory
   const handleDelete = async (id) => {
     if (window.confirm('Delete this product? This action cannot be undone.')) {
       try {
@@ -143,6 +149,7 @@ export default function Seller() {
     }
   }
 
+  // Updates product stock quantity
   const updateStock = async (id, newStock) => {
     try {
       await API.put(`/products/${id}`, { stock: parseInt(newStock) })
@@ -152,6 +159,7 @@ export default function Seller() {
     }
   }
 
+  // Updates order status for fulfillment tracking
   const updateOrderStatus = async (id, status) => {
     try {
       await API.put(`/orders/${id}/status`, { status })
@@ -161,6 +169,7 @@ export default function Seller() {
     }
   }
 
+  // Returns badge color based on order status
   const getStatusColor = (status) => {
     const colors = {
       pending: 'warning',
@@ -172,6 +181,7 @@ export default function Seller() {
     return colors[status] || 'default'
   }
 
+  // Calculates total revenue generated from a specific product
   const calculateProductRevenue = (productId) => {
     return orders
       .filter(o => o.status !== 'cancelled')
@@ -181,6 +191,7 @@ export default function Seller() {
       }, 0)
   }
 
+  // Reusable tab navigation for switching between seller dashboard sections
   const NavTabs = ({ tabs, active, onChange }) => (
     <div style={{
       display: 'flex',

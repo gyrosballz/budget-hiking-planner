@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Hiking route model with trail details, difficulty, and nutrition recommendations
 module.exports = mongoose.model('Route', new mongoose.Schema({
   name: { type: String, required: true },
   difficulty: { type: String, enum: ['easy', 'moderate', 'hard'], required: true },

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Route = require('../models/Route');
 
+// Fetches hiking routes with optional filtering by search, difficulty, distance, features, and season
 router.get('/', async (req, res) => {
   try {
     const { search, difficulty, minDistance, maxDistance, features, trailType, season } = req.query;
@@ -44,6 +45,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Retrieves detailed information for a specific hiking route by ID
 router.get('/:id', async (req, res) => {
   try {
     const route = await Route.findById(req.params.id);

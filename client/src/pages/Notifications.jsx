@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import API from '../api'
 import { Card, Button, Section, Grid, Badge, Alert } from '../components/UI'
 
+// Notifications center for displaying system alerts and order updates
 export default function Notifications(){
   const [notifs, setNotifs] = useState([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all') // all, unread
   const [expandedNotif, setExpandedNotif] = useState(null)
 
+  // Fetches user notifications from backend API
   const load = async () => {
     setLoading(true)
     try {
@@ -21,6 +23,7 @@ export default function Notifications(){
 
   useEffect(() => { load() }, [])
 
+  // Marks notification as read to update unread count
   const markRead = async (id) => {
     try {
       await API.post(`/notifications/${id}/read`)
@@ -30,6 +33,7 @@ export default function Notifications(){
     }
   }
 
+  // Deletes notification from user's notification list
   const del = async (id) => {
     try {
       await API.delete(`/notifications/${id}`)
@@ -39,6 +43,7 @@ export default function Notifications(){
     }
   }
 
+  // Returns icon symbol for notification type display
   const getNotificationIcon = () => '•'
 
   const filteredNotifs = filter === 'unread'

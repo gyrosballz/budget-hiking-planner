@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import API from '../api'
 import { Card, Button, Input, Select, Badge, Section, Grid, Alert } from '../components/UI'
 
+// Route explorer page for browsing and filtering hiking trails
 export default function Routes(){
   const [routes, setRoutes] = useState([])
   const [search, setSearch] = useState('')
@@ -12,6 +13,7 @@ export default function Routes(){
   const [expandedRoute, setExpandedRoute] = useState(null)
   const navigate = useNavigate()
 
+  // Fetches routes from API with optional search and difficulty filters
   const load = async () => {
     setLoading(true)
     setError('')
@@ -30,6 +32,7 @@ export default function Routes(){
 
   useEffect(() => { load() }, [])
 
+  // Returns badge color based on route difficulty level
   const getDifficultyColor = (diff) => {
     switch (diff) {
       case 'easy': return 'success'

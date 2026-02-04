@@ -15,7 +15,9 @@ import Seller from './pages/Seller'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
+// Main application component with routing and role-based access control
 export default function App(){
+  // Extracts user role from JWT token stored in localStorage
   const getRole = () => {
     try {
       const token = localStorage.getItem('token')
@@ -26,17 +28,21 @@ export default function App(){
       return null
     }
   }
+  // Error boundary component to catch and display React errors gracefully
   const ErrorBoundary = class extends React.Component {
     constructor(props) {
       super(props)
       this.state = { hasError: false, error: null }
     }
+    // Updates state when an error is caught
     static getDerivedStateFromError(error) {
       return { hasError: true, error }
     }
+    // Logs error details for debugging
     componentDidCatch(error, info) {
       console.error('App error:', error, info)
     }
+    // Renders error UI or children components
     render() {
       if (this.state.hasError) {
         return (
@@ -67,8 +73,8 @@ export default function App(){
     }
   }
 
+  // Initializes authentication token from localStorage when app mounts
   useEffect(() => {
-    // Initialize auth token on app load
     const token = localStorage.getItem('token')
     if (token) {
       API.setToken(token)

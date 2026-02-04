@@ -1,6 +1,7 @@
 // Common UI Components Library - Inspired by modern startup design
 import React from 'react'
 
+// Reusable button component with multiple variants and sizes
 export const Button = ({ 
   variant = 'primary', 
   size = 'md', 
@@ -90,6 +91,7 @@ export const Button = ({
   );
 };
 
+// Card container with hover effects for displaying content
 export const Card = ({ children, padding = '24px', hover = true, ...props }) => {
   return (
     <div
@@ -122,6 +124,7 @@ export const Card = ({ children, padding = '24px', hover = true, ...props }) => 
   );
 };
 
+// Text input field with label and error state styling
 export const Input = ({ 
   placeholder = '', 
   type = 'text', 
@@ -177,6 +180,7 @@ export const Input = ({
   );
 };
 
+// Dropdown select component with options array for forms
 export const Select = ({
   label = '',
   value,
@@ -228,6 +232,7 @@ export const Select = ({
   );
 };
 
+// Small colored label for status indicators and tags
 export const Badge = ({ children, variant = 'default', ...props }) => {
   const variants = {
     default: { backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff' },
@@ -255,6 +260,7 @@ export const Badge = ({ children, variant = 'default', ...props }) => {
   );
 };
 
+// Page section wrapper with optional title and subtitle
 export const Section = ({ title, subtitle, children, ...props }) => {
   return (
     <section style={{ marginBottom: '60px' }} {...props}>
@@ -291,6 +297,7 @@ export const Section = ({ title, subtitle, children, ...props }) => {
   );
 };
 
+// Responsive grid layout with configurable columns and gap
 export const Grid = ({ columns = 3, gap = '20px', children, ...props }) => {
   return (
     <div
@@ -306,6 +313,7 @@ export const Grid = ({ columns = 3, gap = '20px', children, ...props }) => {
   );
 };
 
+// Modal dialog overlay with close button for popups
 export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
   if (!isOpen) return null;
 
@@ -375,6 +383,7 @@ export const Modal = ({ isOpen, onClose, title, children, ...props }) => {
   );
 };
 
+// Alert message box with success, error, warning, and info variants
 export const Alert = ({ type = 'info', message, children, onClose = () => {}, ...props }) => {
   const types = {
     success: { bg: 'rgba(68,204,85,0.15)', border: '#44cc55', color: '#44cc55', icon: '✓' },
@@ -420,6 +429,7 @@ export const Alert = ({ type = 'info', message, children, onClose = () => {}, ..
   );
 };
 
+// Horizontal divider line for separating content sections
 export const Divider = (props) => (
   <hr style={{
     border: 'none',
@@ -429,6 +439,7 @@ export const Divider = (props) => (
   }} />
 );
 
+// Removable tag chip for displaying labels or filters
 export const Tag = ({ children, removable = false, onRemove = () => {}, ...props }) => (
   <span
     style={{
@@ -466,6 +477,7 @@ export const Tag = ({ children, removable = false, onRemove = () => {}, ...props
   </span>
 );
 
+// Loading placeholder with pulsing animation for async content
 export const Skeleton = ({ width = '100%', height = '20px', ...props }) => (
   <div
     style={{

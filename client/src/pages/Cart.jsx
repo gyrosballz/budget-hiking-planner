@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import API from '../api'
 import { Card, Button, Section, Grid, Badge, Alert } from '../components/UI'
 
+// Shopping cart page for managing items and checkout process
 export default function Cart(){
   const [cart, setCart] = useState({ items: [] })
   const [loading, setLoading] = useState(false)
@@ -10,6 +11,7 @@ export default function Cart(){
   const [success, setSuccess] = useState('')
   const [qtyErrors, setQtyErrors] = useState({})
 
+  // Fetches user's cart data from backend API
   const load = async () => {
     setLoading(true)
     try {
@@ -28,6 +30,7 @@ export default function Cart(){
 
   useEffect(() => { load() }, [])
 
+  // Updates quantity of a cart item with validation
   const update = async (productId, qty) => {
     // Validate quantity: must be integer 1-99
     if (!/^[1-9][0-9]?$/.test(qty)) {
@@ -44,6 +47,7 @@ export default function Cart(){
     }
   }
 
+  // Removes item from cart by product ID
   const remove = async (productId) => {
     try {
       await API.delete(`/cart/items/${productId}`)
@@ -53,6 +57,7 @@ export default function Cart(){
     }
   }
 
+  // Processes checkout by creating order and clearing cart
   const checkout = async () => {
     if (cart.items.length === 0) return
     // Prevent checkout if any qty error
@@ -73,6 +78,7 @@ export default function Cart(){
     setCheckoutLoading(false)
   }
 
+  // Calculates total price of all cart items
   const total = cart.items
     .filter(i => i.product) // Filter out items with null products
     .reduce((sum, i) => sum + (i.product.price * i.qty), 0)

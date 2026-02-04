@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose');
 
+// Trip plan model for organizing hiking adventures with routes, gear, and schedules
 module.exports = mongoose.model('Plan', new mongoose.Schema({
   name: { type: String, required: true },
   route: { type: mongoose.Schema.Types.ObjectId, ref: 'Route', required: true },

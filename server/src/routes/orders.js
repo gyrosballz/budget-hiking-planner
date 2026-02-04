@@ -5,7 +5,7 @@ const Product = require('../models/Product');
 const Notification = require('../models/Notification');
 const auth = require('../middleware/auth');
 
-// Create order (from checkout or direct order)
+// Creates new order with stock validation and notifications to buyers and sellers
 router.post('/', auth(), async (req, res) => {
   try {
     // Verify stock availability

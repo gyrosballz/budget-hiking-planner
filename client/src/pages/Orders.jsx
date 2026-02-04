@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import API from '../api'
 import { Card, Section, Grid, Badge, Input, Button } from '../components/UI'
 
+// Order history page with filtering, search, and export functionality
 export default function Orders(){
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
@@ -12,6 +13,7 @@ export default function Orders(){
   const [dateTo, setDateTo] = useState('')
   const [error, setError] = useState('')
 
+  // Loads user's orders on component mount
   useEffect(() => {
     const load = async () => {
       setLoading(true)
@@ -31,6 +33,7 @@ export default function Orders(){
     load()
   }, [])
 
+  // Returns badge color based on order status
   const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return 'warning'
@@ -42,6 +45,7 @@ export default function Orders(){
     }
   }
 
+  // Formats date to human-readable string
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -50,7 +54,7 @@ export default function Orders(){
     })
   }
 
-  // Filter orders
+  // Filters orders by search query, status, and date range
   const filteredOrders = useMemo(() => {
     let filtered = [...orders]
 
@@ -80,7 +84,7 @@ export default function Orders(){
     return filtered
   }, [orders, search, statusFilter, dateFrom, dateTo])
 
-  // Export orders to CSV
+  // Exports filtered orders to CSV file for download
   const exportToCSV = () => {
     const headers = ['Order ID', 'Status', 'Date', 'Items', 'Total']
     const rows = filteredOrders.map(o => [
@@ -105,7 +109,7 @@ export default function Orders(){
     window.URL.revokeObjectURL(url)
   }
 
-  // Export orders to JSON
+  // Exports filtered orders to JSON file for download
   const exportToJSON = () => {
     const dataStr = JSON.stringify(filteredOrders, null, 2)
     const blob = new Blob([dataStr], { type: 'application/json' })

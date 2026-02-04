@@ -7,16 +7,17 @@ const Product = require('./models/Product');
 const Plan = require('./models/Plan');
 const Route = require('./models/Route');
 
+// Database seeding script to populate initial test data for development
 (async()=>{
  await mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI);
  
- // Clear existing data
+ // Clears all existing data before seeding
  await User.deleteMany();
  await Product.deleteMany();
  await Plan.deleteMany();
  await Route.deleteMany();
  
- // Create users
+ // Creates test user accounts with different roles
  const [admin, seller, user] = await User.create([
    { name: 'Admin', email: 'admin@test.com', password: await bcrypt.hash('admin123', 10), role: 'admin' },
    { name: 'Seller', email: 'seller@test.com', password: await bcrypt.hash('seller123', 10), role: 'seller' },
@@ -24,7 +25,7 @@ const Route = require('./models/Route');
  ]);
  console.log('✓ Created users');
 
- // Seed Routes (AllTrails-inspired with enhanced features)
+ // Seeds hiking route data with details about trails and recommendations
  const routes = await Route.create([
    {
      name: 'Pine Ridge Trail',
