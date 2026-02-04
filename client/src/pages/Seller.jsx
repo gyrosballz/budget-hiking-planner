@@ -82,15 +82,30 @@ export default function Seller() {
   const loadData = async () => {
     setLoading(true)
     try {
+      const token = localStorage.getItem('token')
+      const userId = token ? JSON.parse(atob(token.split('.')[1])).id : null
+      
       if (tab === 'products') {
         const r = await API.get('/products')
         // Filter to show only seller's products
-        const token = localStorage.getItem('token')
-        const userId = token ? JSON.parse(atob(token.split('.')[1])).id : null
         setProducts(r.data.filter(p => p.createdBy === userId || p.createdBy?._id === userId))
-      } else {
-        const r = await API.get('/orders')
-        setOrders(r.data)
+      } else if (tab === 'orders') {
+        // Load both products and orders to filter
+        const [productsRes, ordersRes] = await Promise.all([
+          API.get('/products'),
+          API.get('/orders')
+        ])
+        
+        // Get seller's product IDs
+        const myProducts = productsRes.data.filter(p => p.createdBy === userId || p.createdBy?._id === userId)
+        const myProductIds = myProducts.map(p => p._id)
+        
+        // Filter orders that contain seller's products
+        const myOrders = ordersRes.data.filter(order => 
+          order.items?.some(item => myProductIds.includes(item.product?._id))
+        )
+        
+        setOrders(myOrders)
       }
     } catch (err) {
       console.error(err)

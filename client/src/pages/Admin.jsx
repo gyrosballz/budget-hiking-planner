@@ -901,7 +901,7 @@ export default function Admin() {
                         <div style={{ fontSize: '12px', color: '#666' }}>Total Stock</div>
                       </div>
                       <div style={{ textAlign: 'center', padding: '16px', backgroundColor: '#f9f9f9', borderRadius: '4px' }}>
-                        <div style={{ fontSize: '24px', fontWeight: 700, color: seller.lowStockItems > 0 ? '#ff9800' : '#fff', marginBottom: '4px' }}>
+                        <div style={{ fontSize: '24px', fontWeight: 700, color: seller.lowStockItems > 0 ? '#ff9800' : '#000', marginBottom: '4px' }}>
                           {seller.lowStockItems}
                         </div>
                         <div style={{ fontSize: '12px', color: '#666' }}>Low Stock</div>
