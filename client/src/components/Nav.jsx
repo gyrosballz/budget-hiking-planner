@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import API from '../api'
 
@@ -6,7 +6,8 @@ import API from '../api'
 export default function Nav(){
   const navigate = useNavigate()
   const location = useLocation()
-  const token = localStorage.getItem('token')
+  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [role, setRole] = useState(null)
 
   // Decodes JWT token to extract user data
   const parseJwt = (t) => {
@@ -18,12 +19,35 @@ export default function Nav(){
     }
   }
 
-  const role = token ? parseJwt(token)?.role : null
+  // Update token and role when localStorage changes
+  useEffect(() => {
+    const updateAuth = () => {
+      const currentToken = localStorage.getItem('token')
+      setToken(currentToken)
+      setRole(currentToken ? parseJwt(currentToken)?.role : null)
+    }
+    
+    updateAuth()
+    
+    // Listen for storage events from other tabs
+    window.addEventListener('storage', updateAuth)
+    
+    // Custom event for same-tab updates
+    window.addEventListener('roleChanged', updateAuth)
+    
+    return () => {
+      window.removeEventListener('storage', updateAuth)
+      window.removeEventListener('roleChanged', updateAuth)
+    }
+  }, [])
 
   // Clears authentication token and redirects to login page
   const logout = ()=>{
     localStorage.removeItem('token')
     API.setToken(null)
+    setToken(null)
+    setRole(null)
+    window.dispatchEvent(new Event('roleChanged'))
     navigate('/login')
   }
 

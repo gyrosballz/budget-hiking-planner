@@ -21,6 +21,7 @@ export default function Login(){
       const token = r.data.token
       localStorage.setItem('token', token)
       API.setToken(token)
+      window.dispatchEvent(new Event('roleChanged'))
       navigate('/')
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.')

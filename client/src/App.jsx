@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import API from './api'
 import Nav from './components/Nav'
@@ -17,6 +17,8 @@ import Register from './pages/Register'
 
 // Main application component with routing and role-based access control
 export default function App(){
+  const [userRole, setUserRole] = useState(null)
+  
   // Extracts user role from JWT token stored in localStorage
   const getRole = () => {
     try {
@@ -28,6 +30,27 @@ export default function App(){
       return null
     }
   }
+  
+  // Update role when token changes
+  useEffect(() => {
+    const updateRole = () => {
+      const role = getRole()
+      setUserRole(role)
+    }
+    
+    updateRole()
+    
+    // Listen for storage events from other tabs
+    window.addEventListener('storage', updateRole)
+    
+    // Custom event for same-tab updates
+    window.addEventListener('roleChanged', updateRole)
+    
+    return () => {
+      window.removeEventListener('storage', updateRole)
+      window.removeEventListener('roleChanged', updateRole)
+    }
+  }, [])
   // Error boundary component to catch and display React errors gracefully
   const ErrorBoundary = class extends React.Component {
     constructor(props) {
@@ -111,11 +134,11 @@ export default function App(){
               <Route path='/notifications' element={<Notifications/>} />
               <Route
                 path='/admin'
-                element={getRole() === 'admin' ? <Admin/> : <Navigate to='/store' replace />}
+                element={userRole === 'admin' ? <Admin/> : <Navigate to='/store' replace />}
               />
               <Route
                 path='/seller'
-                element={['seller', 'admin'].includes(getRole()) ? <Seller/> : <Navigate to='/store' replace />}
+                element={['seller', 'admin'].includes(userRole) ? <Seller/> : <Navigate to='/store' replace />}
               />
               <Route path='/login' element={<Login/>} />
               <Route path='/register' element={<Register/>} />
