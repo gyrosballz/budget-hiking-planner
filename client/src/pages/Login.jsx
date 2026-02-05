@@ -29,80 +29,165 @@ export default function Login(){
   }
 
   return (
-    <Section title="Welcome to Hiking Planner" subtitle="Plan your next adventure">
+    <Section title="Welcome back" subtitle="Sign in to continue your adventure">
       <div style={{
-        maxWidth: '420px',
+        maxWidth: '980px',
         margin: '0 auto'
       }}>
         {error && <Alert type="error" style={{ marginBottom: '20px' }}>{error}</Alert>}
 
-        <Card style={{ padding: '32px' }}>
-          <h2 style={{
-            fontSize: '24px',
-            fontWeight: 700,
-            margin: '0 0 24px 0',
-            color: '#000',
-            textAlign: 'center'
-          }}>
-            Sign In
-          </h2>
-
-          <form onSubmit={submit} style={{ display: 'grid', gap: '16px' }}>
-            <Input
-              placeholder="Email address"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-            />
-            <Input
-              placeholder="Password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-            />
-            <Button
-              variant="primary"
-              size="lg"
-              type="submit"
-              disabled={loading}
-              style={{ width: '100%' }}
-            >
-              {loading ? 'Signing in...' : 'Sign In'}
-            </Button>
-          </form>
-
-          <div style={{
-            marginTop: '24px',
-            textAlign: 'center',
-            fontSize: '14px',
-            color: '#666'
-          }}>
-            Don't have an account?{' '}
-            <Link
-              to="/register"
-              style={{
-                color: '#000',
-                textDecoration: 'none',
-                fontWeight: 600,
-                transition: 'color 0.2s'
-              }}
-              onMouseEnter={e => e.target.style.color = '#ccc'}
-              onMouseLeave={e => e.target.style.color = '#fff'}
-            >
-              Sign up here
-            </Link>
-          </div>
-        </Card>
-
         <div style={{
-          marginTop: '24px',
-          textAlign: 'center',
-          fontSize: '13px',
-          color: '#666'
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '24px',
+          padding: '28px',
+          borderRadius: '24px',
+          border: '1px solid #eee',
+          background: 'linear-gradient(180deg, #fafafa 0%, #f5f7fb 100%)'
         }}>
-          <p>Discover trails, plan trips, and gear up for your next adventure</p>
+          <div style={{
+            padding: '24px',
+            borderRadius: '20px',
+            background: 'linear-gradient(135deg, #0f172a 0%, #1f2937 100%)',
+            color: '#fff',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            minHeight: '260px'
+          }}>
+            <div>
+              <div style={{
+                fontSize: '12px',
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                opacity: 0.7
+              }}>
+                Hiking Planner
+              </div>
+              <h2 style={{
+                fontSize: '28px',
+                lineHeight: 1.2,
+                margin: '12px 0 10px'
+              }}>
+                Plan smarter. Pack lighter. Hike further.
+              </h2>
+              <p style={{
+                margin: 0,
+                color: '#cbd5f5',
+                fontSize: '14px'
+              }}>
+                Save favorite routes, track orders, and stay updated with notifications.
+              </p>
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              gap: '10px',
+              marginTop: '18px'
+            }}>
+              {['Trusted gear', 'Local routes', 'Trip plans', 'Order tracking'].map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    padding: '10px 12px',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    fontSize: '12px',
+                    textAlign: 'center'
+                  }}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Card style={{ padding: '28px', borderRadius: '20px' }}>
+            <div style={{ marginBottom: '18px' }}>
+              <h3 style={{
+                margin: '0 0 6px 0',
+                fontSize: '22px',
+                fontWeight: 700
+              }}>
+                Sign In
+              </h3>
+              <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>
+                Use your account credentials to continue.
+              </p>
+            </div>
+
+            <form onSubmit={submit} style={{ display: 'grid', gap: '14px' }}>
+              <label style={{ display: 'grid', gap: '6px', fontSize: '13px', color: '#333' }}>
+                Email address
+                <Input
+                  placeholder="you@example.com"
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  required
+                />
+              </label>
+              <label style={{ display: 'grid', gap: '6px', fontSize: '13px', color: '#333' }}>
+                Password
+                <Input
+                  placeholder="••••••••"
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                />
+              </label>
+
+              <label style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                fontSize: '13px',
+                color: '#555'
+              }}>
+                <input type="checkbox" defaultChecked />
+                Keep me signed in on this device
+              </label>
+
+              <Button
+                variant="primary"
+                size="lg"
+                type="submit"
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  marginTop: '6px',
+                  borderRadius: '16px',
+                  border: 'none',
+                  backgroundImage: 'linear-gradient(135deg, #111827 0%, #1f2937 45%, #0f172a 100%)',
+                  boxShadow: '0 12px 24px rgba(15, 23, 42, 0.28)',
+                  letterSpacing: '0.3px'
+                }}
+              >
+                {loading ? 'Signing in...' : 'Sign In'}
+              </Button>
+            </form>
+
+            <div style={{
+              marginTop: '18px',
+              textAlign: 'center',
+              fontSize: '14px',
+              color: '#666'
+            }}>
+              Don't have an account?{' '}
+              <Link
+                to="/register"
+                style={{
+                  color: '#111',
+                  textDecoration: 'none',
+                  fontWeight: 600
+                }}
+              >
+                Create one
+              </Link>
+            </div>
+          </Card>
         </div>
       </div>
     </Section>

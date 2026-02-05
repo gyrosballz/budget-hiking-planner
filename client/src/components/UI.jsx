@@ -9,18 +9,19 @@ export const Button = ({
   onClick, 
   disabled = false,
   className = '',
+  style = {},
   ...props 
 }) => {
   const baseStyles = {
     padding: size === 'sm' ? '8px 20px' : size === 'lg' ? '14px 32px' : '12px 28px',
     fontSize: size === 'sm' ? '13px' : size === 'lg' ? '15px' : '14px',
-    fontWeight: 400,
-    border: '1px solid #000',
-    borderRadius: '24px',
+    fontWeight: 600,
+    border: '1px solid transparent',
+    borderRadius: '14px',
     cursor: disabled ? 'not-allowed' : 'pointer',
     transition: 'all 0.2s ease',
     opacity: disabled ? 0.5 : 1,
-    letterSpacing: '0px',
+    letterSpacing: '0.2px',
     boxShadow: 'none',
     outline: 'none'
   };
@@ -28,21 +29,22 @@ export const Button = ({
   const variants = {
     primary: {
       ...baseStyles,
-      backgroundColor: '#000',
+      backgroundColor: '#111827',
       color: '#fff',
-      borderColor: '#000'
+      borderColor: '#111827',
+      boxShadow: '0 10px 18px rgba(15, 23, 42, 0.16)'
     },
     secondary: {
       ...baseStyles,
       backgroundColor: '#fff',
-      color: '#000',
-      border: '1px solid #e5e5e5',
+      color: '#111',
+      border: '1px solid #e5e7eb',
     },
     outline: {
       ...baseStyles,
       backgroundColor: 'transparent',
-      color: '#000',
-      border: '1px solid #e5e5e5',
+      color: '#111',
+      border: '1px solid #e5e7eb',
     },
     danger: {
       ...baseStyles,
@@ -54,13 +56,13 @@ export const Button = ({
 
   return (
     <button
-      style={variants[variant]}
+      style={{ ...variants[variant], ...style }}
       onClick={onClick}
       disabled={disabled}
       onMouseEnter={(e) => {
         if (!disabled) {
           if (variant === 'primary') {
-            e.currentTarget.style.backgroundColor = '#333';
+            e.currentTarget.style.backgroundColor = '#0f172a';
           } else if (variant === 'secondary') {
             e.currentTarget.style.backgroundColor = '#f5f5f5';
           } else if (variant === 'outline') {
@@ -143,22 +145,27 @@ export const Input = ({
         onChange={onChange}
         style={{
           width: '100%',
-          padding: '12px 16px',
-          borderRadius: '4px',
-          backgroundColor: '#fff',
-          border: error ? '1px solid #ff4444' : '1px solid #e5e5e5',
-          color: '#000',
+          padding: '13px 16px',
+          borderRadius: '12px',
+          backgroundColor: '#f8fafc',
+          border: error ? '1px solid #ff4444' : '1px solid #e2e8f0',
+          color: '#0f172a',
           fontSize: '14px',
           fontFamily: 'inherit',
           transition: 'all 0.2s',
           outline: 'none',
+          boxShadow: '0 1px 2px rgba(15, 23, 42, 0.04)',
           boxSizing: 'border-box'
         }}
         onFocus={(e) => {
-          e.currentTarget.style.borderColor = '#000';
+          e.currentTarget.style.borderColor = '#0f172a';
+          e.currentTarget.style.backgroundColor = '#fff';
+          e.currentTarget.style.boxShadow = '0 0 0 4px rgba(15, 23, 42, 0.08)';
         }}
         onBlur={(e) => {
-          e.currentTarget.style.borderColor = error ? '#ff4444' : '#e5e5e5';
+          e.currentTarget.style.borderColor = error ? '#ff4444' : '#e2e8f0';
+          e.currentTarget.style.backgroundColor = '#f8fafc';
+          e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, 0.04)';
         }}
         {...props}
       />
@@ -179,10 +186,7 @@ export const Select = ({
     <div style={{ marginBottom: '16px' }}>
       {label && (
         <label style={{
-          display: 'block',
           fontSize: '13px',
-          fontWeight: 400,
-          marginBottom: '8px',
           color: '#666',
           letterSpacing: '0px'
         }}>
@@ -194,22 +198,33 @@ export const Select = ({
         onChange={onChange}
         style={{
           width: '100%',
-          padding: '12px 16px',
-          borderRadius: '4px',
-          backgroundColor: '#fff',
-          border: error ? '1px solid #ff4444' : '1px solid #e5e5e5',
-          color: '#000',
+          padding: '13px 16px',
+          borderRadius: '12px',
+          backgroundColor: '#f8fafc',
+          border: error ? '1px solid #ff4444' : '1px solid #e2e8f0',
+          color: '#0f172a',
           fontSize: '14px',
           fontFamily: 'inherit',
           transition: 'all 0.2s',
           outline: 'none',
+          boxShadow: '0 1px 2px rgba(15, 23, 42, 0.04)',
           boxSizing: 'border-box',
           cursor: 'pointer'
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = '#0f172a';
+          e.currentTarget.style.backgroundColor = '#fff';
+          e.currentTarget.style.boxShadow = '0 0 0 4px rgba(15, 23, 42, 0.08)';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = error ? '#ff4444' : '#e2e8f0';
+          e.currentTarget.style.backgroundColor = '#f8fafc';
+          e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, 0.04)';
         }}
         {...props}
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value} style={{ backgroundColor: '#fff', color: '#000' }}>
+          <option key={opt.value} value={opt.value} style={{ backgroundColor: '#fff', color: '#111' }}>
             {opt.label}
           </option>
         ))}

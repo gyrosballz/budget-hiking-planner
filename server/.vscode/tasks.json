@@ -55,6 +55,15 @@
 				"$tsc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "Run server",
+			"type": "shell",
+			"command": "npm start",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
 		}
 	]
 }

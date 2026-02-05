@@ -166,17 +166,17 @@ export default function Plans(){
               <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#000' }}>
                 {editingPlanId ? 'Edit Trip Plan' : 'Create New Trip Plan'}
               </h3>
-              {formError && (
-                <div style={{ color: '#ff6b6b', background: 'rgba(255,107,107,0.08)', padding: '8px 12px', borderRadius: '6px', marginBottom: '8px', fontSize: '14px' }}>
-                  {formError}
-                </div>
-              )}
               <div>
                 <Input
                   placeholder="Plan Name"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  style={errors.name ? { borderColor: '#ff6b6b' } : {}}
+                  style={errors.name ? { borderColor: '#ff6b6b' } : {
+                    backgroundColor: '#fff',
+                    borderRadius: '14px',
+                    border: '1px solid #e5e5e5',
+                    boxShadow: '0 2px 10px rgba(15, 23, 42, 0.08)'
+                  }}
                 />
                 {errors.name && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.name}</div>}
               </div>
@@ -186,18 +186,24 @@ export default function Plans(){
                   onChange={e => setRouteId(e.target.value)}
                   style={{
                     width: '100%',
-                    padding: '10px',
-                    borderRadius: '6px',
-                    border: errors.routeId ? '1.5px solid #ff6b6b' : '1.5px solid #222',
-                    background: '#18181b',
-                    color: '#000',
-                    fontSize: '15px',
-                    marginBottom: '2px'
+                    padding: '12px 16px',
+                    borderRadius: '10px',
+                    border: errors.routeId ? '1px solid #ff6b6b' : '1px solid #e5e7eb',
+                    background: '#fff',
+                    color: '#111',
+                    fontSize: '14px',
+                    fontFamily: 'inherit',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    cursor: 'pointer',
+                    boxShadow: 'none'
                   }}
                 >
-                  <option value="">Select a route...</option>
+                  <option value="" style={{ backgroundColor: '#fff', color: '#111' }}>Select a route...</option>
                   {routes.map(r => (
-                    <option key={r._id} value={r._id}>{r.name} {r.location ? `(${r.location})` : ''}</option>
+                    <option key={r._id} value={r._id} style={{ backgroundColor: '#fff', color: '#111' }}>
+                      {r.name} {r.location ? `(${r.location})` : ''}
+                    </option>
                   ))}
                 </select>
                 {errors.routeId && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.routeId}</div>}
@@ -213,7 +219,12 @@ export default function Plans(){
                     const val = e.target.value
                     if (/^\d*$/.test(val)) setDuration(val)
                   }}
-                  style={errors.duration ? { borderColor: '#ff6b6b' } : {}}
+                  style={errors.duration ? { borderColor: '#ff6b6b' } : {
+                    backgroundColor: '#fff',
+                    borderRadius: '14px',
+                    border: '1px solid #e5e5e5',
+                    boxShadow: '0 2px 10px rgba(15, 23, 42, 0.08)'
+                  }}
                 />
                 {errors.duration && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.duration}</div>}
               </div>
@@ -238,7 +249,12 @@ export default function Plans(){
                     type="date"
                     value={startDate}
                     onChange={e => setStartDate(e.target.value)}
-                    style={errors.startDate ? { borderColor: '#ff6b6b' } : {}}
+                    style={errors.startDate ? { borderColor: '#ff6b6b' } : {
+                      backgroundColor: '#fff',
+                      borderRadius: '14px',
+                      border: '1px solid #e5e5e5',
+                      boxShadow: '0 2px 10px rgba(15, 23, 42, 0.08)'
+                    }}
                   />
                   {errors.startDate && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.startDate}</div>}
                 </div>
@@ -248,7 +264,12 @@ export default function Plans(){
                     type="date"
                     value={endDate}
                     onChange={e => setEndDate(e.target.value)}
-                    style={errors.endDate ? { borderColor: '#ff6b6b' } : {}}
+                    style={errors.endDate ? { borderColor: '#ff6b6b' } : {
+                      backgroundColor: '#fff',
+                      borderRadius: '14px',
+                      border: '1px solid #e5e5e5',
+                      boxShadow: '0 2px 10px rgba(15, 23, 42, 0.08)'
+                    }}
                   />
                   {errors.endDate && <div style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '2px' }}>{errors.endDate}</div>}
                 </div>

@@ -489,9 +489,9 @@ export default function Admin() {
                         width: '100%',
                         padding: '12px 16px',
                         borderRadius: '4px',
-                        backgroundColor: '#f9f9f9',
+                        backgroundColor: '#fff',
                         border: '1px solid #e5e5e5',
-                        color: '#000',
+                        color: '#111',
                         fontSize: '14px',
                         fontFamily: 'inherit',
                         outline: 'none',
@@ -499,10 +499,10 @@ export default function Admin() {
                         cursor: 'pointer'
                       }}
                     >
-                      <option value="" style={{ backgroundColor: '#000', color: '#000' }}>All Roles</option>
-                      <option value="user" style={{ backgroundColor: '#000', color: '#000' }}>User</option>
-                      <option value="seller" style={{ backgroundColor: '#000', color: '#000' }}>Seller</option>
-                      <option value="admin" style={{ backgroundColor: '#000', color: '#000' }}>Admin</option>
+                      <option value="" style={{ backgroundColor: '#fff', color: '#111' }}>All Roles</option>
+                      <option value="user" style={{ backgroundColor: '#fff', color: '#111' }}>User</option>
+                      <option value="seller" style={{ backgroundColor: '#fff', color: '#111' }}>Seller</option>
+                      <option value="admin" style={{ backgroundColor: '#fff', color: '#111' }}>Admin</option>
                     </select>
                   </div>
                 </div>

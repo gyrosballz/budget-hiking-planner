@@ -145,19 +145,19 @@ export default function Orders(){
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              background: 'rgba(255,255,255,0.07)',
-              borderRadius: '24px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              background: '#fff',
+              borderRadius: '14px',
+              boxShadow: '0 2px 10px rgba(15, 23, 42, 0.08)',
               padding: '2px 12px 2px 8px',
-              border: '1px solid rgba(255,255,255,0.13)',
-              transition: 'box-shadow 0.2s',
+              border: '1px solid #e5e5e5',
+              transition: 'box-shadow 0.2s, border-color 0.2s',
               marginBottom: 0,
               minHeight: '44px',
               position: 'relative',
             }}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
-                <rect x="3" y="8" width="14" height="2" rx="1" fill="#bbb" />
-                <rect x="8" y="3" width="2" height="14" rx="1" fill="#bbb" />
+                <rect x="3" y="8" width="14" height="2" rx="1" fill="#94a3b8" />
+                <rect x="8" y="3" width="2" height="14" rx="1" fill="#94a3b8" />
               </svg>
               <input
                 type="text"
@@ -169,12 +169,12 @@ export default function Orders(){
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  color: '#000',
+                  color: '#111',
                   fontSize: '15px',
                   padding: '10px 0',
                   fontFamily: 'inherit',
                   letterSpacing: '-0.2px',
-                  borderRadius: '24px',
+                  borderRadius: '14px',
                   transition: 'background 0.2s',
                 }}
                 aria-label="Search order ID"
@@ -199,9 +199,9 @@ export default function Orders(){
                 width: '100%',
                 padding: '12px 16px',
                 borderRadius: '4px',
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#000',
+                backgroundColor: '#fff',
+                border: '1px solid #e5e5e5',
+                color: '#111',
                 fontSize: '14px',
                 fontFamily: 'inherit',
                 outline: 'none',
@@ -209,12 +209,12 @@ export default function Orders(){
                 cursor: 'pointer'
               }}
             >
-              <option value="" style={{ backgroundColor: '#000', color: '#000' }}>All Statuses</option>
-              <option value="pending" style={{ backgroundColor: '#000', color: '#000' }}>Pending</option>
-              <option value="processing" style={{ backgroundColor: '#000', color: '#000' }}>Processing</option>
-              <option value="shipped" style={{ backgroundColor: '#000', color: '#000' }}>Shipped</option>
-              <option value="delivered" style={{ backgroundColor: '#000', color: '#000' }}>Delivered</option>
-              <option value="cancelled" style={{ backgroundColor: '#000', color: '#000' }}>Cancelled</option>
+              <option value="" style={{ backgroundColor: '#fff', color: '#111' }}>All Statuses</option>
+              <option value="pending" style={{ backgroundColor: '#fff', color: '#111' }}>Pending</option>
+              <option value="processing" style={{ backgroundColor: '#fff', color: '#111' }}>Processing</option>
+              <option value="shipped" style={{ backgroundColor: '#fff', color: '#111' }}>Shipped</option>
+              <option value="delivered" style={{ backgroundColor: '#fff', color: '#111' }}>Delivered</option>
+              <option value="cancelled" style={{ backgroundColor: '#fff', color: '#111' }}>Cancelled</option>
             </select>
           </div>
 
@@ -231,20 +231,20 @@ export default function Orders(){
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              background: 'rgba(255,255,255,0.07)',
-              borderRadius: '24px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              background: '#fff',
+              borderRadius: '14px',
+              boxShadow: '0 2px 10px rgba(15, 23, 42, 0.08)',
               padding: '2px 12px 2px 8px',
-              border: '1px solid rgba(255,255,255,0.13)',
-              transition: 'box-shadow 0.2s',
+              border: '1px solid #e5e5e5',
+              transition: 'box-shadow 0.2s, border-color 0.2s',
               marginBottom: 0,
               minHeight: '44px',
               position: 'relative',
             }}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
-                <rect x="2" y="5" width="16" height="12" rx="3" fill="#bbb" />
-                <rect x="6" y="2" width="2" height="4" rx="1" fill="#bbb" />
-                <rect x="12" y="2" width="2" height="4" rx="1" fill="#bbb" />
+                <rect x="2" y="5" width="16" height="12" rx="3" fill="#94a3b8" />
+                <rect x="6" y="2" width="2" height="4" rx="1" fill="#94a3b8" />
+                <rect x="12" y="2" width="2" height="4" rx="1" fill="#94a3b8" />
               </svg>
               <input
                 type="date"
@@ -255,12 +255,12 @@ export default function Orders(){
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  color: '#000',
+                  color: '#111',
                   fontSize: '15px',
                   padding: '10px 0',
                   fontFamily: 'inherit',
                   letterSpacing: '-0.2px',
-                  borderRadius: '24px',
+                  borderRadius: '14px',
                   transition: 'background 0.2s, color 0.2s',
                   appearance: 'none',
                   WebkitAppearance: 'none',
@@ -268,8 +268,8 @@ export default function Orders(){
                   boxShadow: 'none',
                   boxSizing: 'border-box',
                   textAlign: 'left',
-                  caretcolor: '#000',
-                  WebkitTextFillcolor: '#000',
+                  caretColor: '#111',
+                  WebkitTextFillColor: '#111',
                   WebkitBoxShadow: '0 0 0 1000px transparent inset',
                   filter: 'none',
                 }}
@@ -291,20 +291,20 @@ export default function Orders(){
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              background: 'rgba(255,255,255,0.07)',
-              borderRadius: '24px',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              background: '#fff',
+              borderRadius: '14px',
+              boxShadow: '0 2px 10px rgba(15, 23, 42, 0.08)',
               padding: '2px 12px 2px 8px',
-              border: '1px solid rgba(255,255,255,0.13)',
-              transition: 'box-shadow 0.2s',
+              border: '1px solid #e5e5e5',
+              transition: 'box-shadow 0.2s, border-color 0.2s',
               marginBottom: 0,
               minHeight: '44px',
               position: 'relative',
             }}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', opacity: 0.7}}>
-                <rect x="2" y="5" width="16" height="12" rx="3" fill="#bbb" />
-                <rect x="6" y="2" width="2" height="4" rx="1" fill="#bbb" />
-                <rect x="12" y="2" width="2" height="4" rx="1" fill="#bbb" />
+                <rect x="2" y="5" width="16" height="12" rx="3" fill="#94a3b8" />
+                <rect x="6" y="2" width="2" height="4" rx="1" fill="#94a3b8" />
+                <rect x="12" y="2" width="2" height="4" rx="1" fill="#94a3b8" />
               </svg>
               <input
                 type="date"
@@ -315,12 +315,12 @@ export default function Orders(){
                   background: 'transparent',
                   border: 'none',
                   outline: 'none',
-                  color: '#000',
+                  color: '#111',
                   fontSize: '15px',
                   padding: '10px 0',
                   fontFamily: 'inherit',
                   letterSpacing: '-0.2px',
-                  borderRadius: '24px',
+                  borderRadius: '14px',
                   transition: 'background 0.2s',
                   appearance: 'none',
                   WebkitAppearance: 'none',
@@ -328,7 +328,7 @@ export default function Orders(){
                   boxShadow: 'none',
                   boxSizing: 'border-box',
                   textAlign: 'left',
-                  caretcolor: '#000',
+                  caretColor: '#111',
                 }}
                 aria-label="To date"
               />
