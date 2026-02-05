@@ -247,7 +247,7 @@ export default function Admin() {
             <>
               {/* Main Stats Cards */}
               <Grid columns={4} gap="16px" style={{ marginBottom: '24px' }}>
-                <Card>
+                <Card hover={false}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
                       {stats.users}
@@ -260,7 +260,7 @@ export default function Admin() {
                     </div>
                   </div>
                 </Card>
-                <Card>
+                <Card hover={false}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
                       {stats.products}
@@ -275,7 +275,7 @@ export default function Admin() {
                     )}
                   </div>
                 </Card>
-                <Card>
+                <Card hover={false}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
                       {stats.orders}
@@ -288,7 +288,7 @@ export default function Admin() {
                     </div>
                   </div>
                 </Card>
-                <Card>
+                <Card hover={false}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '28px', fontWeight: 700, color: '#4CAF50', marginBottom: '4px' }}>
                       ${stats.revenue?.toFixed(0) || '0'}
@@ -305,7 +305,7 @@ export default function Admin() {
 
               {/* Secondary Stats */}
               <Grid columns={3} gap="16px" style={{ marginBottom: '24px' }}>
-                <Card>
+                <Card hover={false}>
                   <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                     Users by Role
                   </h3>
@@ -325,7 +325,7 @@ export default function Admin() {
                   </div>
                 </Card>
 
-                <Card>
+                <Card hover={false}>
                   <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                     Order Status
                   </h3>
@@ -339,7 +339,7 @@ export default function Admin() {
                   </div>
                 </Card>
 
-                <Card>
+                <Card hover={false}>
                   <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                     Quick Stats
                   </h3>
@@ -362,7 +362,7 @@ export default function Admin() {
 
               {/* Top Products & Low Stock Alerts */}
               <Grid columns={2} gap="16px" style={{ marginBottom: '24px' }}>
-                <Card>
+                <Card hover={false}>
                   <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#000' }}>
                     🏆 Top Selling Products
                   </h3>
@@ -409,7 +409,7 @@ export default function Admin() {
                   )}
                 </Card>
 
-                <Card>
+                <Card hover={false}>
                   <h3 style={{ fontSize: '16px', marginBottom: '16px', color: '#000' }}>
                     ⚠️ Low Stock Alerts
                   </h3>
@@ -448,7 +448,7 @@ export default function Admin() {
           {tab === 'users' && (
             <>
               {/* User Search and Filter */}
-              <Card style={{ marginBottom: '24px', padding: '20px' }}>
+              <Card hover={false} style={{ marginBottom: '24px', padding: '20px' }}>
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
@@ -535,7 +535,7 @@ export default function Admin() {
 
               <Grid columns={1} gap="16px">
                 {filteredUsers.length === 0 ? (
-                  <Card style={{ textAlign: 'center', padding: '40px' }}>
+                  <Card hover={false} style={{ textAlign: 'center', padding: '40px' }}>
                     <p style={{ color: '#666' }}>
                       {users.length === 0 ? 'No users found' : 'No users match your search'}
                     </p>
@@ -584,7 +584,7 @@ export default function Admin() {
           {tab === 'products' && (
             <>
               {/* Product Search */}
-              <Card style={{ marginBottom: '24px', padding: '20px' }}>
+              <Card hover={false} style={{ marginBottom: '24px', padding: '20px' }}>
                 <div>
                   <label style={{ 
                     display: 'block', 
@@ -620,7 +620,7 @@ export default function Admin() {
 
               <Grid columns={1} gap="16px">
                 {filteredProducts.length === 0 ? (
-                  <Card style={{ textAlign: 'center', padding: '40px' }}>
+                  <Card hover={false} style={{ textAlign: 'center', padding: '40px' }}>
                     <p style={{ color: '#666' }}>
                       {products.length === 0 ? 'No products found' : 'No products match your search'}
                     </p>
@@ -668,7 +668,7 @@ export default function Admin() {
           {tab === 'orders' && (
             <>
               {/* Order Date Range Filter */}
-              <Card style={{ marginBottom: '24px', padding: '20px' }}>
+              <Card hover={false} style={{ marginBottom: '24px', padding: '20px' }}>
                 <div style={{ 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
@@ -731,7 +731,7 @@ export default function Admin() {
 
               <Grid columns={1} gap="16px">
                 {filteredOrders.length === 0 ? (
-                  <Card style={{ textAlign: 'center', padding: '40px' }}>
+                  <Card hover={false} style={{ textAlign: 'center', padding: '40px' }}>
                     <p style={{ color: '#666' }}>
                       {orders.length === 0 ? 'No orders found in the system' : 'No orders match your date range'}
                     </p>
@@ -872,12 +872,12 @@ export default function Admin() {
           {tab === 'sellers' && (
             <Grid columns={1} gap="16px">
               {sellers.length === 0 ? (
-                <Card style={{ textAlign: 'center', padding: '40px' }}>
+                <Card hover={false} style={{ textAlign: 'center', padding: '40px' }}>
                   <p style={{ color: '#666' }}>No sellers found</p>
                 </Card>
               ) : (
                 sellers.map(seller => (
-                  <Card key={seller._id} style={{ padding: '24px' }}>
+                  <Card hover={false} key={seller._id} style={{ padding: '24px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '20px' }}>
                       <div>
                         <h3 style={{ fontSize: '18px', marginBottom: '8px' }}>{seller.sellerName}</h3>

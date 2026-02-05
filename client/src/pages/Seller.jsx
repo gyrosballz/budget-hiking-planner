@@ -12,6 +12,8 @@ export default function Seller() {
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const [expandedOrder, setExpandedOrder] = useState(null)
+  const [alertMsg, setAlertMsg] = useState('')
+  const [alertType, setAlertType] = useState('success')
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -75,6 +77,8 @@ export default function Seller() {
       })
     } catch (err) {
       console.error(err)
+      setAlertType('error')
+      setAlertMsg('Failed to load stats: ' + (err?.response?.data?.message || err.message))
     }
   }
 
@@ -109,6 +113,8 @@ export default function Seller() {
       }
     } catch (err) {
       console.error(err)
+      setAlertType('error')
+      setAlertMsg('Failed to load data: ' + (err?.response?.data?.message || err.message))
     }
     setLoading(false)
   }
@@ -133,9 +139,12 @@ export default function Seller() {
       setShowForm(false)
       setEditingProduct(null)
       setFormData({ name: '', description: '', price: '', stock: '', imageUrl: '' })
+      setAlertType('success')
+      setAlertMsg(editingProduct ? 'Product updated successfully!' : 'Product created successfully!')
       loadData()
     } catch (err) {
-      alert('Error: ' + err.response?.data?.message || err.message)
+      setAlertType('error')
+      setAlertMsg('Error: ' + (err.response?.data?.message || err.message))
     }
   }
 
@@ -157,9 +166,12 @@ export default function Seller() {
     if (window.confirm('Delete this product? This action cannot be undone.')) {
       try {
         await API.delete(`/products/${id}`)
+        setAlertType('success')
+        setAlertMsg('Product deleted successfully!')
         loadData()
       } catch (err) {
-        alert('Error: ' + err.response?.data?.message || err.message)
+        setAlertType('error')
+        setAlertMsg('Error: ' + (err.response?.data?.message || err.message))
       }
     }
   }
@@ -168,9 +180,12 @@ export default function Seller() {
   const updateStock = async (id, newStock) => {
     try {
       await API.put(`/products/${id}`, { stock: parseInt(newStock) })
+      setAlertType('success')
+      setAlertMsg('Stock updated successfully!')
       loadData()
     } catch (err) {
-      alert('Error: ' + err.response?.data?.message || err.message)
+      setAlertType('error')
+      setAlertMsg('Error: ' + (err.response?.data?.message || err.message))
     }
   }
 
@@ -178,9 +193,12 @@ export default function Seller() {
   const updateOrderStatus = async (id, status) => {
     try {
       await API.put(`/orders/${id}/status`, { status })
+      setAlertType('success')
+      setAlertMsg('Order status updated successfully!')
       loadData()
     } catch (err) {
-      alert('Error: ' + err.response?.data?.message || err.message)
+      setAlertType('error')
+      setAlertMsg('Error: ' + (err.response?.data?.message || err.message))
     }
   }
 
@@ -239,6 +257,9 @@ export default function Seller() {
 
   return (
     <Section title="Seller Dashboard" subtitle="Manage your products, inventory, and process orders">
+      {alertMsg && (
+        <Alert type={alertType} onClose={() => setAlertMsg('')}>{alertMsg}</Alert>
+      )}
       <NavTabs
         tabs={[
           { id: 'dashboard', label: 'Dashboard' },
@@ -253,7 +274,7 @@ export default function Seller() {
         <>
           {/* Stats Overview */}
           <Grid columns={4} gap="16px" style={{ marginBottom: '24px' }}>
-            <Card>
+            <Card hover={false}>
               <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Total Revenue
               </h3>
@@ -263,7 +284,7 @@ export default function Seller() {
               <div style={{ fontSize: '12px', color: '#666' }}>All-time earnings</div>
             </Card>
             
-            <Card>
+            <Card hover={false}>
               <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Products
               </h3>
@@ -278,7 +299,7 @@ export default function Seller() {
               </div>
             </Card>
             
-            <Card>
+            <Card hover={false}>
               <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Total Sales
               </h3>
@@ -288,7 +309,7 @@ export default function Seller() {
               <div style={{ fontSize: '12px', color: '#666' }}>Units sold</div>
             </Card>
             
-            <Card>
+            <Card hover={false}>
               <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Pending Orders
               </h3>
@@ -542,6 +563,7 @@ export default function Seller() {
                         </div>
                         <div style={{ display: 'flex', gap: '8px' }}>
                           <Button variant="secondary" onClick={() => handleEdit(p)}>Edit</Button>
+                          <Button variant="danger" onClick={() => handleDelete(p._id)}>Delete</Button>
                         </div>
                       </div>
                       <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
