@@ -6,59 +6,260 @@ import { Link } from 'react-router-dom'
 export default function Home(){
   return (
     <Section
-      title="Welcome to Hikey"
+      title="Hikey"
+      subtitle="Minimal planning, maximum time outdoors."
     >
-      <Card hover={false} style={{ textAlign: 'left', marginBottom: '64px', padding: '32px', backgroundColor: '#f9f9f9', border: 'none' }}>
-        <p style={{
-          color: '#000',
-          fontSize: '16px',
-          lineHeight: 1.8,
-          margin: 0,
-          marginBottom: '24px'
+      <Card
+        hover={false}
+        style={{
+          textAlign: 'left',
+          marginBottom: '56px',
+          padding: '40px',
+          background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+          border: '1px solid #e5e7eb',
+          borderRadius: '24px'
+        }}
+      >
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '28px',
+          alignItems: 'center'
         }}>
-          Discover beautiful trails, build trip plans with budgets and gear lists, and shop curated hiking essentials—all in one place.
-        </p>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <Link to="/routes" style={{ textDecoration: 'none' }}>
-            <Button variant="primary">Explore Routes</Button>
-          </Link>
-          <Link to="/store" style={{ textDecoration: 'none' }}>
-            <Button variant="outline">Visit Store</Button>
-          </Link>
+          <div>
+            <div style={{
+              fontSize: '12px',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#64748b',
+              marginBottom: '12px'
+            }}>
+              Plan. Pack. Go.
+            </div>
+            <p style={{
+              color: '#0f172a',
+              fontSize: '18px',
+              lineHeight: 1.7,
+              margin: 0,
+              marginBottom: '24px'
+            }}>
+              Discover trails, build trip plans with budgets and gear lists, and shop curated hiking essentials.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+              <Link to="/routes" style={{ textDecoration: 'none' }}>
+                <Button variant="primary">Explore Routes</Button>
+              </Link>
+              <Link to="/plans" style={{ textDecoration: 'none' }}>
+                <Button variant="secondary">Create a Plan</Button>
+              </Link>
+              <Link to="/store" style={{ textDecoration: 'none' }}>
+                <Button variant="outline">Visit Store</Button>
+              </Link>
+            </div>
+          </div>
+          <div style={{
+            display: 'grid',
+            gap: '14px',
+            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))'
+          }}>
+            {[
+              { label: 'Routes', value: '150+' },
+              { label: 'Plans', value: '1-click' },
+              { label: 'Gear', value: 'Curated' },
+              { label: 'Alerts', value: 'Live' }
+            ].map((item) => (
+              <div key={item.label} style={{
+                padding: '16px',
+                borderRadius: '16px',
+                backgroundColor: '#ffffff',
+                border: '1px solid #e5e7eb',
+                boxShadow: '0 6px 16px rgba(15, 23, 42, 0.06)'
+              }}>
+                <div style={{
+                  fontSize: '18px',
+                  fontWeight: 700,
+                  color: '#0f172a'
+                }}>
+                  {item.value}
+                </div>
+                <div style={{ fontSize: '12px', color: '#64748b' }}>{item.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
 
       <Grid columns={3} gap="24px">
-        <Card hover={true} style={{ position: 'relative', borderRadius: '0px', transition: 'border-color 0.2s ease', padding: '32px' }}>
-          <Link to="/routes" style={{ position: 'absolute', inset: 0, zIndex: 2, textDecoration: 'none', color: 'inherit' }} aria-label="Go to Routes page" />
-          <div style={{ marginBottom: '16px' }}>
-            <Badge variant="default">Routes</Badge>
-          </div>
-          <h3 style={{ color: '#000', margin: '0 0 12px 0', fontSize: '20px', fontWeight: 600 }}>Trail Discovery</h3>
-          <p style={{ color: '#000', margin: 0, fontSize: '14px', lineHeight: 1.6 }}>
-            Filter by difficulty, distance, and features to find the perfect hike.
-          </p>
-        </Card>
-        <Card hover={true} style={{ position: 'relative', borderRadius: '0px', transition: 'border-color 0.2s ease', padding: '32px' }}>
-          <Link to="/plans" style={{ position: 'absolute', inset: 0, zIndex: 2, textDecoration: 'none', color: 'inherit' }} aria-label="Go to Plans page" />
-          <div style={{ marginBottom: '16px' }}>
-            <Badge variant="default">Plans</Badge>
-          </div>
-          <h3 style={{ color: '#000', margin: '0 0 12px 0', fontSize: '20px', fontWeight: 600 }}>Trip Planning</h3>
-          <p style={{ color: '#000', margin: 0, fontSize: '14px', lineHeight: 1.6 }}>
-            Create detailed plans with dates, budgets, and gear checklists.
-          </p>
-        </Card>
-        <Card hover={true} style={{ position: 'relative', borderRadius: '0px', transition: 'border-color 0.2s ease', padding: '32px' }}>
-          <Link to="/store" style={{ position: 'absolute', inset: 0, zIndex: 2, textDecoration: 'none', color: 'inherit' }} aria-label="Go to Store page" />
-          <div style={{ marginBottom: '16px' }}>
-            <Badge variant="default">Store</Badge>
-          </div>
-          <h3 style={{ color: '#000', margin: '0 0 12px 0', fontSize: '20px', fontWeight: 600 }}>Gear Marketplace</h3>
-          <p style={{ color: '#000', margin: 0, fontSize: '14px', lineHeight: 1.6 }}>
-            Shop essential hiking gear with real-time stock updates.
-          </p>
-        </Card>
+        <Link to="/routes" style={{ textDecoration: 'none', color: 'inherit' }} aria-label="Go to Routes page">
+          <Card
+            hover={true}
+            style={{
+              position: 'relative',
+              borderRadius: '18px',
+              padding: '22px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 10px 20px rgba(15, 23, 42, 0.06)'
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '18px'
+            }}>
+              <div style={{
+                fontSize: '12px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#64748b'
+              }}>
+                Routes
+              </div>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '12px',
+                background: '#f1f5f9',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#0f172a',
+                fontSize: '16px'
+              }}>
+                ⛰
+              </div>
+            </div>
+            <div style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '6px' }}>
+              Trail Discovery
+            </div>
+            <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, marginBottom: '20px' }}>
+              Search by difficulty, distance, and features.
+            </div>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '12px',
+              color: '#0f172a'
+            }}>
+              Open Routes →
+            </div>
+          </Card>
+        </Link>
+
+        <Link to="/plans" style={{ textDecoration: 'none', color: 'inherit' }} aria-label="Go to Plans page">
+          <Card
+            hover={true}
+            style={{
+              position: 'relative',
+              borderRadius: '18px',
+              padding: '22px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 10px 20px rgba(15, 23, 42, 0.06)'
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '18px'
+            }}>
+              <div style={{
+                fontSize: '12px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#64748b'
+              }}>
+                Plans
+              </div>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '12px',
+                background: '#f1f5f9',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#0f172a',
+                fontSize: '16px'
+              }}>
+                🗺
+              </div>
+            </div>
+            <div style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '6px' }}>
+              Trip Planning
+            </div>
+            <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, marginBottom: '20px' }}>
+              Build schedules, gear lists, and budgets.
+            </div>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '12px',
+              color: '#0f172a'
+            }}>
+              Open Plans →
+            </div>
+          </Card>
+        </Link>
+
+        <Link to="/store" style={{ textDecoration: 'none', color: 'inherit' }} aria-label="Go to Store page">
+          <Card
+            hover={true}
+            style={{
+              position: 'relative',
+              borderRadius: '18px',
+              padding: '22px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 10px 20px rgba(15, 23, 42, 0.06)'
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '18px'
+            }}>
+              <div style={{
+                fontSize: '12px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#64748b'
+              }}>
+                Store
+              </div>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '12px',
+                background: '#f1f5f9',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#0f172a',
+                fontSize: '16px'
+              }}>
+                🎒
+              </div>
+            </div>
+            <div style={{ fontSize: '20px', fontWeight: 600, color: '#0f172a', marginBottom: '6px' }}>
+              Gear Marketplace
+            </div>
+            <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, marginBottom: '20px' }}>
+              Shop essentials with live stock updates.
+            </div>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '12px',
+              color: '#0f172a'
+            }}>
+              Open Store →
+            </div>
+          </Card>
+        </Link>
       </Grid>
     </Section>
   )
